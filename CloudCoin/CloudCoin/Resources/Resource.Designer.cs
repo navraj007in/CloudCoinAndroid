@@ -2225,178 +2225,118 @@ namespace CloudCoin
 			public const int abc_vector_test = 2130837586;
 			
 			// aapt resource value: 0x7f020053
-			public const int add = 2130837587;
-			
-			// aapt resource value: 0x7f020054
-			public const int avd_hide_password = 2130837588;
-			
-			// aapt resource value: 0x7f020087
-			public const int avd_hide_password_1 = 2130837639;
-			
-			// aapt resource value: 0x7f020088
-			public const int avd_hide_password_2 = 2130837640;
-			
-			// aapt resource value: 0x7f020089
-			public const int avd_hide_password_3 = 2130837641;
-			
-			// aapt resource value: 0x7f020055
-			public const int avd_show_password = 2130837589;
-			
-			// aapt resource value: 0x7f02008a
-			public const int avd_show_password_1 = 2130837642;
-			
-			// aapt resource value: 0x7f02008b
-			public const int avd_show_password_2 = 2130837643;
-			
-			// aapt resource value: 0x7f02008c
-			public const int avd_show_password_3 = 2130837644;
-			
-			// aapt resource value: 0x7f020056
-			public const int backicons = 2130837590;
-			
-			// aapt resource value: 0x7f020057
-			public const int bank = 2130837591;
-			
-			// aapt resource value: 0x7f020058
-			public const int bankbutton = 2130837592;
-			
-			// aapt resource value: 0x7f020059
-			public const int bankicon = 2130837593;
-			
-			// aapt resource value: 0x7f02005a
-			public const int bg = 2130837594;
-			
-			// aapt resource value: 0x7f02005b
-			public const int bgxml = 2130837595;
-			
-			// aapt resource value: 0x7f02005c
-			public const int border = 2130837596;
-			
-			// aapt resource value: 0x7f02005d
-			public const int buttonbg = 2130837597;
-			
-			// aapt resource value: 0x7f02005e
-			public const int buttoncommon = 2130837598;
-			
-			// aapt resource value: 0x7f02005f
-			public const int buttonrightbg = 2130837599;
-			
-			// aapt resource value: 0x7f020060
-			public const int design_bottom_navigation_item_background = 2130837600;
-			
-			// aapt resource value: 0x7f020061
-			public const int design_fab_background = 2130837601;
-			
-			// aapt resource value: 0x7f020062
-			public const int design_ic_visibility = 2130837602;
-			
-			// aapt resource value: 0x7f020063
-			public const int design_ic_visibility_off = 2130837603;
-			
-			// aapt resource value: 0x7f020064
-			public const int design_password_eye = 2130837604;
-			
-			// aapt resource value: 0x7f020065
-			public const int design_snackbar_background = 2130837605;
-			
-			// aapt resource value: 0x7f020066
-			public const int dialogbg = 2130837606;
-			
-			// aapt resource value: 0x7f020067
-			public const int dotted = 2130837607;
-			
-			// aapt resource value: 0x7f020068
-			public const int email = 2130837608;
-			
-			// aapt resource value: 0x7f020069
-			public const int etdesign = 2130837609;
-			
-			// aapt resource value: 0x7f02006a
-			public const int exportbutton = 2130837610;
-			
-			// aapt resource value: 0x7f02006b
-			public const int exporticon = 2130837611;
-			
-			// aapt resource value: 0x7f02006c
-			public const int file_icon = 2130837612;
-			
-			// aapt resource value: 0x7f02006d
-			public const int folder_icon = 2130837613;
-			
-			// aapt resource value: 0x7f02006e
-			public const int folder_icon_light = 2130837614;
-			
-			// aapt resource value: 0x7f02006f
-			public const int importbutton = 2130837615;
-			
-			// aapt resource value: 0x7f020070
-			public const int importicon = 2130837616;
-			
-			// aapt resource value: 0x7f020071
-			public const int logo3 = 2130837617;
-			
-			// aapt resource value: 0x7f020072
-			public const int navigation_empty_icon = 2130837618;
+			public const int avd_hide_password = 2130837587;
 			
 			// aapt resource value: 0x7f020073
-			public const int notification_action_background = 2130837619;
+			public const int avd_hide_password_1 = 2130837619;
 			
 			// aapt resource value: 0x7f020074
-			public const int notification_bg = 2130837620;
+			public const int avd_hide_password_2 = 2130837620;
 			
 			// aapt resource value: 0x7f020075
-			public const int notification_bg_low = 2130837621;
+			public const int avd_hide_password_3 = 2130837621;
+			
+			// aapt resource value: 0x7f020054
+			public const int avd_show_password = 2130837588;
 			
 			// aapt resource value: 0x7f020076
-			public const int notification_bg_low_normal = 2130837622;
+			public const int avd_show_password_1 = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int notification_bg_low_pressed = 2130837623;
+			public const int avd_show_password_2 = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int notification_bg_normal = 2130837624;
+			public const int avd_show_password_3 = 2130837624;
 			
-			// aapt resource value: 0x7f020079
-			public const int notification_bg_normal_pressed = 2130837625;
+			// aapt resource value: 0x7f020055
+			public const int backicons = 2130837589;
 			
-			// aapt resource value: 0x7f02007a
-			public const int notification_icon_background = 2130837626;
+			// aapt resource value: 0x7f020056
+			public const int bankbutton = 2130837590;
 			
-			// aapt resource value: 0x7f020085
-			public const int notification_template_icon_bg = 2130837637;
+			// aapt resource value: 0x7f020057
+			public const int bankicon = 2130837591;
 			
-			// aapt resource value: 0x7f020086
-			public const int notification_template_icon_low_bg = 2130837638;
+			// aapt resource value: 0x7f020058
+			public const int buttonbg = 2130837592;
 			
-			// aapt resource value: 0x7f02007b
-			public const int notification_tile_bg = 2130837627;
+			// aapt resource value: 0x7f020059
+			public const int design_bottom_navigation_item_background = 2130837593;
 			
-			// aapt resource value: 0x7f02007c
-			public const int notify_panel_notification_icon_bg = 2130837628;
+			// aapt resource value: 0x7f02005a
+			public const int design_fab_background = 2130837594;
 			
-			// aapt resource value: 0x7f02007d
-			public const int npicker = 2130837629;
+			// aapt resource value: 0x7f02005b
+			public const int design_ic_visibility = 2130837595;
 			
-			// aapt resource value: 0x7f02007e
-			public const int progressbar = 2130837630;
+			// aapt resource value: 0x7f02005c
+			public const int design_ic_visibility_off = 2130837596;
 			
-			// aapt resource value: 0x7f02007f
-			public const int radioselectorleft = 2130837631;
+			// aapt resource value: 0x7f02005d
+			public const int design_password_eye = 2130837597;
 			
-			// aapt resource value: 0x7f020080
-			public const int radioselectorright = 2130837632;
+			// aapt resource value: 0x7f02005e
+			public const int design_snackbar_background = 2130837598;
 			
-			// aapt resource value: 0x7f020081
-			public const int spend = 2130837633;
+			// aapt resource value: 0x7f02005f
+			public const int exportbutton = 2130837599;
 			
-			// aapt resource value: 0x7f020082
-			public const int tooltip_frame_dark = 2130837634;
+			// aapt resource value: 0x7f020060
+			public const int exporticon = 2130837600;
 			
-			// aapt resource value: 0x7f020083
-			public const int tooltip_frame_light = 2130837635;
+			// aapt resource value: 0x7f020061
+			public const int importbutton = 2130837601;
 			
-			// aapt resource value: 0x7f020084
-			public const int up = 2130837636;
+			// aapt resource value: 0x7f020062
+			public const int importicon = 2130837602;
+			
+			// aapt resource value: 0x7f020063
+			public const int logo3 = 2130837603;
+			
+			// aapt resource value: 0x7f020064
+			public const int navigation_empty_icon = 2130837604;
+			
+			// aapt resource value: 0x7f020065
+			public const int notification_action_background = 2130837605;
+			
+			// aapt resource value: 0x7f020066
+			public const int notification_bg = 2130837606;
+			
+			// aapt resource value: 0x7f020067
+			public const int notification_bg_low = 2130837607;
+			
+			// aapt resource value: 0x7f020068
+			public const int notification_bg_low_normal = 2130837608;
+			
+			// aapt resource value: 0x7f020069
+			public const int notification_bg_low_pressed = 2130837609;
+			
+			// aapt resource value: 0x7f02006a
+			public const int notification_bg_normal = 2130837610;
+			
+			// aapt resource value: 0x7f02006b
+			public const int notification_bg_normal_pressed = 2130837611;
+			
+			// aapt resource value: 0x7f02006c
+			public const int notification_icon_background = 2130837612;
+			
+			// aapt resource value: 0x7f020071
+			public const int notification_template_icon_bg = 2130837617;
+			
+			// aapt resource value: 0x7f020072
+			public const int notification_template_icon_low_bg = 2130837618;
+			
+			// aapt resource value: 0x7f02006d
+			public const int notification_tile_bg = 2130837613;
+			
+			// aapt resource value: 0x7f02006e
+			public const int notify_panel_notification_icon_bg = 2130837614;
+			
+			// aapt resource value: 0x7f02006f
+			public const int tooltip_frame_dark = 2130837615;
+			
+			// aapt resource value: 0x7f020070
+			public const int tooltip_frame_light = 2130837616;
 			
 			static Drawable()
 			{
@@ -2429,8 +2369,8 @@ namespace CloudCoin
 			// aapt resource value: 0x7f080037
 			public const int SYM = 2131230775;
 			
-			// aapt resource value: 0x7f08009c
-			public const int action0 = 2131230876;
+			// aapt resource value: 0x7f0800b6
+			public const int action0 = 2131230902;
 			
 			// aapt resource value: 0x7f08007c
 			public const int action_bar = 2131230844;
@@ -2453,17 +2393,17 @@ namespace CloudCoin
 			// aapt resource value: 0x7f08005a
 			public const int action_bar_title = 2131230810;
 			
-			// aapt resource value: 0x7f080099
-			public const int action_container = 2131230873;
+			// aapt resource value: 0x7f0800b3
+			public const int action_container = 2131230899;
 			
 			// aapt resource value: 0x7f08007d
 			public const int action_context_bar = 2131230845;
 			
-			// aapt resource value: 0x7f0800a0
-			public const int action_divider = 2131230880;
+			// aapt resource value: 0x7f0800ba
+			public const int action_divider = 2131230906;
 			
-			// aapt resource value: 0x7f08009a
-			public const int action_image = 2131230874;
+			// aapt resource value: 0x7f0800b4
+			public const int action_image = 2131230900;
 			
 			// aapt resource value: 0x7f080003
 			public const int action_menu_divider = 2131230723;
@@ -2480,11 +2420,11 @@ namespace CloudCoin
 			// aapt resource value: 0x7f08005c
 			public const int action_mode_close_button = 2131230812;
 			
-			// aapt resource value: 0x7f08009b
-			public const int action_text = 2131230875;
+			// aapt resource value: 0x7f0800b5
+			public const int action_text = 2131230901;
 			
-			// aapt resource value: 0x7f0800a9
-			public const int actions = 2131230889;
+			// aapt resource value: 0x7f0800c3
+			public const int actions = 2131230915;
 			
 			// aapt resource value: 0x7f08005d
 			public const int activity_chooser_view_content = 2131230813;
@@ -2507,8 +2447,26 @@ namespace CloudCoin
 			// aapt resource value: 0x7f080044
 			public const int auto = 2131230788;
 			
+			// aapt resource value: 0x7f080090
+			public const int b1 = 2131230864;
+			
+			// aapt resource value: 0x7f080097
+			public const int b2 = 2131230871;
+			
+			// aapt resource value: 0x7f08009d
+			public const int b3 = 2131230877;
+			
+			// aapt resource value: 0x7f08008b
+			public const int backgroundid = 2131230859;
+			
 			// aapt resource value: 0x7f08002f
 			public const int beginning = 2131230767;
+			
+			// aapt resource value: 0x7f08008c
+			public const int blayouttitle = 2131230860;
+			
+			// aapt resource value: 0x7f08008e
+			public const int blayoutwr = 2131230862;
 			
 			// aapt resource value: 0x7f080057
 			public const int blocking = 2131230807;
@@ -2519,8 +2477,17 @@ namespace CloudCoin
 			// aapt resource value: 0x7f080063
 			public const int buttonPanel = 2131230819;
 			
-			// aapt resource value: 0x7f08009d
-			public const int cancel_action = 2131230877;
+			// aapt resource value: 0x7f080091
+			public const int bx1 = 2131230865;
+			
+			// aapt resource value: 0x7f080098
+			public const int bx2 = 2131230872;
+			
+			// aapt resource value: 0x7f08009e
+			public const int bx3 = 2131230878;
+			
+			// aapt resource value: 0x7f0800b7
+			public const int cancel_action = 2131230903;
 			
 			// aapt resource value: 0x7f080045
 			public const int center = 2131230789;
@@ -2534,8 +2501,8 @@ namespace CloudCoin
 			// aapt resource value: 0x7f080073
 			public const int checkbox = 2131230835;
 			
-			// aapt resource value: 0x7f0800a5
-			public const int chronometer = 2131230885;
+			// aapt resource value: 0x7f0800bf
+			public const int chronometer = 2131230911;
 			
 			// aapt resource value: 0x7f08004e
 			public const int clip_horizontal = 2131230798;
@@ -2546,14 +2513,14 @@ namespace CloudCoin
 			// aapt resource value: 0x7f080039
 			public const int collapseActionView = 2131230777;
 			
-			// aapt resource value: 0x7f08008d
-			public const int container = 2131230861;
+			// aapt resource value: 0x7f0800a7
+			public const int container = 2131230887;
 			
 			// aapt resource value: 0x7f080066
 			public const int contentPanel = 2131230822;
 			
-			// aapt resource value: 0x7f08008e
-			public const int coordinator = 2131230862;
+			// aapt resource value: 0x7f0800a8
+			public const int coordinator = 2131230888;
 			
 			// aapt resource value: 0x7f08006d
 			public const int custom = 2131230829;
@@ -2567,20 +2534,20 @@ namespace CloudCoin
 			// aapt resource value: 0x7f080060
 			public const int default_activity_button = 2131230816;
 			
-			// aapt resource value: 0x7f080090
-			public const int design_bottom_sheet = 2131230864;
+			// aapt resource value: 0x7f0800aa
+			public const int design_bottom_sheet = 2131230890;
 			
-			// aapt resource value: 0x7f080097
-			public const int design_menu_item_action_area = 2131230871;
+			// aapt resource value: 0x7f0800b1
+			public const int design_menu_item_action_area = 2131230897;
 			
-			// aapt resource value: 0x7f080096
-			public const int design_menu_item_action_area_stub = 2131230870;
+			// aapt resource value: 0x7f0800b0
+			public const int design_menu_item_action_area_stub = 2131230896;
 			
-			// aapt resource value: 0x7f080095
-			public const int design_menu_item_text = 2131230869;
+			// aapt resource value: 0x7f0800af
+			public const int design_menu_item_text = 2131230895;
 			
-			// aapt resource value: 0x7f080094
-			public const int design_navigation_view = 2131230868;
+			// aapt resource value: 0x7f0800ae
+			public const int design_navigation_view = 2131230894;
 			
 			// aapt resource value: 0x7f080020
 			public const int disableHome = 2131230752;
@@ -2591,8 +2558,8 @@ namespace CloudCoin
 			// aapt resource value: 0x7f080030
 			public const int end = 2131230768;
 			
-			// aapt resource value: 0x7f0800ab
-			public const int end_padder = 2131230891;
+			// aapt resource value: 0x7f0800c5
+			public const int end_padder = 2131230917;
 			
 			// aapt resource value: 0x7f08003f
 			public const int enterAlways = 2131230783;
@@ -2633,11 +2600,32 @@ namespace CloudCoin
 			// aapt resource value: 0x7f080021
 			public const int homeAsUp = 2131230753;
 			
+			// aapt resource value: 0x7f080096
+			public const int i1 = 2131230870;
+			
+			// aapt resource value: 0x7f08009c
+			public const int i2 = 2131230876;
+			
+			// aapt resource value: 0x7f0800a2
+			public const int i3 = 2131230882;
+			
+			// aapt resource value: 0x7f080093
+			public const int iadd = 2131230867;
+			
+			// aapt resource value: 0x7f08009a
+			public const int ibank = 2131230874;
+			
+			// aapt resource value: 0x7f080095
+			public const int icoins = 2131230869;
+			
 			// aapt resource value: 0x7f080062
 			public const int icon = 2131230818;
 			
-			// aapt resource value: 0x7f0800aa
-			public const int icon_group = 2131230890;
+			// aapt resource value: 0x7f0800c4
+			public const int icon_group = 2131230916;
+			
+			// aapt resource value: 0x7f0800a0
+			public const int iexport = 2131230880;
 			
 			// aapt resource value: 0x7f08003a
 			public const int ifRoom = 2131230778;
@@ -2645,8 +2633,8 @@ namespace CloudCoin
 			// aapt resource value: 0x7f08005f
 			public const int image = 2131230815;
 			
-			// aapt resource value: 0x7f0800a6
-			public const int info = 2131230886;
+			// aapt resource value: 0x7f0800c0
+			public const int info = 2131230912;
 			
 			// aapt resource value: 0x7f080059
 			public const int italic = 2131230809;
@@ -2654,11 +2642,20 @@ namespace CloudCoin
 			// aapt resource value: 0x7f080000
 			public const int item_touch_helper_previous_elevation = 2131230720;
 			
-			// aapt resource value: 0x7f08008c
-			public const int largeLabel = 2131230860;
+			// aapt resource value: 0x7f0800a6
+			public const int largeLabel = 2131230886;
+			
+			// aapt resource value: 0x7f080099
+			public const int lbank = 2131230873;
 			
 			// aapt resource value: 0x7f080049
 			public const int left = 2131230793;
+			
+			// aapt resource value: 0x7f08009f
+			public const int lexport = 2131230879;
+			
+			// aapt resource value: 0x7f080092
+			public const int limport = 2131230866;
 			
 			// aapt resource value: 0x7f080017
 			public const int line1 = 2131230743;
@@ -2672,14 +2669,17 @@ namespace CloudCoin
 			// aapt resource value: 0x7f080061
 			public const int list_item = 2131230817;
 			
-			// aapt resource value: 0x7f0800ae
-			public const int masked = 2131230894;
+			// aapt resource value: 0x7f08008d
+			public const int logoid = 2131230861;
 			
-			// aapt resource value: 0x7f08009f
-			public const int media_actions = 2131230879;
+			// aapt resource value: 0x7f0800c8
+			public const int masked = 2131230920;
 			
-			// aapt resource value: 0x7f0800ac
-			public const int message = 2131230892;
+			// aapt resource value: 0x7f0800b9
+			public const int media_actions = 2131230905;
+			
+			// aapt resource value: 0x7f0800c6
+			public const int message = 2131230918;
 			
 			// aapt resource value: 0x7f080031
 			public const int middle = 2131230769;
@@ -2690,8 +2690,8 @@ namespace CloudCoin
 			// aapt resource value: 0x7f080028
 			public const int multiply = 2131230760;
 			
-			// aapt resource value: 0x7f080093
-			public const int navigation_header_container = 2131230867;
+			// aapt resource value: 0x7f0800ad
+			public const int navigation_header_container = 2131230893;
 			
 			// aapt resource value: 0x7f08003b
 			public const int never = 2131230779;
@@ -2702,14 +2702,14 @@ namespace CloudCoin
 			// aapt resource value: 0x7f08001e
 			public const int normal = 2131230750;
 			
-			// aapt resource value: 0x7f0800a8
-			public const int notification_background = 2131230888;
+			// aapt resource value: 0x7f0800c2
+			public const int notification_background = 2131230914;
 			
-			// aapt resource value: 0x7f0800a2
-			public const int notification_main_column = 2131230882;
+			// aapt resource value: 0x7f0800bc
+			public const int notification_main_column = 2131230908;
 			
-			// aapt resource value: 0x7f0800a1
-			public const int notification_main_column_container = 2131230881;
+			// aapt resource value: 0x7f0800bb
+			public const int notification_main_column_container = 2131230907;
 			
 			// aapt resource value: 0x7f08004c
 			public const int parallax = 2131230796;
@@ -2735,11 +2735,11 @@ namespace CloudCoin
 			// aapt resource value: 0x7f08004a
 			public const int right = 2131230794;
 			
-			// aapt resource value: 0x7f0800a7
-			public const int right_icon = 2131230887;
+			// aapt resource value: 0x7f0800c1
+			public const int right_icon = 2131230913;
 			
-			// aapt resource value: 0x7f0800a3
-			public const int right_side = 2131230883;
+			// aapt resource value: 0x7f0800bd
+			public const int right_side = 2131230909;
 			
 			// aapt resource value: 0x7f08000c
 			public const int save_image_matrix = 2131230732;
@@ -2813,14 +2813,14 @@ namespace CloudCoin
 			// aapt resource value: 0x7f080025
 			public const int showTitle = 2131230757;
 			
-			// aapt resource value: 0x7f08008b
-			public const int smallLabel = 2131230859;
+			// aapt resource value: 0x7f0800a5
+			public const int smallLabel = 2131230885;
 			
-			// aapt resource value: 0x7f080092
-			public const int snackbar_action = 2131230866;
+			// aapt resource value: 0x7f0800ac
+			public const int snackbar_action = 2131230892;
 			
-			// aapt resource value: 0x7f080091
-			public const int snackbar_text = 2131230865;
+			// aapt resource value: 0x7f0800ab
+			public const int snackbar_text = 2131230891;
 			
 			// aapt resource value: 0x7f080043
 			public const int snap = 2131230787;
@@ -2843,8 +2843,8 @@ namespace CloudCoin
 			// aapt resource value: 0x7f08004b
 			public const int start = 2131230795;
 			
-			// aapt resource value: 0x7f08009e
-			public const int status_bar_latest_event_content = 2131230878;
+			// aapt resource value: 0x7f0800b8
+			public const int status_bar_latest_event_content = 2131230904;
 			
 			// aapt resource value: 0x7f080076
 			public const int submenuarrow = 2131230838;
@@ -2855,8 +2855,17 @@ namespace CloudCoin
 			// aapt resource value: 0x7f08001f
 			public const int tabMode = 2131230751;
 			
+			// aapt resource value: 0x7f080094
+			public const int tadd = 2131230868;
+			
 			// aapt resource value: 0x7f080019
 			public const int tag_transition_group = 2131230745;
+			
+			// aapt resource value: 0x7f08009b
+			public const int tbank = 2131230875;
+			
+			// aapt resource value: 0x7f0800a1
+			public const int texport = 2131230881;
 			
 			// aapt resource value: 0x7f08001a
 			public const int text = 2131230746;
@@ -2870,8 +2879,8 @@ namespace CloudCoin
 			// aapt resource value: 0x7f080069
 			public const int textSpacerNoTitle = 2131230825;
 			
-			// aapt resource value: 0x7f080098
-			public const int text_input_password_toggle = 2131230872;
+			// aapt resource value: 0x7f0800b2
+			public const int text_input_password_toggle = 2131230898;
 			
 			// aapt resource value: 0x7f080014
 			public const int textinput_counter = 2131230740;
@@ -2879,8 +2888,8 @@ namespace CloudCoin
 			// aapt resource value: 0x7f080015
 			public const int textinput_error = 2131230741;
 			
-			// aapt resource value: 0x7f0800a4
-			public const int time = 2131230884;
+			// aapt resource value: 0x7f0800be
+			public const int time = 2131230910;
 			
 			// aapt resource value: 0x7f08001c
 			public const int title = 2131230748;
@@ -2897,8 +2906,8 @@ namespace CloudCoin
 			// aapt resource value: 0x7f08006e
 			public const int topPanel = 2131230830;
 			
-			// aapt resource value: 0x7f08008f
-			public const int touch_outside = 2131230863;
+			// aapt resource value: 0x7f0800a9
+			public const int touch_outside = 2131230889;
 			
 			// aapt resource value: 0x7f08000f
 			public const int transition_current_scene = 2131230735;
@@ -2915,6 +2924,12 @@ namespace CloudCoin
 			// aapt resource value: 0x7f080013
 			public const int transition_transform = 2131230739;
 			
+			// aapt resource value: 0x7f0800a3
+			public const int turl = 2131230883;
+			
+			// aapt resource value: 0x7f0800a4
+			public const int tversion = 2131230884;
+			
 			// aapt resource value: 0x7f08002d
 			public const int uniform = 2131230765;
 			
@@ -2927,14 +2942,17 @@ namespace CloudCoin
 			// aapt resource value: 0x7f080016
 			public const int view_offset_helper = 2131230742;
 			
-			// aapt resource value: 0x7f0800ad
-			public const int visible = 2131230893;
+			// aapt resource value: 0x7f0800c7
+			public const int visible = 2131230919;
 			
 			// aapt resource value: 0x7f08003c
 			public const int withText = 2131230780;
 			
 			// aapt resource value: 0x7f08002e
 			public const int wrap_content = 2131230766;
+			
+			// aapt resource value: 0x7f08008f
+			public const int wrapper = 2131230863;
 			
 			static Id()
 			{
@@ -3074,112 +3092,106 @@ namespace CloudCoin
 			public const int activity_main = 2130968602;
 			
 			// aapt resource value: 0x7f04001b
-			public const int bankdialog = 2130968603;
+			public const int design_bottom_navigation_item = 2130968603;
 			
 			// aapt resource value: 0x7f04001c
-			public const int design_bottom_navigation_item = 2130968604;
+			public const int design_bottom_sheet_dialog = 2130968604;
 			
 			// aapt resource value: 0x7f04001d
-			public const int design_bottom_sheet_dialog = 2130968605;
+			public const int design_layout_snackbar = 2130968605;
 			
 			// aapt resource value: 0x7f04001e
-			public const int design_layout_snackbar = 2130968606;
+			public const int design_layout_snackbar_include = 2130968606;
 			
 			// aapt resource value: 0x7f04001f
-			public const int design_layout_snackbar_include = 2130968607;
+			public const int design_layout_tab_icon = 2130968607;
 			
 			// aapt resource value: 0x7f040020
-			public const int design_layout_tab_icon = 2130968608;
+			public const int design_layout_tab_text = 2130968608;
 			
 			// aapt resource value: 0x7f040021
-			public const int design_layout_tab_text = 2130968609;
+			public const int design_menu_item_action_area = 2130968609;
 			
 			// aapt resource value: 0x7f040022
-			public const int design_menu_item_action_area = 2130968610;
+			public const int design_navigation_item = 2130968610;
 			
 			// aapt resource value: 0x7f040023
-			public const int design_navigation_item = 2130968611;
+			public const int design_navigation_item_header = 2130968611;
 			
 			// aapt resource value: 0x7f040024
-			public const int design_navigation_item_header = 2130968612;
+			public const int design_navigation_item_separator = 2130968612;
 			
 			// aapt resource value: 0x7f040025
-			public const int design_navigation_item_separator = 2130968613;
+			public const int design_navigation_item_subheader = 2130968613;
 			
 			// aapt resource value: 0x7f040026
-			public const int design_navigation_item_subheader = 2130968614;
+			public const int design_navigation_menu = 2130968614;
 			
 			// aapt resource value: 0x7f040027
-			public const int design_navigation_menu = 2130968615;
+			public const int design_navigation_menu_item = 2130968615;
 			
 			// aapt resource value: 0x7f040028
-			public const int design_navigation_menu_item = 2130968616;
+			public const int design_text_input_password_icon = 2130968616;
 			
 			// aapt resource value: 0x7f040029
-			public const int design_text_input_password_icon = 2130968617;
+			public const int notification_action = 2130968617;
 			
 			// aapt resource value: 0x7f04002a
-			public const int dirpicker = 2130968618;
+			public const int notification_action_tombstone = 2130968618;
 			
 			// aapt resource value: 0x7f04002b
-			public const int notification_action = 2130968619;
+			public const int notification_media_action = 2130968619;
 			
 			// aapt resource value: 0x7f04002c
-			public const int notification_action_tombstone = 2130968620;
+			public const int notification_media_cancel_action = 2130968620;
 			
 			// aapt resource value: 0x7f04002d
-			public const int notification_media_action = 2130968621;
+			public const int notification_template_big_media = 2130968621;
 			
 			// aapt resource value: 0x7f04002e
-			public const int notification_media_cancel_action = 2130968622;
+			public const int notification_template_big_media_custom = 2130968622;
 			
 			// aapt resource value: 0x7f04002f
-			public const int notification_template_big_media = 2130968623;
+			public const int notification_template_big_media_narrow = 2130968623;
 			
 			// aapt resource value: 0x7f040030
-			public const int notification_template_big_media_custom = 2130968624;
+			public const int notification_template_big_media_narrow_custom = 2130968624;
 			
 			// aapt resource value: 0x7f040031
-			public const int notification_template_big_media_narrow = 2130968625;
+			public const int notification_template_custom_big = 2130968625;
 			
 			// aapt resource value: 0x7f040032
-			public const int notification_template_big_media_narrow_custom = 2130968626;
+			public const int notification_template_icon_group = 2130968626;
 			
 			// aapt resource value: 0x7f040033
-			public const int notification_template_custom_big = 2130968627;
+			public const int notification_template_lines_media = 2130968627;
 			
 			// aapt resource value: 0x7f040034
-			public const int notification_template_icon_group = 2130968628;
+			public const int notification_template_media = 2130968628;
 			
 			// aapt resource value: 0x7f040035
-			public const int notification_template_lines_media = 2130968629;
+			public const int notification_template_media_custom = 2130968629;
 			
 			// aapt resource value: 0x7f040036
-			public const int notification_template_media = 2130968630;
+			public const int notification_template_part_chronometer = 2130968630;
 			
 			// aapt resource value: 0x7f040037
-			public const int notification_template_media_custom = 2130968631;
+			public const int notification_template_part_time = 2130968631;
 			
 			// aapt resource value: 0x7f040038
-			public const int notification_template_part_chronometer = 2130968632;
+			public const int select_dialog_item_material = 2130968632;
 			
 			// aapt resource value: 0x7f040039
-			public const int notification_template_part_time = 2130968633;
+			public const int select_dialog_multichoice_material = 2130968633;
 			
 			// aapt resource value: 0x7f04003a
-			public const int select_dialog_item_material = 2130968634;
+			public const int select_dialog_singlechoice_material = 2130968634;
 			
 			// aapt resource value: 0x7f04003b
-			public const int select_dialog_multichoice_material = 2130968635;
+			public const int support_simple_spinner_dropdown_item = 2130968635;
 			
 			// aapt resource value: 0x7f04003c
-			public const int select_dialog_singlechoice_material = 2130968636;
-			
-			// aapt resource value: 0x7f04003d
-			public const int support_simple_spinner_dropdown_item = 2130968637;
-			
-			// aapt resource value: 0x7f04003e
-			public const int tooltip = 2130968638;
+			public const int tooltip = 2130968636;
 			
 			static Layout()
 			{
@@ -3303,20 +3315,167 @@ namespace CloudCoin
 			// aapt resource value: 0x7f090010
 			public const int abc_toolbar_collapse_description = 2131296272;
 			
+			// aapt resource value: 0x7f090058
+			public const int acc = 2131296344;
+			
 			// aapt resource value: 0x7f090028
 			public const int action_settings = 2131296296;
 			
 			// aapt resource value: 0x7f090027
 			public const int app_name = 2131296295;
 			
+			// aapt resource value: 0x7f090029
+			public const int app_name0 = 2131296297;
+			
+			// aapt resource value: 0x7f09002a
+			public const int app_name1 = 2131296298;
+			
 			// aapt resource value: 0x7f09001e
 			public const int appbar_scrolling_view_behavior = 2131296286;
+			
+			// aapt resource value: 0x7f090045
+			public const int authfrackedstring = 2131296325;
+			
+			// aapt resource value: 0x7f090044
+			public const int authstring = 2131296324;
+			
+			// aapt resource value: 0x7f090066
+			public const int awesome = 2131296358;
+			
+			// aapt resource value: 0x7f09006b
+			public const int back = 2131296363;
+			
+			// aapt resource value: 0x7f090034
+			public const int bank = 2131296308;
 			
 			// aapt resource value: 0x7f09001f
 			public const int bottom_sheet_behavior = 2131296287;
 			
+			// aapt resource value: 0x7f090065
+			public const int cancel = 2131296357;
+			
+			// aapt resource value: 0x7f090053
+			public const int cantread = 2131296339;
+			
+			// aapt resource value: 0x7f090050
+			public const int changefolder = 2131296336;
+			
 			// aapt resource value: 0x7f090020
 			public const int character_counter_pattern = 2131296288;
+			
+			// aapt resource value: 0x7f090059
+			public const int close = 2131296345;
+			
+			// aapt resource value: 0x7f090033
+			public const int coin = 2131296307;
+			
+			// aapt resource value: 0x7f090052
+			public const int currentdirectory = 2131296338;
+			
+			// aapt resource value: 0x7f09003a
+			public const int email = 2131296314;
+			
+			// aapt resource value: 0x7f090054
+			public const int emptydir = 2131296340;
+			
+			// aapt resource value: 0x7f09004b
+			public const int errconnection = 2131296331;
+			
+			// aapt resource value: 0x7f09003d
+			public const int erremptyimport = 2131296317;
+			
+			// aapt resource value: 0x7f09003c
+			public const int errimport = 2131296316;
+			
+			// aapt resource value: 0x7f09003b
+			public const int errmnt = 2131296315;
+			
+			// aapt resource value: 0x7f09005f
+			public const int export = 2131296351;
+			
+			// aapt resource value: 0x7f09005a
+			public const int exportcoins = 2131296346;
+			
+			// aapt resource value: 0x7f090049
+			public const int exportfailed = 2131296329;
+			
+			// aapt resource value: 0x7f09006f
+			public const int exportnotice = 2131296367;
+			
+			// aapt resource value: 0x7f090048
+			public const int exportok = 2131296328;
+			
+			// aapt resource value: 0x7f090061
+			public const int exportresult = 2131296353;
+			
+			// aapt resource value: 0x7f090031
+			public const int exporttag = 2131296305;
+			
+			// aapt resource value: 0x7f090055
+			public const int filespicked = 2131296341;
+			
+			// aapt resource value: 0x7f09006a
+			public const int @fixed = 2131296362;
+			
+			// aapt resource value: 0x7f09004a
+			public const int fixfracked = 2131296330;
+			
+			// aapt resource value: 0x7f090068
+			public const int fixing = 2131296360;
+			
+			// aapt resource value: 0x7f090069
+			public const int fixstart = 2131296361;
+			
+			// aapt resource value: 0x7f090047
+			public const int globalexporterror = 2131296327;
+			
+			// aapt resource value: 0x7f09006c
+			public const int icoins = 2131296364;
+			
+			// aapt resource value: 0x7f09005b
+			public const int importcoins = 2131296347;
+			
+			// aapt resource value: 0x7f090057
+			public const int importfiles = 2131296343;
+			
+			// aapt resource value: 0x7f09004d
+			public const int importresult = 2131296333;
+			
+			// aapt resource value: 0x7f090040
+			public const int importresults = 2131296320;
+			
+			// aapt resource value: 0x7f090041
+			public const int importresultsauth = 2131296321;
+			
+			// aapt resource value: 0x7f090042
+			public const int importresultstrash = 2131296322;
+			
+			// aapt resource value: 0x7f090060
+			public const int importstr = 2131296352;
+			
+			// aapt resource value: 0x7f090030
+			public const int importtag = 2131296304;
+			
+			// aapt resource value: 0x7f09003e
+			public const int importwarn = 2131296318;
+			
+			// aapt resource value: 0x7f09002f
+			public const int loading = 2131296303;
+			
+			// aapt resource value: 0x7f09003f
+			public const int movedtobank = 2131296319;
+			
+			// aapt resource value: 0x7f090062
+			public const int nocoins = 2131296354;
+			
+			// aapt resource value: 0x7f09005d
+			public const int of = 2131296349;
+			
+			// aapt resource value: 0x7f090035
+			public const int ok = 2131296309;
+			
+			// aapt resource value: 0x7f09005e
+			public const int optional = 2131296350;
 			
 			// aapt resource value: 0x7f090021
 			public const int password_toggle_content_description = 2131296289;
@@ -3333,11 +3492,77 @@ namespace CloudCoin
 			// aapt resource value: 0x7f090025
 			public const int path_password_strike_through = 2131296293;
 			
+			// aapt resource value: 0x7f09004e
+			public const int paymentreceived = 2131296334;
+			
+			// aapt resource value: 0x7f090037
+			public const int sbank = 2131296311;
+			
+			// aapt resource value: 0x7f090038
+			public const int scounterfeit = 2131296312;
+			
 			// aapt resource value: 0x7f090011
 			public const int search_menu_title = 2131296273;
 			
+			// aapt resource value: 0x7f090051
+			public const int select = 2131296337;
+			
+			// aapt resource value: 0x7f090064
+			public const int selectfile = 2131296356;
+			
+			// aapt resource value: 0x7f09004c
+			public const int serialnumber = 2131296332;
+			
+			// aapt resource value: 0x7f090039
+			public const int sfractured = 2131296313;
+			
+			// aapt resource value: 0x7f090063
+			public const int sorryraida = 2131296355;
+			
 			// aapt resource value: 0x7f090026
 			public const int status_bar_notification_info_overflow = 2131296294;
+			
+			// aapt resource value: 0x7f09006d
+			public const int suspectcoins = 2131296365;
+			
+			// aapt resource value: 0x7f09002b
+			public const int tadd = 2131296299;
+			
+			// aapt resource value: 0x7f09002c
+			public const int tbank = 2131296300;
+			
+			// aapt resource value: 0x7f09002d
+			public const int tbankinventory = 2131296301;
+			
+			// aapt resource value: 0x7f09005c
+			public const int tcib = 2131296348;
+			
+			// aapt resource value: 0x7f090067
+			public const int tcimported = 2131296359;
+			
+			// aapt resource value: 0x7f090056
+			public const int toomanyfiles = 2131296342;
+			
+			// aapt resource value: 0x7f090036
+			public const int total = 2131296310;
+			
+			// aapt resource value: 0x7f09004f
+			public const int totalreceived = 2131296335;
+			
+			// aapt resource value: 0x7f090046
+			public const int totaltoexport = 2131296326;
+			
+			// aapt resource value: 0x7f090043
+			public const int trashnote = 2131296323;
+			
+			// aapt resource value: 0x7f09002e
+			public const int tspend = 2131296302;
+			
+			// aapt resource value: 0x7f090032
+			public const int url = 2131296306;
+			
+			// aapt resource value: 0x7f09006e
+			public const int warning = 2131296366;
 			
 			static String()
 			{
@@ -3862,6 +4087,33 @@ namespace CloudCoin
 			// aapt resource value: 0x7f0a0161
 			public const int Base_Widget_Design_TabLayout = 2131362145;
 			
+			// aapt resource value: 0x7f0a0187
+			public const int InvExt = 2131362183;
+			
+			// aapt resource value: 0x7f0a0188
+			public const int InvExt1 = 2131362184;
+			
+			// aapt resource value: 0x7f0a0189
+			public const int InvText0 = 2131362185;
+			
+			// aapt resource value: 0x7f0a018a
+			public const int InvText1 = 2131362186;
+			
+			// aapt resource value: 0x7f0a018b
+			public const int InvText2 = 2131362187;
+			
+			// aapt resource value: 0x7f0a018c
+			public const int InvText3 = 2131362188;
+			
+			// aapt resource value: 0x7f0a018d
+			public const int InvText4 = 2131362189;
+			
+			// aapt resource value: 0x7f0a018e
+			public const int InvText5 = 2131362190;
+			
+			// aapt resource value: 0x7f0a0185
+			public const int LayoutWrapper = 2131362181;
+			
 			// aapt resource value: 0x7f0a001e
 			public const int Platform_AppCompat = 2131361822;
 			
@@ -4252,6 +4504,15 @@ namespace CloudCoin
 			// aapt resource value: 0x7f0a010d
 			public const int ThemeOverlay_AppCompat_Light = 2131362061;
 			
+			// aapt resource value: 0x7f0a0184
+			public const int TitleText = 2131362180;
+			
+			// aapt resource value: 0x7f0a0183
+			public const int TransparentExpandableListView = 2131362179;
+			
+			// aapt resource value: 0x7f0a0182
+			public const int TransparentListView = 2131362178;
+			
 			// aapt resource value: 0x7f0a010e
 			public const int Widget_AppCompat_ActionBar = 2131362062;
 			
@@ -4506,6 +4767,12 @@ namespace CloudCoin
 			
 			// aapt resource value: 0x7f0a0178
 			public const int Widget_Design_TextInputLayout = 2131362168;
+			
+			// aapt resource value: 0x7f0a0181
+			public const int dialogwidth = 2131362177;
+			
+			// aapt resource value: 0x7f0a0186
+			public const int np = 2131362182;
 			
 			static Style()
 			{
