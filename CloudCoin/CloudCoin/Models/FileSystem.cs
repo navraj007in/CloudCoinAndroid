@@ -1,32 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CloudCoinCore;
 using System.IO;
 using System.Reflection;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace CloudCoinCore.CoreClasses
+namespace CloudCoin
 {
     public class FileSystem : IFileSystem
     {
-        public static IEnumerable<CloudCoin> importCoins;
-        public static IEnumerable<CloudCoin> exportCoins;
-        public static IEnumerable<CloudCoin> importedCoins;
-        public static IEnumerable<FileInfo> templateFiles;
-        public static IEnumerable<CloudCoin> languageCoins;
-        public static IEnumerable<CloudCoin> counterfeitCoins;
-        public static IEnumerable<CloudCoin> partialCoins;
-        public static IEnumerable<CloudCoin> frackedCoins;
-        public static IEnumerable<CloudCoin> detectedCoins;
-        public static IEnumerable<CloudCoin> suspectCoins;
-        public static IEnumerable<CloudCoin> trashCoins;
-        public static IEnumerable<CloudCoin> bankCoins;
-        public static IEnumerable<CloudCoin> lostCoins;
-        public static IEnumerable<CloudCoin> predetectCoins;
-        public static IEnumerable<CloudCoin> dangerousCoins;
+        public IEnumerable<CloudCoin> importCoins;
+        public IEnumerable<CloudCoin> exportCoins;
+        public IEnumerable<CloudCoin> importedCoins;
+        public IEnumerable<FileInfo> templateFiles;
+        public IEnumerable<CloudCoin> languageCoins;
+        public IEnumerable<CloudCoin> counterfeitCoins;
+        public IEnumerable<CloudCoin> partialCoins;
+        public IEnumerable<CloudCoin> frackedCoins;
+        public IEnumerable<CloudCoin> detectedCoins;
+        public IEnumerable<CloudCoin> suspectCoins;
+        public IEnumerable<CloudCoin> trashCoins;
+        public IEnumerable<CloudCoin> bankCoins;
+        public IEnumerable<CloudCoin> lostCoins;
+        public IEnumerable<CloudCoin> predetectCoins;
+        public IEnumerable<CloudCoin> dangerousCoins;
 
 
         public FileSystem(string RootPath)
@@ -49,6 +48,10 @@ namespace CloudCoinCore.CoreClasses
             RequestsFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_REQUESTS + Path.DirectorySeparatorChar;
             DangerousFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_DANGEROUS + Path.DirectorySeparatorChar;
             LogsFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_LOGS + Path.DirectorySeparatorChar;
+            /*var documents =
+             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var directoryname = Path.Combine(documents, "NewDirectory");
+            Directory.CreateDirectory(directoryname);*/
         }
         public override bool CreateFolderStructure()
         {
@@ -161,7 +164,7 @@ namespace CloudCoinCore.CoreClasses
 
             foreach (var coin in detectedCoins)
             {
-                if (coin.PassCount >= CloudCoinCore.Config.PassCount)
+                if (coin.PassCount >= Config.PassCount)
                 {
                     WriteCoin(coin, BankFolder);
                 }
@@ -401,7 +404,7 @@ namespace CloudCoinCore.CoreClasses
         public override void ClearCoins(string FolderName)
         {
 
-            var fii = GetFiles(FolderName, CloudCoinCore.Config.allowedExtensions);
+            var fii = GetFiles(FolderName, Config.allowedExtensions);
 
             DirectoryInfo di = new DirectoryInfo(FolderName);
 
@@ -448,7 +451,7 @@ namespace CloudCoinCore.CoreClasses
         {
             var files = Directory
               .GetFiles(ImportFolder)
-              .Where(file => CloudCoinCore.Config.allowedExtensions.Any(file.ToLower().EndsWith))
+              .Where(file => Config.allowedExtensions.Any(file.ToLower().EndsWith))
               .ToList();
 
             string[] fnames = new string[files.Count()];

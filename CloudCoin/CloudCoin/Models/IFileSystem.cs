@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Linq;
 using System.Diagnostics;
+
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System.Reflection;
 using SkiaSharp;
 
-namespace CloudCoinCore
+namespace CloudCoin
 {
     public abstract class IFileSystem
     {
@@ -199,7 +197,7 @@ namespace CloudCoinCore
             CloudCoin returnCC = new CloudCoin();
 
             //Load file as JSON
-            String incomeJson = this.importJSON(loadFilePath);
+            String incomeJson = Utils.importJSON(loadFilePath);
             //STRIP UNESSARY test
             int secondCurlyBracket = ordinalIndexOf(incomeJson, "{", 2) - 1;
             int firstCloseCurlyBracket = ordinalIndexOf(incomeJson, "}", 0) - secondCurlyBracket;
@@ -249,40 +247,6 @@ namespace CloudCoinCore
                 }
             }
         }
-
-        public String importJSON(String jsonfile)
-        {
-            String jsonData = "";
-            String line;
-
-            try
-            {
-                // Create an instance of StreamReader to read from a file.
-                // The using statement also closes the StreamReader.
-
-                using (var sr = File.OpenText(jsonfile))
-                {
-                    // Read and display lines from the file until the end of 
-                    // the file is reached.
-                    while (true)
-                    {
-                        line = sr.ReadLine();
-                        if (line == null)
-                        {
-                            break;
-                        }//End if line is null
-                        jsonData = (jsonData + line + "\n");
-                    }//end while true
-                }//end using
-            }
-            catch (Exception e)
-            {
-                // Let the user know what went wrong.
-                Console.WriteLine("The file " + jsonfile + " could not be read:");
-                Console.WriteLine(e.Message);
-            }
-            return jsonData;
-        }//end importJSON
 
         // en d json test
         public String setJSON(CloudCoin cc)

@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Collections;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Linq;
-using CloudCoinCoreDirectory;
 
-namespace CloudCoinCore
+namespace CloudCoin
 {
     public class RAIDA
     {
@@ -63,10 +60,8 @@ namespace CloudCoinCore
 
         public List<Func<Task>> GetEchoTasks()
         {
-            var echoTasks = new List<Func<Task>>
-            {
+            var echoTasks = new List<Func<Task>> { };
 
-            };
             for (int i = 0; i < nodes.Length; i++)
             {
                 echoTasks.Add(nodes[i].Echo);
@@ -74,11 +69,11 @@ namespace CloudCoinCore
             return echoTasks;
         }
 
-        public List<Func<Task>> GetDetectTasks(CloudCoin coin)
+        public List<Func<Task<Response>>> GetDetectTasks(CloudCoin coin)
         {
             this.coin = coin;
 
-            var detectTasks = new List<Func<Task>>
+            var detectTasks = new List<Func<Task<Response>>>
             {
 
             };

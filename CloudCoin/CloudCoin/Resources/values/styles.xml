@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+  <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
     <!--<style name="app_theme" parent="android:Theme">-->
     <!--<item name="android:windowBackground">@drawable/bgxml</item>-->
     <item name="android:listViewStyle">@style/TransparentListView</item>
@@ -19,6 +19,11 @@
     <item name="android:cacheColorHint">@android:color/transparent</item>
   </style>
 
+  <style name="CustomProgressBarHorizontal" parent="android:Widget.ProgressBar.Horizontal">
+    <item name="android:progressDrawable">@drawable/progressbar</item>
+    <item name="android:minHeight">10dip</item>
+    <item name="android:maxHeight">20dip</item>
+  </style>
 
   <style name="TitleText">
     <item name="android:layout_height">wrap_content</item>

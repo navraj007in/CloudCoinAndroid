@@ -1,14 +1,12 @@
-﻿using CloudCoinCoreDirectory;
-using Newtonsoft.Json;
+﻿using CloudCoin;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Net.Http;
 
-namespace CloudCoinCore
+namespace CloudCoin
 {
     public enum NodeStatus
     {

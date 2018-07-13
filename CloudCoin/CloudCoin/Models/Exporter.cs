@@ -2,9 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
-using Founders;
 
-namespace CloudCoinCore
+namespace CloudCoin
 {
     public class Exporter
     {
@@ -19,7 +18,7 @@ namespace CloudCoinCore
             this.fileSystem = fileUtils;
         }
 
-        public delegate void StatusUpdateHandler(object sender, ProgressEventArgs e);
+        public delegate void StatusUpdateHandler(object sender, Android.OS.RecoverySystem.ProgressEventArgs e);
         public event StatusUpdateHandler OnUpdateStatus;
 
         private void UpdateStatus(string status, int percentage = 0)
@@ -27,8 +26,8 @@ namespace CloudCoinCore
             // Make sure someone is listening to event
             if (OnUpdateStatus == null) return;
 
-            ProgressEventArgs args = new ProgressEventArgs(status, percentage);
-            OnUpdateStatus(this, args);
+            //.OS.RecoverySystem.ProgressEventArgs args = new Android.OS.RecoverySystem.ProgressEventArgs(status, percentage);
+            //OnUpdateStatus(this, args);
         }
 
         /* PUBLIC METHODS */

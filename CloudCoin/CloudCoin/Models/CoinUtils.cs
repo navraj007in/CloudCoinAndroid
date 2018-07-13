@@ -1,14 +1,12 @@
-﻿
-using CloudCoinCore;
-using System;
+﻿using System;
 using System.Security.Cryptography;
 
-namespace CloudCoinCore
+namespace CloudCoin
 {
     public class CoinUtils
     {
         //  instance variables
-        public CloudCoinCore.CloudCoin cc;
+        public CloudCoin cc;
         public String[] pans = new String[25];// Proposed Authenticty Numbers
         public String edHex;// Months from zero date that the coin will expire. 
         public int hp;// HitPoints (1-25, One point for each server not failed)
@@ -22,7 +20,7 @@ namespace CloudCoinCore
 
 
         //CONSTRUCTORS
-        public CoinUtils(CloudCoinCore.CloudCoin cc )
+        public CoinUtils(CloudCoin cc )
         {
             //  initialise instance variables
             this.cc = cc;

@@ -26,14 +26,14 @@
             android:layout_marginTop="10dp" />
         <TextView
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:gravity="center"
             android:layout_gravity="center"
-            android:text=""
+            android:text="fgfgdfgdgd"
             android:textColor="#777777"
             android:textSize="14dp"
             android:layout_marginTop="16dp"
-            android:id="@+id/infotext" />
+            android:id="@+id/infotext2" />
         <LinearLayout
             android:id="@+id/filebutton"
             android:layout_width="220dp"

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudCoin", "CloudCoin\CloudCoin.csproj", "{3BE8F383-4B10-461B-9265-5D8C644BB38B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudCoin", "CloudCoin\CloudCoin.csproj", "{48F3E72B-1D6E-45DE-8309-ED01DF563EA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,17 +11,17 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3BE8F383-4B10-461B-9265-5D8C644BB38B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3BE8F383-4B10-461B-9265-5D8C644BB38B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3BE8F383-4B10-461B-9265-5D8C644BB38B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{3BE8F383-4B10-461B-9265-5D8C644BB38B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3BE8F383-4B10-461B-9265-5D8C644BB38B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3BE8F383-4B10-461B-9265-5D8C644BB38B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{48F3E72B-1D6E-45DE-8309-ED01DF563EA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48F3E72B-1D6E-45DE-8309-ED01DF563EA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48F3E72B-1D6E-45DE-8309-ED01DF563EA6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{48F3E72B-1D6E-45DE-8309-ED01DF563EA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48F3E72B-1D6E-45DE-8309-ED01DF563EA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48F3E72B-1D6E-45DE-8309-ED01DF563EA6}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {34A1AADC-CB76-4616-BCA7-9DF44A01A791}
+		SolutionGuid = {2A5E10FF-6A6E-4156-AA54-11032A006134}
 	EndGlobalSection
 EndGlobal
