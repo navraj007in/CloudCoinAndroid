@@ -1,23 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-
 namespace CloudCoin
-
 {
     public class Banker
     {
-        public FileSystem fileUtils;
-        public static int[] denominations = { 1, 5, 25, 100, 250 };
-
+        public IFileSystem fileUtils;
+        
         public Banker(IFileSystem fileUtils)
         {
-            this.fileUtils = (FileSystem)fileUtils;
-        }
-
-        public int importedCoinCount
-        {
-            get { return fileUtils.importCoins.Count(); }
+            this.fileUtils = fileUtils;
         }
 
         public int[] countCoins(String directoryPath)
@@ -58,6 +50,5 @@ namespace CloudCoin
             // end for each coin
             return returnCounts;
         }
-
     }
 }

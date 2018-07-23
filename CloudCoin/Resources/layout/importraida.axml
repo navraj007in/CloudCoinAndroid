@@ -47,10 +47,10 @@
     </LinearLayout>
     <ProgressBar
         android:id="@+id/firstBar"
+        style="@style/CustomProgressBarHorizontal"
         android:layout_width="fill_parent"
         android:layout_height="32dp"
         android:layout_marginTop="12dp" />
-<!--="@style/CustomProgressBarHorizontal"-->
 <!-- buttons -->
     <LinearLayout
         android:id="@+id/buttonwrapper"

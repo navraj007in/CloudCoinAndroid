@@ -4333,32 +4333,35 @@ namespace CloudCoin
 			// aapt resource value: 0x7f0a0161
 			public const int Base_Widget_Design_TabLayout = 2131362145;
 			
-			// aapt resource value: 0x7f0a0187
-			public const int InvExt = 2131362183;
+			// aapt resource value: 0x7f0a0184
+			public const int CustomProgressBarHorizontal = 2131362180;
 			
 			// aapt resource value: 0x7f0a0188
-			public const int InvExt1 = 2131362184;
+			public const int InvExt = 2131362184;
 			
 			// aapt resource value: 0x7f0a0189
-			public const int InvText0 = 2131362185;
+			public const int InvExt1 = 2131362185;
 			
 			// aapt resource value: 0x7f0a018a
-			public const int InvText1 = 2131362186;
+			public const int InvText0 = 2131362186;
 			
 			// aapt resource value: 0x7f0a018b
-			public const int InvText2 = 2131362187;
+			public const int InvText1 = 2131362187;
 			
 			// aapt resource value: 0x7f0a018c
-			public const int InvText3 = 2131362188;
+			public const int InvText2 = 2131362188;
 			
 			// aapt resource value: 0x7f0a018d
-			public const int InvText4 = 2131362189;
+			public const int InvText3 = 2131362189;
 			
 			// aapt resource value: 0x7f0a018e
-			public const int InvText5 = 2131362190;
+			public const int InvText4 = 2131362190;
 			
-			// aapt resource value: 0x7f0a0185
-			public const int LayoutWrapper = 2131362181;
+			// aapt resource value: 0x7f0a018f
+			public const int InvText5 = 2131362191;
+			
+			// aapt resource value: 0x7f0a0186
+			public const int LayoutWrapper = 2131362182;
 			
 			// aapt resource value: 0x7f0a001e
 			public const int Platform_AppCompat = 2131361822;
@@ -4750,8 +4753,8 @@ namespace CloudCoin
 			// aapt resource value: 0x7f0a010d
 			public const int ThemeOverlay_AppCompat_Light = 2131362061;
 			
-			// aapt resource value: 0x7f0a0184
-			public const int TitleText = 2131362180;
+			// aapt resource value: 0x7f0a0185
+			public const int TitleText = 2131362181;
 			
 			// aapt resource value: 0x7f0a0183
 			public const int TransparentExpandableListView = 2131362179;
@@ -5017,8 +5020,8 @@ namespace CloudCoin
 			// aapt resource value: 0x7f0a0181
 			public const int dialogwidth = 2131362177;
 			
-			// aapt resource value: 0x7f0a0186
-			public const int np = 2131362182;
+			// aapt resource value: 0x7f0a0187
+			public const int np = 2131362183;
 			
 			static Style()
 			{

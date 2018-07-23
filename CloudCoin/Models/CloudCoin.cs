@@ -106,7 +106,7 @@ namespace CloudCoin
                 return coin;
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }

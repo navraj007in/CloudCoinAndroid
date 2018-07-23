@@ -40,21 +40,19 @@ namespace CloudCoin
         public MainActivity owner;
         DialogType dlgType;
 
-        public bool isImportDialog;
-        public TextView subTv;
+        //public bool isImportDialog;
+        //public TextView subTv;
 
         public TextView[][] ids;
         public int[][] stats;
         public int size;
-        public int lastProgress;
 
         public NumberPicker[] nps;
         public TextView[] tvs;
 
-        public EditText et;
         public TextView tvTotal, exportTv;
 
-        public Button button, emailButton;
+        //public Button button, emailButton;
 
         public CoinDialog(Activity activity) : base(activity)
         {
@@ -100,7 +98,7 @@ namespace CloudCoin
 
     public void Init(DialogType dialogtype)
         {
-            int i, resId;
+/*            int i, resId;
             String idTxt;
             int[] bankCoins, frackedCoins;
             int lTotal;
@@ -176,13 +174,13 @@ namespace CloudCoin
 
                     break;
             }
-
+            */
         }
 
         public int getTotal()
         {
             int total = 0;
-            int j;
+ /*           int j;
             int tval;
 
 
@@ -218,13 +216,13 @@ namespace CloudCoin
                     }
 
                     break;
-            }
+            }*/
             return total;
         }
 
         public void allocId(int idx, String prefix)
         {
-            int resId, i;
+ /*           int resId, i;
             String idTxt;
 
             stats[idx] = new int[size];
@@ -238,7 +236,7 @@ namespace CloudCoin
 
                 resId = owner.Resources.GetIdentifier(idTxt, "id", owner.PackageName);
                 ids[idx][i] = FindViewById<TextView>(resId);
-            }
+            }*/
         }
         
         private void updateTotal()
@@ -358,10 +356,9 @@ namespace CloudCoin
 
                         return;
                     }
-                    catch (Java.Lang.NoSuchFieldException e) {
-                    }
-                    catch (Java.Lang.IllegalAccessException e) { }
-                    catch (Java.Lang.IllegalArgumentException e) { }
+                    catch (Java.Lang.NoSuchFieldException) { }
+                    catch (Java.Lang.IllegalAccessException) { }
+                    catch (Java.Lang.IllegalArgumentException) { }
                 }
             }
 
@@ -379,7 +376,6 @@ namespace CloudCoin
         private LinearLayout linearLayoutExport;
 
         public static string version = "";
-        private ISharedPreferences mSettings;
         public static readonly int PickImageId = 1000;
         private CoinDialog dialog = null;
         private ImportState importState;
@@ -390,6 +386,8 @@ namespace CloudCoin
         public int raidaReady = 0, raidaNotReady = 0;
         private bool asyncFinished = true;
         private int lastProgress;
+        private ProgressBar importBar;
+        private TextView importText;
         private bool isImportSuspect = false;
         private bool isImportDialog;
 
@@ -407,27 +405,103 @@ namespace CloudCoin
             Init();
         }
 
-
-        public async static Task echoRaida()
+        public async Task EchoTask()
         {
             Console.Out.WriteLine(String.Format("Starting Echo to RAIDA Network {0}\n", 1));
             Console.Out.WriteLine("----------------------------------\n");
-            var echos = raida.GetEchoTasks();
 
+            //var echos = raida.GetEchoTasks();
+            for (int i = 0; i < raida.nodes.Length; i++)
+            {
+                Task<Response> t = raida.nodes[i].Echo();
+                await t;
+                bool a = t.Result.success;
 
-            await Task.WhenAll(echos.AsParallel().Select(async task => await task()));
+            }
+            //await Task.WhenAll(echos.AsParallel().Select(async task => await task()));
+
             //MessageBox.Show("Finished Echo");
             Console.Out.WriteLine("Ready Count -" + raida.ReadyCount);
             Console.Out.WriteLine("Not Ready Count -" + raida.NotReadyCount);
 
-
-            for (int i = 0; i < raida.nodes.Count(); i++)
+           for (int i = 0; i < raida.nodes.Count(); i++)
             {
                 // Console.Out.WriteLine("Node " + i + " Status --" + raida.nodes[i].RAIDANodeStatus + "\n");
                 Console.Out.WriteLine("Node" + i + " Status --" + raida.nodes[i].RAIDANodeStatus);
             }
             Console.Out.WriteLine("-----------------------------------\n");
+        }
 
+        public async Task ImportTask()
+        {
+            importState = ImportState.ImportIng;
+            isImportDialog = false;
+            lastProgress = 0;
+            ShowImportScreen();
+
+            if(isImportSuspect)
+            {
+/*                int i = 0;
+                foreach (CloudCoin coin in bank.fileUtils.suspectCoins)
+                {
+                    List<Func<Task<Response>>> detects = raida.GetDetectTasks(coin);
+                    await Task.WhenAll(detects.AsParallel().Select(async task => await task()));
+
+                    // coin detect finished
+                    if (detects.Any(t => t().Result.success))
+                        bank.fileUtils.MoveCoins(new List<CloudCoin> { coin }, coin.folder, bank.fileUtils.BankFolder);
+
+
+                    i++;
+                    await Progress(i);
+
+                }
+
+                dialog.Dismiss();
+                isImportSuspect = false;
+                importState = ImportState.ImportDone;*/
+            }
+            else
+            {
+                List<Func<Task<Node.MultiDetectResponse>>> detects = raida.GetMultiDetectTasks(bank.fileUtils.importCoins.ToArray(), 1000);
+                await Task.WhenAll(detects.AsParallel().Select(async t => await t()));
+
+                //if(detects.Any(t => t().Result.responses.))
+                    
+                    /* int i = 0;
+                 foreach(CloudCoin coin in bank.fileUtils.importCoins)
+                 {
+                     List<Func<Task<Response>>> detects = raida.GetDetectTasks(coin);
+                     await Task.WhenAll(detects.AsParallel().Select(async task => await task()));
+
+                     // coin detect finished
+                     if (detects.Any(t => t().Result.success))
+                         bank.fileUtils.MoveCoins(new List<CloudCoin> { coin }, coin.folder, bank.fileUtils.BankFolder);
+
+
+                     i++;
+                     await Progress(i);
+
+                 }*/
+
+                importState = ImportState.ImportDone;
+                dialog.Dismiss();
+                isImportDialog = false;
+            }
+
+            ShowImportScreen();
+        }
+
+        async Task Progress(int i)
+        {
+ /*           await Task.Run(() =>
+            {
+                importText.Text = String.Format(Resources.GetString(Resource.String.authstring), 
+                    i, bank.fileUtils.importCoins.Count());
+
+                importBar.Progress = i;
+                importBar.Invalidate();
+            });*/
         }
 
         private void Init()
@@ -448,6 +522,7 @@ namespace CloudCoin
                     return;
                 }
 
+                files.Clear();
                 ShowImportScreen();
 
             };
@@ -470,7 +545,7 @@ namespace CloudCoin
             {
                 version = PackageManager.GetPackageInfo(PackageName, 0).VersionName;
             }
-            catch (PackageManager.NameNotFoundException e)
+            catch (PackageManager.NameNotFoundException)
             {
                 version = "";
             }
@@ -504,10 +579,9 @@ namespace CloudCoin
                     if (data.Data != null)
                     {
                         uri = data.Data;
-                        //file = getUriRealPath(this, uri);
-                        file = uri.ToString();
+                        file = FilePath.GetPath(this, uri);
                         String[] path = file.Split(':');
-                        if (path.Length > 1)
+                        if(path.Length > 1)
                             files.Add(path[1]);
                         else
                             files.Add(file);
@@ -524,7 +598,7 @@ namespace CloudCoin
 
                                 ClipData.Item item = mClipData.GetItemAt(i);
                                 uri = item.Uri;
-                                file = getUriRealPath(this, uri);
+                                file = FilePath.GetPath(this, uri);
                                 String[] path = file.Split(':');
                                 if (path.Length > 1)
                                     files.Add(path[1]);
@@ -575,8 +649,7 @@ namespace CloudCoin
             StartActivityForResult(Intent.CreateChooser(intent, "Select Image"), PickImageId);
         }
 
-        public void 
-            ShowImportScreen()
+        public void ShowImportScreen()
         {
             int totalIncomeLength;
             String result;
@@ -587,13 +660,13 @@ namespace CloudCoin
             {
                 case ImportState.ImportIng:
                     dialog.Update(Resource.Layout.importraida);
-                    tv = dialog.FindViewById<TextView>(Resource.Id.infotext);
-                    tv.Text = getStatusString(lastProgress);
+                    importText = dialog.FindViewById<TextView>(Resource.Id.infotext);
+                    importText.Text = getStatusString(lastProgress);
 
                     TextView subTv = dialog.FindViewById<TextView>(Resource.Id.infotextsub);
 
-                    ProgressBar pb = dialog.FindViewById<ProgressBar>(Resource.Id.firstBar);
-                    //pb.Max = RAIDA.TOTAL_RAIDA_COUNT;
+                    importBar = dialog.FindViewById<ProgressBar>(Resource.Id.firstBar);
+                    importBar.Max = bank.fileUtils.importCoins.Count();
                     dialog.Show();
                     break;
 
@@ -609,9 +682,9 @@ namespace CloudCoin
 
                     int toBankValue, toBank, failed;
 
-                    toBankValue = 0;// bank.getImportStats(Bank.STAT_VALUE_MOVED_TO_BANK);
-                    toBank = 0;// bank.getImportStats(Bank.STAT_AUTHENTIC);
-                    failed = 0;// bank.getImportStats(Bank.STAT_FAILED);
+                    toBankValue = bank.fileUtils.bankCoins.Count();
+                    toBank = bank.fileUtils.detectedCoins.Count();
+                    failed = bank.fileUtils.lostCoins.Count();
 
                     ttv = (TextView)dialog.FindViewById(Resource.Id.closebuttontext);
                     if (failed > 0 || toBank == 0)
@@ -631,7 +704,7 @@ namespace CloudCoin
 
                     try {
                         dialog.Show();
-                    } catch (Exception e) {
+                    } catch (Exception) {
                         Log.Verbose("CLOUDCOIN", "Activity is gone. No result will be shown");
                     }
                     break;
@@ -643,9 +716,8 @@ namespace CloudCoin
                         LinearLayout goButton = dialog.FindViewById<LinearLayout>(Resource.Id.gobutton);
                         goButton.Click += delegate
                         {
-                            //isImportSuspect = true;
-                            //iTask = new ImportTask();
-                            //iTask.execute("suspect");
+                            isImportSuspect = true;
+                            //ImportTask();
                         };
                         dialog.Show();
                         return;
@@ -716,9 +788,10 @@ namespace CloudCoin
                             result = String.Format(Resources.GetString(Resource.String.importwarn), 
                                 bank.fileUtils.ImportedFolder, totalIncomeLength);            
                         }
-
+                        files.Clear();
 
                         dialog.Update(Resource.Layout.importdialog3);
+                        tv = dialog.FindViewById<TextView>(Resource.Id.infotext2);
                         fileButton = dialog.FindViewById<LinearLayout>(Resource.Id.filebutton);
                         fileButton.Click += delegate
                         {
@@ -727,13 +800,17 @@ namespace CloudCoin
                         LinearLayout importButton = dialog.FindViewById<LinearLayout>(Resource.Id.importbutton);
                         importButton.Click += delegate
                         {
-                            Task task = echoRaida();
+                            Task task = EchoTask(); // get echos from raida
+                            if (raida.ReadyCount == 0)
+                            {
+                                dialog.Update(Resource.Layout.importdialog2);
+                                dialog.Show();
+                                return;
+                            }
 
-                            //isImportSuspect = false;
-                            //iTask = new ImportTask();
-                            //iTask.execute("import");
+                            isImportSuspect = false;
+                            task = ImportTask(); // import selected coins
                         };
-                        tv = dialog.FindViewById<TextView>(Resource.Id.infotext2);
                         tv.Text = result;
                         dialog.Show();
                     }
@@ -763,9 +840,16 @@ namespace CloudCoin
             LinearLayout exportButton = dialog.FindViewById<LinearLayout>(Resource.Id.exportbutton);
             exportButton.Click += delegate
             {
-                //DoExport();
+                   // String exportTag;
+                   // int[] values;
+                   // int[] failed;
+                    //int totalFailed = 0;
 
-                dialog.Update(Resource.Layout.exportdialog2);
+
+ 
+        //DoExport();
+
+        dialog.Update(Resource.Layout.exportdialog2);
                 TextView infoText = dialog.FindViewById<TextView>(Resource.Id.infotext);
                 //infoText.Text = msg;
                 LinearLayout emailButton = dialog.FindViewById<LinearLayout>(Resource.Id.emailbutton);
@@ -783,265 +867,6 @@ namespace CloudCoin
         public void OnClick(View v)
         {
             throw new NotImplementedException();
-        }
-        private String getUriRealPath(Context ctx, Uri uri)
-        {
-            String ret = "";
-
-            //ret = uri.Path;
-            if (isAboveKitKat())
-            {
-                // Android OS above sdk version 19.
-                ret = getUriRealPathAboveKitkat(ctx, uri);
-            }
-            else
-            {
-                // Android OS below sdk version 19
-                ret = getImageRealPath(ContentResolver, uri, null);
-            }
-
-            return ret;
-        }
-
-        private String getUriRealPathAboveKitkat(Context ctx, Uri uri)
-        {
-            String ret = "";
-
-            if (ctx != null && uri != null)
-            {
-
-                if (isContentUri(uri))
-                {
-                    if (isGooglePhotoDoc(uri.Authority))
-                    {
-                        ret = uri.LastPathSegment;
-                    }
-                    else
-                    {
-                        ret = getImageRealPath(ContentResolver, uri, null);
-                    }
-                }
-                else if (isFileUri(uri))
-                {
-                    ret = uri.Path;
-                }
-                else if (isDocumentUri(ctx, uri))
-                {
-
-                    // Get uri related document id.
-                    String documentId = DocumentsContract.GetDocumentId(uri);
-
-                    // Get uri authority.
-                    String uriAuthority = uri.Authority;
-
-                    if (isMediaDoc(uriAuthority))
-                    {
-                        String[] idArr = documentId.Split(':');
-                        if (idArr.Length == 2)
-                        {
-                            // First item is document type.
-                            String docType = idArr[0];
-
-                            // Second item is document real id.
-                            String realDocId = idArr[1];
-
-                            // Get content uri by document type.
-                            Uri mediaContentUri = MediaStore.Images.Media.ExternalContentUri;
-                            if ("image".Equals(docType))
-                            {
-                                mediaContentUri = MediaStore.Images.Media.ExternalContentUri;
-                            }
-                            else if ("video".Equals(docType))
-                            {
-                                mediaContentUri = MediaStore.Video.Media.ExternalContentUri;
-                            }
-                            else if ("audio".Equals(docType))
-                            {
-                                mediaContentUri = MediaStore.Audio.Media.ExternalContentUri;
-                            }
-
-                            // Get where clause with real document id.
-                            String whereClause = MediaStore.Images.Media.InterfaceConsts.Id + " = " + realDocId;
-
-                            ret = getImageRealPath(ContentResolver, mediaContentUri, whereClause);
-                        }
-
-                    }
-                    else if (isDownloadDoc(uriAuthority))
-                    {
-                        // Build download uri.
-                        Uri downloadUri = Uri.Parse("content://downloads/public_downloads");
-
-                        // Append download document id at uri end.
-                        Uri downloadUriAppendId = ContentUris.WithAppendedId(downloadUri, long.Parse(documentId));
-
-                        ret = getImageRealPath(ContentResolver, downloadUriAppendId, null);
-
-                    }
-                    else if (isExternalStoreDoc(uriAuthority))
-                    {
-                        String[] idArr = documentId.Split(':');
-                        if (idArr.Length == 2)
-                        {
-                            String type = idArr[0];
-                            String realDocId = idArr[1];
-
-                            if ("primary".Equals(type,StringComparison.OrdinalIgnoreCase))
-                            {
-                                ret = Android.OS.Environment.ExternalStorageDirectory + "/" + realDocId;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return ret;
-        }
-
-        /* Check whether current android os version is bigger than kitkat or not. */
-        private bool isAboveKitKat()
-        {
-            bool ret = false;
-            ret = Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat;
-            return ret;
-        }
-
-        /* Check whether this uri represent a document or not. */
-        private bool isDocumentUri(Context ctx, Uri uri)
-        {
-            bool ret = false;
-            if (ctx != null && uri != null)
-            {
-                ret = DocumentsContract.IsDocumentUri(ctx, uri);
-            }
-            return ret;
-        }
-
-        /* Check whether this uri is a content uri or not.
-        *  content uri like content://media/external/images/media/1302716
-        *  */
-        private bool isContentUri(Uri uri)
-        {
-            bool ret = false;
-            if (uri != null)
-            {
-                String uriSchema = uri.Scheme;
-                if ("content".Equals(uriSchema, StringComparison.OrdinalIgnoreCase))
-                {
-                    ret = true;
-                }
-            }
-            return ret;
-        }
-
-        // Check whether this uri is a file uri or not.
-     
-        private bool isFileUri(Uri uri)
-        {
-            bool ret = false;
-            if (uri != null)
-            {
-                String uriSchema = uri.Scheme;
-                if ("file".Equals(uriSchema,StringComparison.OrdinalIgnoreCase))
-                {
-                    ret = true;
-                }
-            }
-            return ret;
-        }
-
-        /* Check whether this document is provided by ExternalStorageProvider. */
-        private bool isExternalStoreDoc(String uriAuthority)
-        {
-            bool ret = false;
-
-            if ("com.android.externalstorage.documents".Equals(uriAuthority))
-            {
-                ret = true;
-            }
-
-            return ret;
-        }
-
-        /* Check whether this document is provided by DownloadsProvider. */
-        private bool isDownloadDoc(String uriAuthority)
-        {
-            bool ret = false;
-
-            if ("com.android.providers.downloads.documents".Equals(uriAuthority))
-            {
-                ret = true;
-            }
-
-            return ret;
-        }
-
-        /* Check whether this document is provided by MediaProvider. */
-        private bool isMediaDoc(String uriAuthority)
-        {
-            bool ret = false;
-
-            if ("com.android.providers.media.documents".Equals(uriAuthority))
-            {
-                ret = true;
-            }
-
-            return ret;
-        }
-
-        /* Check whether this document is provided by google photos. */
-        private bool isGooglePhotoDoc(String uriAuthority)
-        {
-            bool ret = false;
-
-            if ("com.google.android.apps.photos.content".Equals(uriAuthority))
-            {
-                ret = true;
-            }
-
-            return ret;
-        }
-
-        /* Return uri represented document file real local path.*/
-        private String getImageRealPath(ContentResolver contentResolver, Uri uri, String whereClause)
-        {
-            String ret = "";
-
-            // Query the uri with condition.
-            ICursor cursor = contentResolver.Query(uri, null, whereClause, null, null);
-
-            if (cursor != null)
-            {
-                bool moveToFirst = cursor.MoveToFirst();
-                if (moveToFirst)
-                {
-
-                    // Get columns name by uri type.
-                    String columnName = MediaStore.Images.Media.InterfaceConsts.Data;
-
-                    if (uri == MediaStore.Images.Media.ExternalContentUri)
-                    {
-                        columnName = MediaStore.Images.Media.InterfaceConsts.Data;
-                    }
-                    else if (uri == MediaStore.Audio.Media.ExternalContentUri)
-                    {
-                        columnName = MediaStore.Audio.Media.InterfaceConsts.Data;
-                    }
-                    else if (uri == MediaStore.Video.Media.ExternalContentUri)
-                    {
-                        columnName = MediaStore.Video.Media.InterfaceConsts.Data;
-                    }
-
-                    // Get column index.
-                    int imageColumnIndex = cursor.GetColumnIndex(columnName);
-
-                    // Get column value which is the uri related file local path.
-                    if (imageColumnIndex < 0) imageColumnIndex = 0;
-                    ret = cursor.GetString(imageColumnIndex);
-                }
-            }
-
-            return ret;
         }
     }
 }
