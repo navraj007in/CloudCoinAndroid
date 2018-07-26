@@ -31,7 +31,7 @@ namespace CloudCoin
                     return coins.cc;
                 }
             }
-            catch(Exception)
+            catch(Exception e)
             {
                 return null;
             }
@@ -62,10 +62,11 @@ namespace CloudCoin
                     }//end while true
                 }//end using
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 // Let the user know what went wrong.
                 Console.WriteLine("The file " + jsonfile + " could not be read:");
+                Console.WriteLine(e.Message);
             }
             return jsonData;
         }//end importJSON
@@ -232,7 +233,7 @@ namespace CloudCoin
         public static string GetRealPathFromURI_API19(Context context, Uri uri)
         {
 
-            bool isKitKat = Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat;
+            bool isKitKat = Build.VERSION.SdkInt >= Build.VERSION_CODES.Kitkat;
 
             // DocumentProvider
             if (isKitKat && DocumentsContract.IsDocumentUri(context, uri))

@@ -79,6 +79,7 @@
     <Compile Include="Models\CoinUtils.cs" />
     <Compile Include="Models\Config.cs" />
     <Compile Include="Models\DetectEventArgs.cs" />
+    <Compile Include="Models\EchoResponse.cs" />
     <Compile Include="Models\Exporter.cs" />
     <Compile Include="Models\FileSystem.cs" />
     <Compile Include="Models\FixitHelper.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Resources\Resource.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="directory.json" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />

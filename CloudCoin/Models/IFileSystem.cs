@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Linq;
 using System.Diagnostics;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System.Reflection;
 using SkiaSharp;
-using QRCoder;
-
-using System.Drawing;
-using ZXing;
 
 namespace CloudCoin
 {
@@ -36,126 +31,13 @@ namespace CloudCoin
         public string RequestsFolder { get; set; }
         public string DangerousFolder { get; set; }
         public string LogsFolder { get; set; }
-        public string QRFolder { get; set; }
-        public string BarCodeFolder { get; set; }
-        public string CSVFolder { get; set; }
-
         //public abstract IFileSystem(string path);
-
-        public static IEnumerable<CloudCoin> importCoins;
-        public static IEnumerable<CloudCoin> exportCoins;
-        public static IEnumerable<CloudCoin> importedCoins;
-        public static IEnumerable<FileInfo> templateFiles;
-        public static IEnumerable<CloudCoin> languageCoins;
-        public static IEnumerable<CloudCoin> counterfeitCoins;
-        public static IEnumerable<CloudCoin> partialCoins;
-        public static IEnumerable<CloudCoin> frackedCoins;
-        public static IEnumerable<CloudCoin> detectedCoins;
-        public static IEnumerable<CloudCoin> suspectCoins;
-        public static IEnumerable<CloudCoin> trashCoins;
-        public static IEnumerable<CloudCoin> bankCoins;
-        public static IEnumerable<CloudCoin> lostCoins;
-        public static IEnumerable<CloudCoin> predetectCoins;
-        public static IEnumerable<CloudCoin> dangerousCoins;
 
         public abstract bool CreateFolderStructure();
 
         public abstract void LoadFileSystem();
 
         public abstract void ClearCoins(string FolderName);
-
-        public List<CloudCoin> LoadCoinsByFormat(string folder, Formats format)
-        {
-            List<CloudCoin> folderCoins = new List<CloudCoin>();
-
-            if (format == Formats.BarCode)
-            {
-                string[] allowedExtensions = { "jpg" };
-                var files = Directory
-               .GetFiles(folder)
-               .Where(file => allowedExtensions.Any(file.ToLower().EndsWith))
-               .ToList();
-
-                string[] fnames = new string[files.Count()];
-                for (int i = 0; i < files.Count(); i++)
-                {
-                    fnames[i] = Path.GetFileName(files.ElementAt(i));
-                    string ext = Path.GetExtension(files.ElementAt(i));
-
-                    try
-                    {
-                        var coin = ReadBARCode(files[i]);
-                        folderCoins.Add(coin);
-                    }
-                    catch (Exception e)
-                    {
-
-                    }
-                }
-            }
-
-            if (format == Formats.QRCode)
-            {
-                string[] allowedExtensions = { "jpg" };
-
-                var files = Directory
-               .GetFiles(folder)
-               .Where(file => allowedExtensions.Any(file.ToLower().EndsWith))
-               .ToList();
-
-                string[] fnames = new string[files.Count()];
-                for (int i = 0; i < files.Count(); i++)
-                {
-                    fnames[i] = Path.GetFileName(files.ElementAt(i));
-                    string ext = Path.GetExtension(files.ElementAt(i));
-
-                    try
-                    {
-                        var coin = ReadQRCode(files[i]);
-                        folderCoins.Add(coin);
-                    }
-                    catch (Exception e)
-                    {
-
-                    }
-                }
-            }
-            if (format == Formats.CSV)
-            {
-                string[] allowedExtensions = { "csv" };
-
-                var files = Directory
-               .GetFiles(folder)
-               .Where(file => allowedExtensions.Any(file.ToLower().EndsWith))
-               .ToList();
-
-                string[] fnames = new string[files.Count()];
-                for (int i = 0; i < files.Count(); i++)
-                {
-                    fnames[i] = Path.GetFileName(files.ElementAt(i));
-                    string ext = Path.GetExtension(files.ElementAt(i));
-
-                    try
-                    {
-                        var coin = ReadCSVCoins(files[i]);
-                        coin.RemoveAll(item => item == null);
-                        folderCoins.AddRange(coin);
-                    }
-                    catch (Exception e)
-                    {
-
-                    }
-                }
-            }
-            return folderCoins;
-        }
-
-        public List<CloudCoin> LoadFolderBarCodes(string folder)
-        {
-            List<CloudCoin> folderCoins = new List<CloudCoin>();
-
-            return folderCoins;
-        }
 
         public List<CloudCoin> LoadFolderCoins(string folder)
         {
@@ -210,64 +92,6 @@ namespace CloudCoin
             return folderCoins;
         }
 
-        private CloudCoin ReadQRCode(String fileName)//Read a CloudCoin from QR Code 
-        {
-            CloudCoin coin = new CloudCoin();
-
-            //try
-            //{
-            //    Bitmap bitmap = new Bitmap(fileName);
-            //    BarcodeReader reader = new BarcodeReader { AutoRotate = true, TryInverted = true };
-            //    Result result = reader.Decode(bitmap);
-            //    string decoded = result.ToString().Trim();
-
-            //    CloudCoin cloudCoin = JsonConvert.DeserializeObject<CloudCoin>(decoded);
-            //    return cloudCoin;
-            //}
-            //catch (Exception)
-            //{
-            //    return null;
-            //}
-
-            return coin;
-        }
-
-        private CloudCoin ReadBARCode(String fileName)//Read a CloudCoin from BAR Code . 
-        {
-            CloudCoin coin = new CloudCoin();
-
-            return coin;
-            //try
-            //{
-            //    var barcodeReader = new BarcodeReader();
-            //    Bitmap bitmap = new Bitmap(fileName);
-
-            //    var barcodeResult = barcodeReader.Decode(bitmap);
-            //    string decoded = barcodeResult.ToString().Trim();
-
-            //    CloudCoin cloudCoin = JsonConvert.DeserializeObject<CloudCoin>(decoded);
-            //    return cloudCoin;
-            //}
-            //catch (Exception)
-            //{
-            //    return null;
-            //}
-        }
-
-        private List<CloudCoin> ReadCSVCoins(String fileName)//Read a CloudCoin from CSV . 
-        {
-            List<CloudCoin> cloudCoins = new List<CloudCoin>();
-            var lines = File.ReadAllLines(fileName);
-            //var lines = File.ReadAllLines(fileName).Select(a => a.Split(','));
-
-            CloudCoin coin = new CloudCoin();
-
-            foreach (var line in lines)
-            {
-                cloudCoins.Add(CloudCoin.FromCSV(line));
-            }
-            return cloudCoins;
-        }
         private CloudCoin importJPEG(String fileName)//Move one jpeg to suspect folder. 
         {
             // bool isSuccessful = false;
@@ -388,7 +212,7 @@ namespace CloudCoin
             CloudCoin returnCC = new CloudCoin();
 
             //Load file as JSON
-            String incomeJson = this.importJSON(loadFilePath);
+            String incomeJson = Utils.importJSON(loadFilePath);
             //STRIP UNESSARY test
             int secondCurlyBracket = ordinalIndexOf(incomeJson, "{", 2) - 1;
             int firstCloseCurlyBracket = ordinalIndexOf(incomeJson, "}", 0) - secondCurlyBracket;
@@ -439,40 +263,6 @@ namespace CloudCoin
             }
         }
 
-        public String importJSON(String jsonfile)
-        {
-            String jsonData = "";
-            String line;
-
-            try
-            {
-                // Create an instance of StreamReader to read from a file.
-                // The using statement also closes the StreamReader.
-
-                using (var sr = File.OpenText(jsonfile))
-                {
-                    // Read and display lines from the file until the end of 
-                    // the file is reached.
-                    while (true)
-                    {
-                        line = sr.ReadLine();
-                        if (line == null)
-                        {
-                            break;
-                        }//End if line is null
-                        jsonData = (jsonData + line + "\n");
-                    }//end while true
-                }//end using
-            }
-            catch (Exception e)
-            {
-                // Let the user know what went wrong.
-                Console.WriteLine("The file " + jsonfile + " could not be read:");
-                Console.WriteLine(e.Message);
-            }
-            return jsonData;
-        }//end importJSON
-
         // en d json test
         public String setJSON(CloudCoin cc)
         {
@@ -517,215 +307,7 @@ namespace CloudCoin
         // end get JSON
 
         public abstract void MoveImportedFiles();
-        public void RemoveCoins(IEnumerable<CloudCoin> coins, string folder)
-        {
 
-            foreach (var coin in coins)
-            {
-                File.Delete(folder + (coin.FileName) + ".stack");
-
-            }
-        }
-
-        public void RemoveCoins(IEnumerable<CloudCoin> coins, string folder, string extension)
-        {
-
-            foreach (var coin in coins)
-            {
-                File.Delete(folder + (coin.FileName) + extension);
-
-            }
-        }
-
-        public void MoveCoins(IEnumerable<CloudCoin> coins, string sourceFolder, string targetFolder, bool replaceCoins = false)
-        {
-            var folderCoins = LoadFolderCoins(targetFolder);
-
-            foreach (var coin in coins)
-            {
-                string fileName = (coin.FileName);
-                int coinExists = (from x in folderCoins
-                                  where x.sn == coin.sn
-                                  select x).Count();
-                if (coinExists > 0 && !replaceCoins)
-                {
-                    string suffix = Utils.RandomString(16);
-                    fileName += suffix.ToLower();
-                }
-                try
-                {
-                    JsonSerializer serializer = new JsonSerializer();
-                    serializer.Converters.Add(new JavaScriptDateTimeConverter());
-                    serializer.NullValueHandling = NullValueHandling.Ignore;
-                    Stack stack = new Stack(coin);
-                    using (StreamWriter sw = new StreamWriter(targetFolder + fileName + ".stack"))
-                    using (JsonWriter writer = new JsonTextWriter(sw))
-                    {
-                        serializer.Serialize(writer, stack);
-                    }
-                    File.Delete(sourceFolder + (coin.FileName) + ".stack");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-
-
-            }
-        }
-
-        public void MoveCoins(IEnumerable<CloudCoin> coins, string sourceFolder, string targetFolder, string extension, bool replaceCoins = false)
-        {
-            var folderCoins = LoadFolderCoins(targetFolder);
-
-            foreach (var coin in coins)
-            {
-                string fileName = (coin.FileName);
-                int coinExists = (from x in folderCoins
-                                  where x.sn == coin.sn
-                                  select x).Count();
-                if (coinExists > 0 && !replaceCoins)
-                {
-                    string suffix = Utils.RandomString(16);
-                    fileName += suffix.ToLower();
-                }
-                try
-                {
-                    JsonSerializer serializer = new JsonSerializer();
-                    serializer.Converters.Add(new JavaScriptDateTimeConverter());
-                    serializer.NullValueHandling = NullValueHandling.Ignore;
-                    Stack stack = new Stack(coin);
-                    using (StreamWriter sw = new StreamWriter(targetFolder + fileName + extension))
-                    using (JsonWriter writer = new JsonTextWriter(sw))
-                    {
-                        serializer.Serialize(writer, stack);
-                    }
-                    File.Delete(sourceFolder + (coin.FileName) + extension);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-
-
-            }
-        }
-
-        public void WriteCoinsToFile(IEnumerable<CloudCoin> coins, string fileName, string extension = ".stack")
-        {
-            JsonSerializer serializer = new JsonSerializer();
-            serializer.Converters.Add(new JavaScriptDateTimeConverter());
-            serializer.NullValueHandling = NullValueHandling.Ignore;
-            Stack stack = new Stack(coins.ToArray());
-            using (StreamWriter sw = new StreamWriter(fileName + extension))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, stack);
-            }
-        }
-
-        public void WriteCoin(CloudCoin coin, string folder)
-        {
-            var folderCoins = LoadFolderCoins(folder);
-            string fileName = (coin.FileName);
-            int coinExists = (from x in folderCoins
-                              where x.sn == coin.sn
-                              select x).Count();
-            if (coinExists > 0)
-            {
-                string suffix = Utils.RandomString(16);
-                fileName += suffix.ToLower();
-            }
-            JsonSerializer serializer = new JsonSerializer();
-            serializer.Converters.Add(new JavaScriptDateTimeConverter());
-            serializer.NullValueHandling = NullValueHandling.Ignore;
-            Stack stack = new Stack(coin);
-            using (StreamWriter sw = new StreamWriter(folder + Path.DirectorySeparatorChar + fileName + ".stack"))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, stack);
-            }
-        }
-
-        public void WriteCoinToFile(CloudCoin coin, string filename)
-        {
-
-
-            JsonSerializer serializer = new JsonSerializer();
-            serializer.Converters.Add(new JavaScriptDateTimeConverter());
-            serializer.NullValueHandling = NullValueHandling.Ignore;
-            Stack stack = new Stack(coin);
-            using (StreamWriter sw = new StreamWriter(filename))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, stack);
-            }
-        }
-
-        public void WriteCoin(IEnumerable<CloudCoin> coins, string folder, bool replaceExisting = true, bool writeAll = false)
-        {
-            if (writeAll)
-            {
-                string fileName = Utils.RandomString(16) + ".stack";
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Converters.Add(new JavaScriptDateTimeConverter());
-                serializer.NullValueHandling = NullValueHandling.Ignore;
-                Stack stack = new Stack(coins.ToArray());
-                using (StreamWriter sw = new StreamWriter(folder + fileName + ".stack"))
-                using (JsonWriter writer = new JsonTextWriter(sw))
-                {
-                    serializer.Serialize(writer, stack);
-                }
-                return;
-            }
-            var folderCoins = LoadFolderCoins(folder);
-
-            foreach (var coin in coins)
-            {
-                string fileName = coin.FileName;
-                int coinExists = (from x in folderCoins
-                                  where x.sn == coin.sn
-                                  select x).Count();
-                if (coinExists > 0 && replaceExisting)
-                {
-                    string suffix = Utils.RandomString(16);
-                    fileName += suffix.ToLower();
-                }
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Converters.Add(new JavaScriptDateTimeConverter());
-                serializer.NullValueHandling = NullValueHandling.Ignore;
-                Stack stack = new Stack(coin);
-                using (StreamWriter sw = new StreamWriter(folder + fileName + ".stack"))
-                using (JsonWriter writer = new JsonTextWriter(sw))
-                {
-                    serializer.Serialize(writer, stack);
-                }
-
-            }
-        }
-
-        public void WriteCoin(CloudCoin coin, string folder, string extension)
-        {
-            var folderCoins = LoadFolderCoins(folder);
-            string fileName = (coin.FileName);
-            int coinExists = (from x in folderCoins
-                              where x.sn == coin.sn
-                              select x).Count();
-            if (coinExists > 0)
-            {
-                string suffix = Utils.RandomString(16);
-                fileName += suffix.ToLower();
-            }
-            JsonSerializer serializer = new JsonSerializer();
-            serializer.Converters.Add(new JavaScriptDateTimeConverter());
-            serializer.NullValueHandling = NullValueHandling.Ignore;
-            Stack stack = new Stack(coin);
-            using (StreamWriter sw = new StreamWriter(folder + Path.DirectorySeparatorChar + fileName + extension))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, stack);
-            }
-        }
         public int ordinalIndexOf(String str, String substr, int n)
         {
             int pos = str.IndexOf(substr);
@@ -734,89 +316,6 @@ namespace CloudCoin
             return pos;
         }
 
-        public bool writeQrCode(CloudCoin cc, string tag)
-        {
-            string fileName = ExportFolder + cc.FileName + "qr." + tag + ".jpg";
-            cc.pan = null;
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            string json = JsonConvert.SerializeObject(cc);
-
-            try
-            {
-                json.Replace("\\", "");
-                QRCodeData qrCodeData = qrGenerator.CreateQrCode(cc.GetCSV(), QRCodeGenerator.ECCLevel.Q);
-                QRCode qrCode = new QRCode(qrCodeData);
-                System.Drawing.Bitmap qrCodeImage = qrCode.GetGraphic(20);
-
-                qrCodeImage.Save(fileName);
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return false;
-            }
-        }
-
-
-        public bool writeBarCode(CloudCoin cc, string tag)
-        {
-            //string fileName = ExportFolder + cc.FileName + "barcode." + tag + ".jpg";
-            //cc.pan = null;
-            //QRCodeGenerator qrGenerator = new QRCodeGenerator();
-
-
-            //try
-            //{
-            //    string json = JsonConvert.SerializeObject(cc);
-            //    var barcode = new Barcode(json, Settings.Default);
-            //    barcode.Canvas.SaveBmp(fileName);
-
-            //    return true;
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e.Message);
-            //    return false;
-            //}
-            return true;
-        }
-
-        public abstract bool WriteCoinToJpeg(CloudCoin cloudCoin, string TemplateFile, string OutputFile, string tag);
-
-        public abstract bool WriteCoinToQRCode(CloudCoin cloudCoin, string OutputFile, string tag);
-
-        public abstract bool WriteCoinToBARCode(CloudCoin cloudCoin, string OutputFile, string tag);
-
-        public string GetCoinTemplate(CloudCoin cloudCoin)
-        {
-            int denomination = cloudCoin.denomination;
-            string TemplatePath = "";
-            switch (denomination)
-            {
-                case 1:
-                    TemplatePath = this.TemplateFolder + "jpeg1.jpg";
-                    break;
-                case 5:
-                    TemplatePath = this.TemplateFolder + "jpeg5.jpg";
-                    break;
-                case 25:
-                    TemplatePath = this.TemplateFolder + "jpeg25.jpg";
-                    break;
-                case 100:
-                    TemplatePath = this.TemplateFolder + "jpeg100.jpg";
-                    break;
-                case 250:
-                    TemplatePath = this.TemplateFolder + "jpeg250.jpg";
-                    break;
-
-                default:
-                    break;
-
-            }
-            return TemplatePath;
-        }
         public bool writeJpeg(CloudCoin cc, string tag)
         {
             // Console.Out.WriteLine("Writing jpeg " + cc.sn);
@@ -921,12 +420,12 @@ namespace CloudCoin
             return fileSavedSuccessfully;
         }//end write JPEG
 
-        public bool writeJpeg(CloudCoin cc, string tag, string filePath)
+        public bool writeJpeg(CloudCoin cc, string tag,string filePath)
         {
             // Console.Out.WriteLine("Writing jpeg " + cc.sn);
 
             //  CoinUtils cu = new CoinUtils(cc);
-            filePath = filePath.Replace("\\\\", "\\");
+            filePath = filePath.Replace("\\\\","\\");
             bool fileSavedSuccessfully = true;
 
             /* BUILD THE CLOUDCOIN STRING */
@@ -1012,14 +511,14 @@ namespace CloudCoin
                 tag = rInt.ToString();
             }
 
-            string fileName = ExportFolder + cc.FileName + ".jpg";
+            string fileName = ExportFolder + cc.FileName  + ".jpg";
             File.WriteAllBytes(fileName, b1.ToArray());
             Console.Out.WriteLine("Writing to " + fileName);
             //CoreLogger.Log("Writing to " + fileName);
             return fileSavedSuccessfully;
         }//end write JPEG
 
-        public bool writeJpeg(CloudCoin cc, string tag, string filePath, string targetPath)
+        public bool writeJpeg(CloudCoin cc, string tag, string filePath,string targetPath)
         {
             // Console.Out.WriteLine("Writing jpeg " + cc.sn);
 
@@ -1117,7 +616,7 @@ namespace CloudCoin
             return fileSavedSuccessfully;
         }//end write JPEG
 
-        public bool writeJpeg(CloudCoin cc, string tag, string filePath, string targetPath, string printMessage)
+        public bool writeJpeg(CloudCoin cc, string tag, string filePath, string targetPath,string printMessage)
         {
             // Console.Out.WriteLine("Writing jpeg " + cc.sn);
 
@@ -1379,6 +878,216 @@ namespace CloudCoin
             }
             return bytes;
         }//End hex string to byte array
+
+        public void RemoveCoins(IEnumerable<CloudCoin> coins, string folder)
+        {
+
+            foreach (var coin in coins)
+            {
+                File.Delete(folder + (coin.FileName) + ".stack");
+
+            }
+        }
+
+        public void RemoveCoins(IEnumerable<CloudCoin> coins, string folder, string extension)
+        {
+
+            foreach (var coin in coins)
+            {
+                File.Delete(folder + (coin.FileName) + extension);
+
+            }
+        }
+
+        public void MoveCoins(IEnumerable<CloudCoin> coins, string sourceFolder, string targetFolder, bool replaceCoins = false)
+        {
+            var folderCoins = LoadFolderCoins(targetFolder);
+
+            foreach (var coin in coins)
+            {
+                string fileName = (coin.FileName);
+                int coinExists = (from x in folderCoins
+                                  where x.sn == coin.sn
+                                  select x).Count();
+                if (coinExists > 0 && !replaceCoins)
+                {
+                    string suffix = Utils.RandomString(16);
+                    fileName += suffix.ToLower();
+                }
+                try
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Converters.Add(new JavaScriptDateTimeConverter());
+                    serializer.NullValueHandling = NullValueHandling.Ignore;
+                    Stack stack = new Stack(coin);
+                    using (StreamWriter sw = new StreamWriter(targetFolder + fileName + ".stack"))
+                    using (JsonWriter writer = new JsonTextWriter(sw))
+                    {
+                        serializer.Serialize(writer, stack);
+                    }
+                    File.Delete(sourceFolder + (coin.FileName) + ".stack");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+
+            }
+        }
+
+        public void MoveCoins(IEnumerable<CloudCoin> coins, string sourceFolder, string targetFolder, string extension, bool replaceCoins = false)
+        {
+            var folderCoins = LoadFolderCoins(targetFolder);
+
+            foreach (var coin in coins)
+            {
+                string fileName = (coin.FileName);
+                int coinExists = (from x in folderCoins
+                                  where x.sn == coin.sn
+                                  select x).Count();
+                if (coinExists > 0 && !replaceCoins)
+                {
+                    string suffix = Utils.RandomString(16);
+                    fileName += suffix.ToLower();
+                }
+                try
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Converters.Add(new JavaScriptDateTimeConverter());
+                    serializer.NullValueHandling = NullValueHandling.Ignore;
+                    Stack stack = new Stack(coin);
+                    using (StreamWriter sw = new StreamWriter(targetFolder + fileName + extension))
+                    using (JsonWriter writer = new JsonTextWriter(sw))
+                    {
+                        serializer.Serialize(writer, stack);
+                    }
+                    File.Delete(sourceFolder + (coin.FileName) + extension);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+
+            }
+        }
+
+        public void WriteCoin(CloudCoin coin, string folder)
+        {
+            var folderCoins = LoadFolderCoins(folder);
+            string fileName = (coin.FileName);
+            int coinExists = (from x in folderCoins
+                              where x.sn == coin.sn
+                              select x).Count();
+            if (coinExists > 0)
+            {
+                string suffix = Utils.RandomString(16);
+                fileName += suffix.ToLower();
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Converters.Add(new JavaScriptDateTimeConverter());
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+            Stack stack = new Stack(coin);
+            using (StreamWriter sw = new StreamWriter(folder + Path.DirectorySeparatorChar + fileName + ".stack"))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, stack);
+            }
+        }
+
+        public void WriteCoinToFile(CloudCoin coin, string filename)
+        {
+
+
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Converters.Add(new JavaScriptDateTimeConverter());
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+            Stack stack = new Stack(coin);
+            using (StreamWriter sw = new StreamWriter(filename))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, stack);
+            }
+        }
+
+        public void WriteCoin(IEnumerable<CloudCoin> coins, string folder, bool replaceExisting = true, bool writeAll = false)
+        {
+            if (writeAll)
+            {
+                string fileName = Utils.RandomString(16) + ".stack";
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Converters.Add(new JavaScriptDateTimeConverter());
+                serializer.NullValueHandling = NullValueHandling.Ignore;
+                Stack stack = new Stack(coins.ToArray());
+                using (StreamWriter sw = new StreamWriter(folder + fileName + ".stack"))
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {
+                    serializer.Serialize(writer, stack);
+                }
+                return;
+            }
+            var folderCoins = LoadFolderCoins(folder);
+
+            foreach (var coin in coins)
+            {
+                string fileName = coin.FileName;
+                int coinExists = (from x in folderCoins
+                                  where x.sn == coin.sn
+                                  select x).Count();
+                if (coinExists > 0 && replaceExisting)
+                {
+                    string suffix = Utils.RandomString(16);
+                    fileName += suffix.ToLower();
+                }
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Converters.Add(new JavaScriptDateTimeConverter());
+                serializer.NullValueHandling = NullValueHandling.Ignore;
+                Stack stack = new Stack(coin);
+                using (StreamWriter sw = new StreamWriter(folder + fileName + ".stack"))
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {
+                    serializer.Serialize(writer, stack);
+                }
+
+            }
+        }
+
+        public void WriteCoin(CloudCoin coin, string folder, string extension)
+        {
+            var folderCoins = LoadFolderCoins(folder);
+            string fileName = (coin.FileName);
+            int coinExists = (from x in folderCoins
+                              where x.sn == coin.sn
+                              select x).Count();
+            if (coinExists > 0)
+            {
+                string suffix = Utils.RandomString(16);
+                fileName += suffix.ToLower();
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Converters.Add(new JavaScriptDateTimeConverter());
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+            Stack stack = new Stack(coin);
+            using (StreamWriter sw = new StreamWriter(folder + Path.DirectorySeparatorChar + fileName + extension))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, stack);
+            }
+        }
+
+        public void WriteCoinsToFile(IEnumerable<CloudCoin> coins, string fileName, string extension = ".stack")
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Converters.Add(new JavaScriptDateTimeConverter());
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+            Stack stack = new Stack(coins.ToArray());
+            using (StreamWriter sw = new StreamWriter(fileName + extension))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, stack);
+            }
+        }
 
 
 
