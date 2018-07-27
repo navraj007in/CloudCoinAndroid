@@ -31,7 +31,7 @@ namespace CloudCoin
                     return coins.cc;
                 }
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return null;
             }
@@ -142,9 +142,9 @@ namespace CloudCoin
                     //Debug.WriteLine(data);
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return ex.Message;
+                return e.Message;
             }
             return data;
         }//end get HTML
@@ -233,7 +233,7 @@ namespace CloudCoin
         public static string GetRealPathFromURI_API19(Context context, Uri uri)
         {
 
-            bool isKitKat = Build.VERSION.SdkInt >= Build.VERSION_CODES.Kitkat;
+            bool isKitKat = Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat;
 
             // DocumentProvider
             if (isKitKat && DocumentsContract.IsDocumentUri(context, uri))

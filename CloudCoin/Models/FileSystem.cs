@@ -431,7 +431,7 @@ namespace CloudCoin
                 OurStream.Write(text);
                 OurStream.Close();
             }
-            catch(Exception e)
+            catch(Exception)
             {
                // MainWindow.logger.Error(e.Message);
                 return false;

@@ -360,9 +360,9 @@ namespace CloudCoin
 
                         return;
                     }
-                    catch (Java.Lang.NoSuchFieldException e) { }
-                    catch (Java.Lang.IllegalAccessException e) { }
-                    catch (Java.Lang.IllegalArgumentException e) { }
+                    catch (Java.Lang.NoSuchFieldException) { }
+                    catch (Java.Lang.IllegalAccessException) { }
+                    catch (Java.Lang.IllegalArgumentException) { }
                 }
             }
 
@@ -380,7 +380,6 @@ namespace CloudCoin
         private LinearLayout linearLayoutExport;
 
         public static string version = "";
-        private ISharedPreferences mSettings;
         public static readonly int PickImageId = 1000;
         private CoinDialog dialog = null;
         private ImportState importState;
@@ -546,7 +545,7 @@ namespace CloudCoin
             {
                 version = PackageManager.GetPackageInfo(PackageName, 0).VersionName;
             }
-            catch (PackageManager.NameNotFoundException e)
+            catch (PackageManager.NameNotFoundException)
             {
                 version = "";
             }
@@ -602,7 +601,7 @@ namespace CloudCoin
                     networks.Add(RAIDA.GetInstance(network));
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Exception raidaException = new Exception("RAIDA instantiation failed. No Directory found on server or local path");
                 throw raidaException;
@@ -760,7 +759,7 @@ namespace CloudCoin
 
                     try {
                         dialog.Show();
-                    } catch (Exception e) {
+                    } catch (Exception) {
                         Log.Verbose("CLOUDCOIN", "Activity is gone. No result will be shown");
                     }
                     break;

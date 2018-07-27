@@ -68,7 +68,7 @@ namespace CloudCoin
                         var coin = importJPEG(files[i]);
                         folderCoins.Add(coin);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
 
                     }
