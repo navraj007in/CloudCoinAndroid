@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace CloudCoin
+namespace CloudCoinCore
 {
     [Flags]
     public enum LogLevel

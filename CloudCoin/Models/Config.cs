@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CloudCoin
+namespace CloudCoinCore
 {
     public class Config
     {
@@ -40,5 +40,12 @@ namespace CloudCoin
         public static string URL_GET_TICKET = "get_ticket?nn={0}&sn={1}&an={2}&pan={3}&denomination={4}";
         public static string URL_GET_IMAGE = "https://raida.tech/get_template.php?nn={0}&sn={1}&fromserver1={2}&message1={3}";
 
+    }
+
+    public enum Formats
+    {
+        QRCode,
+        BarCode,
+        CSV
     }
 }

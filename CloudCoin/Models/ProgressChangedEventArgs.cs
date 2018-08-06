@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CloudCoin
+namespace CloudCoinCore
 {
     public class ProgressChangedEventArgs : EventArgs
     {
@@ -13,4 +13,31 @@ namespace CloudCoin
 
         }
     }
+
+    public class ProgressEventArgs : EventArgs
+    {
+        public string Status { get; private set; }
+        public int percentage { get; private set; }
+        public ProgressEventArgs(string status, int percentage = 0)
+        {
+            Status = status;
+            this.percentage = percentage;
+        }
+
+
+    }
+
+    public enum ImportStage { Echo, Detect };
+
+    public class ProgressReport
+    {
+        public ImportStage Stage;
+        //current progress
+        public double CurrentProgressAmount { get; set; }
+        //total progress
+        public int TotalProgressAmount { get; set; }
+        //some message to pass to the UI of current progress
+        public string CurrentProgressMessage { get; set; }
+    }
+
 }

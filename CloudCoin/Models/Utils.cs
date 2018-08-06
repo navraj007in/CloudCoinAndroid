@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Net.Http.Headers;
 
 using Android.Content;
 using Android.Database;
@@ -15,8 +16,9 @@ using Android.Provider;
 
 using Uri = Android.Net.Uri;
 using Environment = Android.OS.Environment;
+using Xamarin.Android.Net;
 
-namespace CloudCoin
+namespace CloudCoinCore
 {
     public class Utils
     {
@@ -136,10 +138,14 @@ namespace CloudCoin
             {
                 using (var cli = new HttpClient())
                 {
-                    HttpResponseMessage response = await cli.GetAsync(urlAddress);
-                    if (response.IsSuccessStatusCode)
-                        data = await response.Content.ReadAsStringAsync();
+                    //cli.MaxResponseContentBufferSize = 256000;
+                    //cli.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    //var uri = new System.Uri(string.Format(urlAddress, string.Empty));
+                    //HttpResponseMessage response = await cli.GetAsync(uri).ConfigureAwait(false); 
+                    //if (response.IsSuccessStatusCode)
+                    //    data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                     //Debug.WriteLine(data);
+                    data = await cli.GetStringAsync(urlAddress);
                 }
             }
             catch (Exception e)

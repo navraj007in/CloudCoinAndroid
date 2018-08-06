@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CloudCoin;
+using CloudCoinCore;
 namespace CoreAPIs
 {
     public class EchoResponse

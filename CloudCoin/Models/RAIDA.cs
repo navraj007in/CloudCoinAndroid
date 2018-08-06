@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Linq;
+using CloudCoinCoreDirectory;
 
-namespace CloudCoin
+namespace CloudCoinCore
 {
     public class RAIDA
     {
@@ -15,6 +16,7 @@ namespace CloudCoin
 
         public int NetworkNumber = 1;
         public static RAIDA MainNetwork = null;
+        public static RAIDA ActiveRAIDA = null;
         public Node[] nodes = new Node[Config.NodeCount];
         public IFileSystem FS;
         public CloudCoin coin;
@@ -39,7 +41,7 @@ namespace CloudCoin
             this.network = network;
             for (int i = 0; i < nodes.Length; i++)
             {
-                nodes[i] = new Node(i + 1,network.raida[i]);
+                nodes[i] = new Node(i + 1, network.raida[i]);
             }
         }
 
@@ -62,13 +64,13 @@ namespace CloudCoin
             }
         }
 
-        public List<Func<Task>> GetEchoTasks()
+        public List<Task<Response>> GetEchoTasks(IProgress<ProgressReport> progress)
         {
-            var echoTasks = new List<Func<Task>> { };
+            var echoTasks = new List<Task<Response>> { };
 
             for (int i = 0; i < nodes.Length; i++)
             {
-                echoTasks.Add(nodes[i].Echo);
+                echoTasks.Add(nodes[i].Echo(progress));
             }
             return echoTasks;
         }
@@ -89,7 +91,7 @@ namespace CloudCoin
 
 
 
-        public List<Func<Task>> GetMultiDetectTasks(CloudCoin[] coins, int milliSecondsToTimeOut, bool changeANs = true)
+        public List<Task<Node.MultiDetectResponse>> GetMultiDetectTasks(IProgress<ProgressReport> progress, CloudCoin[] coins, int milliSecondsToTimeOut, bool changeANs = true)
         {
             this.coins = coins;
 
@@ -104,7 +106,7 @@ namespace CloudCoin
 
             int[] dens = new int[coins.Length];//Denominations
                                                //Stripe the coins
-            var detectTasks = new List<Func<Task>>
+            var detectTasks = new List<Task<Node.MultiDetectResponse>>
             {
 
             };
@@ -148,7 +150,7 @@ namespace CloudCoin
 
             for (int nodeNumber = 0; nodeNumber < Config.NodeCount; nodeNumber++)
             {
-                detectTasks.Add(nodes[nodeNumber].MultiDetect);
+                detectTasks.Add(nodes[nodeNumber].MultiDetect(progress));
             }
 
             return detectTasks;
@@ -180,7 +182,7 @@ namespace CloudCoin
             responseArray[raidaID] = await nodes[raidaID].GetTicket(nn, sn, an, d);
         }//end get ticket
         
-        public async Task DetectCoin(CloudCoin coin, int milliSecondsToTimeOut)
+        /*public async Task DetectCoin(CloudCoin coin, int milliSecondsToTimeOut)
         {
             //Task.WaitAll(coin.detectTaskList.ToArray(),Config.milliSecondsToTimeOut);
             //Get data from the detection agents
@@ -212,7 +214,7 @@ namespace CloudCoin
             DetectEventArgs de = new DetectEventArgs(coin);
             OnCoinDetected(de);
 
-        }//end detect coin
+        }//end detect coin*/
 
         public event EventHandler LoggerHandler;
 

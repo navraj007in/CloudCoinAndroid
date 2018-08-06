@@ -7,8 +7,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CoreAPIs;
+using CloudCoinCoreDirectory;
 
-namespace CloudCoin
+namespace CloudCoinCore
 {
     public enum NodeStatus
     {
@@ -117,10 +118,10 @@ namespace CloudCoin
             return get_ticketResponse.fullResponse;
         }//end get ticket
 
-        public async Task<Response> Echo()
+        public async Task<Response> Echo(IProgress<ProgressReport> progress)
         {
             Response echoResponse = new Response();
-            echoResponse.fullRequest = this.FullUrl + "echo?b=t";
+            echoResponse.fullRequest = this.FullUrl + "echo";
             DateTime before = DateTime.Now;
             FailsEcho = true;
             //RAIDA_Status.failsEcho[raidaID] = true;
@@ -132,7 +133,7 @@ namespace CloudCoin
                 {
                     echoresult = JsonConvert.DeserializeObject<NodeEchoResponse>(echoResponse.fullResponse);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
 
                 }
@@ -164,6 +165,7 @@ namespace CloudCoin
                     echoResponse.fullResponse = ex.InnerException.Message;
                 Debug.WriteLine("Error---" + ex.Message);
             }
+            progress.Report(new ProgressReport { Stage = ImportStage.Echo, CurrentProgressMessage = "Echo From Node - " + NodeNumber });
             DateTime after = DateTime.Now; TimeSpan ts = after.Subtract(before);
             echoResponse.milliseconds = Convert.ToInt32(ts.Milliseconds);
             EchoTime = Convert.ToInt32(ts.Milliseconds);
@@ -480,13 +482,13 @@ namespace CloudCoin
 
 
         //int[] nn, int[] sn, String[] an, String[] pan, int[] d, int timeout
-        public async Task<MultiDetectResponse> MultiDetect()
+        public async Task<MultiDetectResponse> MultiDetect(IProgress<ProgressReport> progress)
         {
             /*PREPARE REQUEST*/
             try
             {
 
-                var raida = RAIDA.GetInstance();
+                var raida = RAIDA.ActiveRAIDA;
                 int[] nn = raida.multiRequest.nn;
                 int[] sn = raida.multiRequest.sn;
                 String[] an = raida.multiRequest.an[NodeNumber - 1];
@@ -564,6 +566,7 @@ namespace CloudCoin
                             return MultiResponse;//END IF THE REQUEST GOT AN ERROR
 
                         }//end else 404 or 500
+                        progress.Report(new ProgressReport { Stage = ImportStage.Detect, CurrentProgressMessage = "RAIDA " + NodeNumber + " detected coins." });
 
                     }//end using
 

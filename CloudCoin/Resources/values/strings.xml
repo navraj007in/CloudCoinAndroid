@@ -55,7 +55,7 @@
   <string name="filespicked">Files Picked</string>
   <string name="toomanyfiles">Too many files</string>
   <string name="importfiles">We are going to import {0} file(s)</string>
-  <string name="acc">Total Authentic CloudCoins: </string>
+  <string name="acc">Total Coins in Bank:</string>
   <string name="close">Close</string>
   <string name="exportcoins">Export Coins</string>
   <string name="importcoins">Import Coins</string>
@@ -70,7 +70,11 @@
   <string name="selectfile">Select file</string>
   <string name="cancel">Cancel</string>
   <string name="awesome">Awesome</string>
-  <string name="tcimported">Total Coins moved to Bank</string>
+  <string name="banked">Coins Moved to Bank</string>
+  <string name="fracked">Fracked Coins</string>
+  <string name="failed">Failed Coins</string>
+  <string name="lost">Lost Coins</string>
+  <string name="suspect">Suspect Coins</string>
   <string name="fixing">We are fixing coins now. Please, try again later</string>
   <string name="fixstart">Starting to fix {0} CloudCoins</string>
   <string name="fixed">Fixed {0} of {1} CloudCoins</string>

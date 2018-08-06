@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
-namespace CloudCoin
+namespace CloudCoinCore
 {
     public class CloudCoin
     {
@@ -448,7 +448,7 @@ namespace CloudCoin
             pastPown = pown;
         }//end record pown
 
-        public void SortToFolder()
+        public void SortToFolder(IFileSystem FS)
         {
             //figures out which folder to put it in. 
             //pown = pown.Replace('d', 'e').Replace('n', 'e').Replace('u', 'e');
@@ -456,14 +456,14 @@ namespace CloudCoin
             //pown = pown.Replace('u', 'e');
             if (isPerfect())
             {
-                folder = folder = RAIDA.GetInstance().FS.BankFolder;
+                folder = FS.BankFolder;
                 //folder = Folder.Bank;
                 return;
             }//if is perfect
 
             if (isCounterfeit())
             {
-                folder = RAIDA.GetInstance().FS.CounterfeitFolder;
+                folder = FS.CounterfeitFolder;
                 //folder = Folder.Counterfeit;
                 return;
             }//if is counterfeit
@@ -475,7 +475,7 @@ namespace CloudCoin
             {
                 if (!isFracked())
                 {
-                    folder = RAIDA.GetInstance().FS.BankFolder;
+                    folder = FS.BankFolder;
                     return;
                 }
                 else
@@ -485,13 +485,13 @@ namespace CloudCoin
                         if (isFixable())
                         {
                             recordPown();
-                            folder = RAIDA.GetInstance().FS.DangerousFolder;
+                            folder = FS.DangerousFolder;
                             return;
 
                         }
                         else
                         {
-                            folder = RAIDA.GetInstance().FS.CounterfeitFolder;
+                            folder = FS.CounterfeitFolder;
                             return;
                         }
                     }
@@ -499,12 +499,12 @@ namespace CloudCoin
                     {
                         if (!isFixable())
                         {
-                            folder = RAIDA.GetInstance().FS.CounterfeitFolder;
+                            folder = FS.CounterfeitFolder;
                             return;
                         }
                         else
                         {
-                            folder = RAIDA.GetInstance().FS.FrackedFolder;
+                            folder = FS.FrackedFolder;
                             return;
                         }
                     }
@@ -514,18 +514,19 @@ namespace CloudCoin
             {
                 if (noResponses())
                 {
-                    folder = RAIDA.GetInstance().FS.LostFolder;
+                    folder = FS.LostFolder;
                     //folder = Folder.Lost;
                     return;
                 }//end no responses
                 else
                 {
-                    folder = RAIDA.GetInstance().FS.SuspectFolder;
+                    folder = FS.SuspectFolder;
                     //folder = Folder.Lost;
                     return;
                 }
             }
         }//end sort folder
+
         public bool noResponses()
         {
             //Does the coin have no-responses from the RIDA. This means the RAIDA may be using its PAN or AN

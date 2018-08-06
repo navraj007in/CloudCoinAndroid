@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using SkiaSharp;
 
-namespace CloudCoin
+namespace CloudCoinCore
 {
     public abstract class IFileSystem
     {
@@ -38,6 +38,8 @@ namespace CloudCoin
         public abstract void LoadFileSystem();
 
         public abstract void ClearCoins(string FolderName);
+
+        public abstract bool WriteCoinToJpeg(CloudCoin cloudCoin, string TemplateFile, string OutputFile, string tag);
 
         public List<CloudCoin> LoadFolderCoins(string folder)
         {
@@ -1089,9 +1091,34 @@ namespace CloudCoin
             }
         }
 
+        public string GetCoinTemplate(CloudCoin cloudCoin)
+        {
+            int denomination = cloudCoin.denomination;
+            string TemplatePath = "";
+            switch (denomination)
+            {
+                case 1:
+                    TemplatePath = this.TemplateFolder + "jpeg1.jpg";
+                    break;
+                case 5:
+                    TemplatePath = this.TemplateFolder + "jpeg5.jpg";
+                    break;
+                case 25:
+                    TemplatePath = this.TemplateFolder + "jpeg25.jpg";
+                    break;
+                case 100:
+                    TemplatePath = this.TemplateFolder + "jpeg100.jpg";
+                    break;
+                case 250:
+                    TemplatePath = this.TemplateFolder + "jpeg250.jpg";
+                    break;
 
+                default:
+                    break;
 
-
+            }
+            return TemplatePath;
+        }
 
     }
 }

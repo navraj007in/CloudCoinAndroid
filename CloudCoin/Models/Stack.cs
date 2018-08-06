@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace CloudCoin
+namespace CloudCoinCore
 {
     public class Stack
     {

@@ -2,16 +2,17 @@
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
-using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Xml.Serialization;
 using Newtonsoft.Json;
 
 using Android.App;
 using Android.Widget;
 using Android.OS;
-using Android.Support.V7.App;
+//using Android.Support.V7.App;
 using Android.Views;
 using Android.Content;
-using Android.Util;
 using Android.Preferences;
 using Android.Content.PM;
 using Android.Net;
@@ -23,11 +24,19 @@ using Environment = System.Environment;
 using Uri = Android.Net.Uri;
 using Android.Database;
 using Android.Provider;
-using Android.Support.V4.App;
-using Android.Support.V4.Content;
+//using Android.Support.V4.App;
+//using Android.Support.V4.Content;
 using Android;
 
-namespace CloudCoin
+using CloudCoinCore;
+using CloudCoinCoreDirectory;
+using Android.Util;
+
+using Config = CloudCoinCore.Config;
+using System.Net;
+using System.IO;
+
+namespace CloudCoinApp
 {
 
     class CoinDialog : Dialog
@@ -42,13 +51,11 @@ namespace CloudCoin
         public MainActivity owner;
         DialogType dlgType;
 
-        public bool isImportDialog;
-        public TextView subTv;
+        public int banked, fracked, failed, lost, suspect;
 
         public TextView[][] ids;
         public int[][] stats;
         public int size;
-        public int lastProgress;
 
         public NumberPicker[] nps;
         public TextView[] tvs;
@@ -56,7 +63,7 @@ namespace CloudCoin
         public EditText et;
         public TextView tvTotal, exportTv;
 
-        public Button button, emailButton;
+        //public Button button, emailButton;
 
         public CoinDialog(Activity activity) : base(activity)
         {
@@ -100,16 +107,12 @@ namespace CloudCoin
             };
         }
 
-    public void Init(DialogType dialogtype)
+        public void Init(DialogType dialogtype)
         {
             int i, resId;
             String idTxt;
             int[] bankCoins, frackedCoins;
             int lTotal;
-
-            size = Banker.denominations.Length;
-            nps = new NumberPicker[size];
-            tvs = new TextView[size];
 
             dlgType = dialogtype;
 
@@ -117,7 +120,12 @@ namespace CloudCoin
             {
                 case DialogType.Import:
                     break;
+
                 case DialogType.Export:
+                    size = Banker.denominations.Length;
+                    nps = new NumberPicker[size];
+                    tvs = new TextView[size];
+
                     for (i = 0; i < size; i++)
                     {
                         idTxt = "np" + Banker.denominations[i];
@@ -133,20 +141,33 @@ namespace CloudCoin
 
                     tvTotal = FindViewById<TextView>(Resource.Id.exptotal);
                     exportTv = FindViewById<TextView>(Resource.Id.exporttv);
+                    et = FindViewById<EditText>(Resource.Id.exporttag);
 
-                    bankCoins = owner.bank.countCoins(owner.bank.fileUtils.BankFolder);
-                    frackedCoins = owner.bank.countCoins(owner.bank.fileUtils.FrackedFolder);
+                    bankCoins = new int[size];
+                    bankCoins[0] = owner.onesCount;
+                    bankCoins[1] = owner.fivesCount;
+                    bankCoins[2] = owner.qtrCount;
+                    bankCoins[3] = owner.hundredsCount;
+                    bankCoins[4] = owner.twoFiftiesCount;
+
+                    frackedCoins = new int[size];
+                    frackedCoins[0] = owner.onesFrackedCount;
+                    frackedCoins[1] = owner.fivesFrackedCount;
+                    frackedCoins[2] = owner.qtrFrackedCount;
+                    frackedCoins[3] = owner.hundredsFrackedCount;
+                    frackedCoins[4] = owner.twoFrackedFiftiesCount;
 
                     int overall = 0;
                     for (i = 0; i < size; i++)
                     {
-                        lTotal = bankCoins[i + 1] + frackedCoins[i + 1];
+                        lTotal = bankCoins[i] + frackedCoins[i];
 
                         nps[i].MinValue = 0;
                         nps[i].MaxValue = lTotal;
                         nps[i].Value = 0;
                         nps[i].ValueChanged += delegate
                         {
+                            updateTotal();
                         };
                         nps[i].Tag = Banker.denominations[i];
                         nps[i].WrapSelectorWheel = false;
@@ -163,20 +184,6 @@ namespace CloudCoin
                     TextView eNotice = FindViewById<TextView>(Resource.Id.en);
                     eNotice.Text = msg;
                     break;
-
-                case DialogType.Bank:
-                    size = Banker.denominations.Length + 1;
-                    ids = new TextView[3][];
-                    stats = new int[3][];
-
-                    allocId(IDX_BANK, "bs");
-                    allocId(IDX_COUNTERFEIT, "cs");
-                    allocId(IDX_FRACTURED, "fs");
-
-                    stats[IDX_BANK] = owner.bank.countCoins(owner.bank.fileUtils.BankFolder);
-                    stats[IDX_FRACTURED] = owner.bank.countCoins(owner.bank.fileUtils.FrackedFolder);
-
-                    break;
             }
 
         }
@@ -184,42 +191,17 @@ namespace CloudCoin
         public int getTotal()
         {
             int total = 0;
-            int j;
-            int tval;
 
-
-            switch(dlgType)
+            switch (dlgType)
             {
                 case DialogType.Export:
-                   for (int i = 0; i < size; i++)
+                    for (int i = 0; i < size; i++)
                     {
                         int denomination = Banker.denominations[i];
                         total += denomination * nps[i].Value;
                     }
                     break;
 
-                case DialogType.Bank:
-                    for (int i = 0; i < size; i++)
-                    {
-                        if (i == 0)
-                        {
-                            j = size - 1;
-                            tval = 0;
-                        }
-                        else
-                        {
-                            j = i - 1;
-                            tval = Banker.denominations[i - 1];
-                        }
-
-                        int authCount = stats[IDX_BANK][i] + stats[IDX_FRACTURED][i];
-
-                        total += tval * authCount;
-
-                        ids[IDX_BANK][j].Text = "" + authCount;
-                    }
-
-                    break;
             }
             return total;
         }
@@ -242,7 +224,7 @@ namespace CloudCoin
                 ids[idx][i] = FindViewById<TextView>(resId);
             }
         }
-        
+
         private void updateTotal()
         {
             if (exportTv == null) return;
@@ -370,8 +352,8 @@ namespace CloudCoin
 
     }
 
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
-    public class MainActivity : AppCompatActivity
+    [Activity(Label = "@string/app_name", MainLauncher = true)]
+    public class MainActivity : Activity
     {
         public enum ImportState { ImportInit, ImportIng, ImportDone }
 
@@ -389,15 +371,36 @@ namespace CloudCoin
 
         public Banker bank;
         public static RAIDA raida = RAIDA.GetInstance();
-
+        public static int NetworkNumber = 1;
 
         public int raidaReady = 0, raidaNotReady = 0;
         private bool asyncFinished = true;
         private int lastProgress;
+        private TextView titleText;
         private ProgressBar importBar;
         private TextView importText;
         private bool isImportSuspect = false;
         private bool isImportDialog;
+
+        #region Total Variables
+        public int onesCount = 0;
+        public int fivesCount = 0;
+        public int qtrCount = 0;
+        public int hundredsCount = 0;
+        public int twoFiftiesCount = 0;
+
+        public int onesFrackedCount = 0;
+        public int fivesFrackedCount = 0;
+        public int qtrFrackedCount = 0;
+        public int hundredsFrackedCount = 0;
+        public int twoFrackedFiftiesCount = 0;
+
+        public int onesTotalCount = 0;
+        public int fivesTotalCount = 0;
+        public int qtrTotalCount = 0;
+        public int hundredsTotalCount = 0;
+        public int twoFiftiesTotalCount = 0;
+        #endregion
 
         public event EventHandler ProgressChanged;
 
@@ -408,25 +411,24 @@ namespace CloudCoin
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
-            ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage }, 100);
-
             Init();
         }
 
 
-        public async static Task EchoTask()
+        public async Task EchoTask()
         {
             Console.Out.WriteLine(String.Format("Starting Echo to RAIDA Network {0}\n", 1));
             Console.Out.WriteLine("----------------------------------\n");
 
-            var echos = raida.GetEchoTasks();
-            await Task.WhenAll(echos.AsParallel().Select(async task => await task()));
+            var progressIndicator = new Progress<ProgressReport>(ReportProgress);
+            var echos = raida.GetEchoTasks(progressIndicator);
+            await Task.WhenAll(echos.AsParallel().Select(async task => await task));
 
             //MessageBox.Show("Finished Echo");
             Console.Out.WriteLine("Ready Count -" + raida.ReadyCount);
             Console.Out.WriteLine("Not Ready Count -" + raida.NotReadyCount);
 
-           for (int i = 0; i < raida.nodes.Count(); i++)
+            for (int i = 0; i < raida.nodes.Count(); i++)
             {
                 // Console.Out.WriteLine("Node " + i + " Status --" + raida.nodes[i].RAIDANodeStatus + "\n");
                 Console.Out.WriteLine("Node" + i + " Status --" + raida.nodes[i].RAIDANodeStatus);
@@ -441,7 +443,7 @@ namespace CloudCoin
             lastProgress = 0;
             ShowImportScreen();
 
-            if(isImportSuspect)
+            if (isImportSuspect)
             {
                 int i = 0;
                 foreach (CloudCoin coin in bank.fileUtils.suspectCoins)
@@ -465,24 +467,25 @@ namespace CloudCoin
             }
             else
             {
-                var detects = raida.GetMultiDetectTasks(bank.fileUtils.importCoins.ToArray(), 1000);
-                await Task.WhenAll(detects.AsParallel().Select(async task => await task()));
-
-                /*int i = 0;
-                foreach(CloudCoin coin in bank.fileUtils.importCoins)
+                titleText.Text = "RAIDA Echo";
+                importBar.Max = raida.nodes.Length;
+                importText.Text = "";
+                await EchoTask(); // get echos from raida
+                Toast.MakeText(this, "Raida ReadyCount = " + raida.ReadyCount.ToString(), ToastLength.Long).Show();
+                if (raida.ReadyCount == 0)
                 {
-                    List<Func<Task<Response>>> detects = raida.GetDetectTasks(coin);
-                    await Task.WhenAll(detects.AsParallel().Select(async task => await task()));
+                    dialog.Update(Resource.Layout.importdialog2);
+                    dialog.Show();
+                    return;
+                }
 
-                    // coin detect finished
-                    if (detects.Any(t => t().Result.success))
-                        bank.fileUtils.MoveCoins(new List<CloudCoin> { coin }, coin.folder, bank.fileUtils.BankFolder);
-
-
-                    i++;
-                    await Progress(i);
-
-                }*/
+                titleText.SetText(Resource.String.importcoins);
+                importText.Text = "";
+                importBar.Progress = 0;
+                importBar.Max = Config.NodeCount;
+                importBar.Invalidate();
+                isImportSuspect = false;
+                await ProcessCoins(true);
 
                 importState = ImportState.ImportDone;
                 dialog.Dismiss();
@@ -496,7 +499,7 @@ namespace CloudCoin
         {
             await Task.Run(() =>
             {
-                importText.Text = String.Format(Resources.GetString(Resource.String.authstring), 
+                importText.Text = String.Format(Resources.GetString(Resource.String.authstring),
                     i, bank.fileUtils.importCoins.Count());
 
                 importBar.Progress = i;
@@ -521,6 +524,7 @@ namespace CloudCoin
                     dialog.Show();
                     return;
                 }
+
 
                 files.Clear();
                 ShowImportScreen();
@@ -574,8 +578,8 @@ namespace CloudCoin
             {
                 try
                 {
+                    //client.Headers[HttpRequestHeader.ContentType] = "application/json";
                     nodesJson = client.DownloadString(Config.URL_DIRECTORY);
-
                 }
                 catch (Exception e)
                 {
@@ -591,6 +595,28 @@ namespace CloudCoin
                     }
                 }
             }
+            /*using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    nodesJson = await client.GetStringAsync(Config.URL_DIRECTORY);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    if (System.IO.File.Exists("directory.json"))
+                    {
+                        nodesJson = System.IO.File.ReadAllText(Environment.CurrentDirectory + @"\directory.json");
+                    }
+                    else
+                    {
+                        Toast.MakeText(this, "RAIDA instantiation failed. No Directory found on server or local path", ToastLength.Long).Show();
+                        Finish();
+                        //Exception raidaException = new Exception("RAIDA instantiation failed. No Directory found on server or local path");
+                        //throw raidaException;
+                    }
+                }
+            }*/
 
             try
             {
@@ -606,17 +632,25 @@ namespace CloudCoin
                 Exception raidaException = new Exception("RAIDA instantiation failed. No Directory found on server or local path");
                 throw raidaException;
             }
+
             if (networks == null)
             {
                 Exception raidaException = new Exception("RAIDA instantiation failed. No Directory found on server or local path");
                 throw raidaException;
             }
+
             if (networks.Count == 0)
             {
                 Exception raidaException = new Exception("RAIDA instantiation failed. No Directory found on server or local path");
                 throw raidaException;
             }
-
+            else
+            {
+                raida = (from x in networks
+                         where x.NetworkNumber == NetworkNumber
+                         select x).FirstOrDefault();
+                RAIDA.ActiveRAIDA = raida;
+            }
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
@@ -636,7 +670,7 @@ namespace CloudCoin
                         uri = data.Data;
                         file = FilePath.GetPath(this, uri);
                         String[] path = file.Split(':');
-                        if(path.Length > 1)
+                        if (path.Length > 1)
                             files.Add(path[1]);
                         else
                             files.Add(file);
@@ -710,18 +744,20 @@ namespace CloudCoin
             String result;
             TextView ttv;
             TextView tv;
+            FileSystem FS = bank.fileUtils;
 
             switch (importState)
             {
                 case ImportState.ImportIng:
                     dialog.Update(Resource.Layout.importraida);
+                    titleText = dialog.FindViewById<TextView>(Resource.Id.titletext);
                     importText = dialog.FindViewById<TextView>(Resource.Id.infotext);
                     importText.Text = getStatusString(lastProgress);
 
                     TextView subTv = dialog.FindViewById<TextView>(Resource.Id.infotextsub);
 
                     importBar = dialog.FindViewById<ProgressBar>(Resource.Id.firstBar);
-                    importBar.Max = bank.fileUtils.importCoins.Count();
+                    importBar.Max = 100;
                     dialog.Show();
                     break;
 
@@ -735,44 +771,40 @@ namespace CloudCoin
                         //doEmailReceipt();
                     };
 
-                    int toBankValue, toBank, failed;
+                    ttv = (TextView)dialog.FindViewById(Resource.Id.banked);
+                    ttv.Text = dialog.banked.ToString();
 
-                    toBankValue = bank.fileUtils.bankCoins.Count();
-                    toBank = bank.fileUtils.detectedCoins.Count();
-                    failed = bank.fileUtils.lostCoins.Count();
+                    ttv = (TextView)dialog.FindViewById(Resource.Id.fracked);
+                    ttv.Text = dialog.fracked.ToString();
 
-                    ttv = (TextView)dialog.FindViewById(Resource.Id.closebuttontext);
-                    if (failed > 0 || toBank == 0)
-                        ttv.SetText(Resource.String.back);
-                    else
-                        ttv.SetText(Resource.String.awesome);
+                    ttv = (TextView)dialog.FindViewById(Resource.Id.failed);
+                    ttv.Text = dialog.failed.ToString();
 
+                    ttv = (TextView)dialog.FindViewById(Resource.Id.lost);
+                    ttv.Text = dialog.lost.ToString();
 
-                    ttv = dialog.FindViewById<TextView>(Resource.Id.imptotal);
-                    ttv.Text = "" + toBankValue;
+                    ttv = (TextView)dialog.FindViewById(Resource.Id.suspect);
+                    ttv.Text = dialog.suspect.ToString();
 
-                    ttv = dialog.FindViewById<TextView>(Resource.Id.auth);
-                    ttv.Text = "" + toBank;
-
-                    ttv = dialog.FindViewById<TextView>(Resource.Id.failed);
-                    ttv.Text = "" + failed;
-
-                    try {
+                    try
+                    {
                         dialog.Show();
-                    } catch (Exception) {
+                    }
+                    catch (Exception)
+                    {
                         Log.Verbose("CLOUDCOIN", "Activity is gone. No result will be shown");
                     }
                     break;
 
                 case ImportState.ImportInit:
-                    if (bank.fileUtils.suspectCoins.Count() > 0)
+                    if (FS.suspectCoins.Count() > 0)
                     {
                         dialog.Update(Resource.Layout.importsuspect);
                         LinearLayout goButton = dialog.FindViewById<LinearLayout>(Resource.Id.gobutton);
-                        goButton.Click += delegate
+                        goButton.Click += async delegate
                         {
                             isImportSuspect = true;
-                            ImportTask();
+                            await ImportTask();
                         };
                         dialog.Show();
                         return;
@@ -780,40 +812,20 @@ namespace CloudCoin
 
                     if (files != null && files.Count > 0)
                     {
-                        //bank.loadIncomeFromFiles(files);
-                        foreach(string file in files)
+                        foreach (string file in files)
                         {
-                             IEnumerable<CloudCoin> coins = bank.fileUtils.LoadCoins(file);
-                             //IEnumerable<CloudCoin> coins = bank.fileUtils.LoadCoins(file);
-                             if (coins != null)
-                             {
-                                 ((List<CloudCoin>)(bank.fileUtils.importCoins)).AddRange(coins);
-                                 bank.fileUtils.WriteCoin(bank.fileUtils.importCoins,
-                                     bank.fileUtils.ImportFolder, ".stack");
-                                 //bank.fileUtils.WriteCoinsToFile(coins, file);
-                                 //bank.fileUtils.LoadFileSystem();
-                             }
+                            IEnumerable<CloudCoin> coins = FS.LoadCoins(file);
+                            if (coins != null)
+                            {
+                                FS.WriteCoinsToFile(coins, FS.ImportFolder + System.IO.Path.GetFileName(file));
+                                FS.LoadFileSystem();
+                            }
                         }
                     }
                     else
                     {
-                        /*                      String savedImportDir = mSettings.GetString(APP_PREFERENCES_IMPORTDIR, "");
-
-                                                if (savedImportDir == "") {
-                                                    importDir = bank.getDefaultRelativeImportDirPath();
-                                                    if (importDir == null) {
-                                                        tv.SetText(Resource.String.errmnt);
-                                                        dialog.Show();
-                                                        return;
-                                                    }
-                                                } else {
-                                                    importDir = savedImportDir;
-                                                    bank.setImportDirPath(importDir);
-                                                }*/
-
-
-                        //bank.fileUtils.LoadFolderCoins(bank.fileUtils.ImportFolder);
-                     }
+                        FS.importCoins = FS.LoadFolderCoins(FS.ImportFolder);
+                    }
 
                     dialog.Update(Resource.Layout.importdialog);
                     tv = dialog.FindViewById<TextView>(Resource.Id.infotext);
@@ -823,12 +835,12 @@ namespace CloudCoin
                         selectFile();
                     };
 
-                    totalIncomeLength = bank.fileUtils.importCoins.Count();
+                    totalIncomeLength = FS.importCoins.Count();
                     if (totalIncomeLength == 0)
                     {
-                        result = String.Format(Resources.GetString(Resource.String.erremptyimport), 
-                            bank.fileUtils.ImportFolder);
-                        tv.Text = result;		
+                        result = String.Format(Resources.GetString(Resource.String.erremptyimport),
+                            FS.ImportFolder);
+                        tv.Text = result;
                         dialog.Show();
                         break;
                     }
@@ -840,8 +852,8 @@ namespace CloudCoin
                         }
                         else
                         {
-                            result = String.Format(Resources.GetString(Resource.String.importwarn), 
-                                bank.fileUtils.ImportedFolder, totalIncomeLength);            
+                            result = String.Format(Resources.GetString(Resource.String.importwarn),
+                                FS.ImportedFolder, totalIncomeLength);
                         }
                         files.Clear();
 
@@ -853,19 +865,9 @@ namespace CloudCoin
                             selectFile();
                         };
                         LinearLayout importButton = dialog.FindViewById<LinearLayout>(Resource.Id.importbutton);
-                        importButton.Click += delegate
+                        importButton.Click += async delegate
                         {
-                            EchoTask().Wait(); // get echos from raida
-                            if (raida.ReadyCount == 0)
-                            {
-                                dialog.Update(Resource.Layout.importdialog2);
-                                dialog.Show();
-                                return;
-                            }
-
-                            isImportSuspect = false;
-                            ProcessCoins(true).Wait();
-                            //task = ImportTask(); // import selected coins
+                            await ImportTask(); // import selected coins
                         };
                         tv.Text = result;
                         dialog.Show();
@@ -877,41 +879,312 @@ namespace CloudCoin
 
         public void ShowBankScreen()
         {
+            IFileSystem FS = bank.fileUtils;
+            int[] bankTotals = bank.countCoins(FS.BankFolder);
+            int[] frackedTotals = bank.countCoins(FS.FrackedFolder);
+            // int[] counterfeitTotals = bank.countCoins( counterfeitFolder );
+
+            var bankCoins = FS.LoadFolderCoins(FS.BankFolder);
+
+
+            onesCount = (from x in bankCoins
+                         where x.denomination == 1
+                         select x).Count();
+            fivesCount = (from x in bankCoins
+                          where x.denomination == 5
+                          select x).Count();
+            qtrCount = (from x in bankCoins
+                        where x.denomination == 25
+                        select x).Count();
+            hundredsCount = (from x in bankCoins
+                             where x.denomination == 100
+                             select x).Count();
+            twoFiftiesCount = (from x in bankCoins
+                               where x.denomination == 250
+                               select x).Count();
+
+            var frackedCoins = FS.LoadFolderCoins(FS.FrackedFolder);
+            bankCoins.AddRange(frackedCoins);
+
+            onesFrackedCount = (from x in frackedCoins
+                                where x.denomination == 1
+                                select x).Count();
+            fivesFrackedCount = (from x in frackedCoins
+                                 where x.denomination == 5
+                                 select x).Count();
+            qtrFrackedCount = (from x in frackedCoins
+                               where x.denomination == 25
+                               select x).Count();
+            hundredsFrackedCount = (from x in frackedCoins
+                                    where x.denomination == 100
+                                    select x).Count();
+            twoFrackedFiftiesCount = (from x in frackedCoins
+                                      where x.denomination == 250
+                                      select x).Count();
+
+            onesTotalCount = onesCount + onesFrackedCount;
+            fivesTotalCount = fivesCount + fivesFrackedCount;
+            qtrTotalCount = qtrCount + qtrFrackedCount;
+            hundredsTotalCount = hundredsCount + hundredsFrackedCount;
+            twoFiftiesTotalCount = twoFiftiesCount + twoFrackedFiftiesCount;
+
+
+            int totalAmount = onesTotalCount + (fivesTotalCount * 5) + (qtrTotalCount * 25) + (hundredsTotalCount * 100) + (twoFiftiesTotalCount * 250);
+
             dialog.Update(Resource.Layout.bankdialog);
             dialog.Init(CoinDialog.DialogType.Bank);
 
             TextView tcv = dialog.FindViewById<TextView>(Resource.Id.totalcoinstxt);
-            String msg = Resources.GetString(Resource.String.acc);
-            msg += " " + dialog.getTotal();
-            tcv.Text = msg;
+            tcv.Text = Resources.GetString(Resource.String.acc) + string.Format(" {0,8:N0}", totalAmount);
+
+            TextView bs1 = dialog.FindViewById<TextView>(Resource.Id.bs1);
+            bs1.Text = string.Format("{0,7}", onesCount);
+
+            TextView bsf1 = dialog.FindViewById<TextView>(Resource.Id.bsf1);
+            bsf1.Text = string.Format("{0,7}", onesFrackedCount);
+
+            TextView bs5 = dialog.FindViewById<TextView>(Resource.Id.bs5);
+            bs5.Text = string.Format("{0,7}", fivesCount);
+
+            TextView bsf5 = dialog.FindViewById<TextView>(Resource.Id.bsf5);
+            bsf5.Text = string.Format("{0,7}", fivesFrackedCount);
+
+            TextView bs25 = dialog.FindViewById<TextView>(Resource.Id.bs25);
+            bs25.Text = string.Format("{0,7}", qtrCount);
+
+            TextView bsf25 = dialog.FindViewById<TextView>(Resource.Id.bsf25);
+            bsf25.Text = string.Format("{0,7}", qtrFrackedCount);
+
+            TextView bs100 = dialog.FindViewById<TextView>(Resource.Id.bs100);
+            bs100.Text = string.Format("{0,7}", hundredsCount);
+
+            TextView bsf100 = dialog.FindViewById<TextView>(Resource.Id.bsf100);
+            bsf100.Text = string.Format("{0,7}", hundredsFrackedCount);
+
+            TextView bs250 = dialog.FindViewById<TextView>(Resource.Id.bs250);
+            bs250.Text = string.Format("{0,7}", twoFiftiesCount);
+
+            TextView bsf250 = dialog.FindViewById<TextView>(Resource.Id.bsf250);
+            bsf250.Text = string.Format("{0,7}", twoFrackedFiftiesCount);
 
             dialog.Show();
         }
 
+        public void CalculateTotals()
+        {
+            IFileSystem FS = bank.fileUtils;
+
+            var bankCoins = FS.LoadFolderCoins(FS.BankFolder);
+
+            onesCount = (from x in bankCoins
+                         where x.denomination == 1
+                         select x).Count();
+            fivesCount = (from x in bankCoins
+                          where x.denomination == 5
+                          select x).Count();
+            qtrCount = (from x in bankCoins
+                        where x.denomination == 25
+                        select x).Count();
+            hundredsCount = (from x in bankCoins
+                             where x.denomination == 100
+                             select x).Count();
+            twoFiftiesCount = (from x in bankCoins
+                               where x.denomination == 250
+                               select x).Count();
+
+            var frackedCoins = FS.LoadFolderCoins(FS.FrackedFolder);
+            bankCoins.AddRange(frackedCoins);
+
+            onesFrackedCount = (from x in frackedCoins
+                                where x.denomination == 1
+                                select x).Count();
+            fivesFrackedCount = (from x in frackedCoins
+                                 where x.denomination == 5
+                                 select x).Count();
+            qtrFrackedCount = (from x in frackedCoins
+                               where x.denomination == 25
+                               select x).Count();
+            hundredsFrackedCount = (from x in frackedCoins
+                                    where x.denomination == 100
+                                    select x).Count();
+            twoFrackedFiftiesCount = (from x in frackedCoins
+                                      where x.denomination == 250
+                                      select x).Count();
+
+            onesTotalCount = onesCount + onesFrackedCount;
+            fivesTotalCount = fivesCount + fivesFrackedCount;
+            qtrTotalCount = qtrCount + qtrFrackedCount;
+            hundredsTotalCount = hundredsCount + hundredsFrackedCount;
+            twoFiftiesTotalCount = twoFiftiesCount + twoFrackedFiftiesCount;
+
+        }
+
         public void ShowExportScreen()
         {
+            List<string> exfilenames = new List<string>();
+
+            int exp_1 = 0;
+            int exp_5 = 0;
+            int exp_25 = 0;
+            int exp_100 = 0;
+            int exp_250 = 0;
+
+            IFileSystem FS = bank.fileUtils;
+            FS.LoadFileSystem();
+            CalculateTotals();
+
             dialog.Update(Resource.Layout.exportdialog);
             dialog.Init(CoinDialog.DialogType.Export);
 
             LinearLayout exportButton = dialog.FindViewById<LinearLayout>(Resource.Id.exportbutton);
             exportButton.Click += delegate
             {
-                    String exportTag;
-                    int[] values;
-                    int[] failed;
-                    int totalFailed = 0;
+                exp_1 = dialog.nps[0].Value;
+                exp_5 = dialog.nps[1].Value;
+                exp_25 = dialog.nps[2].Value;
+                exp_100 = dialog.nps[3].Value;
+                exp_250 = dialog.nps[4].Value;
+
+                int totalSaved = exp_1 + (exp_5 * 5) + (exp_25 * 25) + (exp_100 * 100) + (exp_250 * 250);
+                if (totalSaved == 0) return;
+                List<CloudCoin> totalCoins = bank.fileUtils.bankCoins.ToList();
+                totalCoins.AddRange(bank.fileUtils.frackedCoins);
 
 
- 
-        //DoExport();
+                var onesToExport = (from x in totalCoins
+                                    where x.denomination == 1
+                                    select x).Take(exp_1);
+                var fivesToExport = (from x in totalCoins
+                                     where x.denomination == 5
+                                     select x).Take(exp_5);
+                var qtrToExport = (from x in totalCoins
+                                   where x.denomination == 25
+                                   select x).Take(exp_25);
+                var hundredsToExport = (from x in totalCoins
+                                        where x.denomination == 100
+                                        select x).Take(exp_100);
+                var twoFiftiesToExport = (from x in totalCoins
+                                          where x.denomination == 250
+                                          select x).Take(exp_250);
+                List<CloudCoin> exportCoins = onesToExport.ToList();
+                exportCoins.AddRange(fivesToExport);
+                exportCoins.AddRange(qtrToExport);
+                exportCoins.AddRange(hundredsToExport);
+                exportCoins.AddRange(twoFiftiesToExport);
 
-        dialog.Update(Resource.Layout.exportdialog2);
+                RadioGroup radioGroup = FindViewById<RadioGroup>(Resource.Id.radioGroup);
+                RadioButton radioButton = FindViewById<RadioButton>(radioGroup.CheckedRadioButtonId);
+                exfilenames.Clear();
+                String filename;
+                switch (radioButton.Id)
+                {
+                    case Resource.Id.rjpg:
+                        filename = (FS.ExportFolder + System.IO.Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + dialog.et.Text + "");
+                        if (File.Exists(filename))
+                        {
+                            // tack on a random number if a file already exists with the same tag
+                            Random rnd = new Random();
+                            int tagrand = rnd.Next(999);
+                            filename = (FS.ExportFolder + System.IO.Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + dialog.et.Text + tagrand + "");
+                        }//end if file exists
+
+                        foreach (var coin in exportCoins)
+                        {
+                            string OutputFile = FS.ExportFolder + coin.FileName + dialog.et.Text + ".jpg";
+                            bool fileGenerated = FS.WriteCoinToJpeg(coin, FS.GetCoinTemplate(coin), OutputFile, "");
+                            if (fileGenerated)
+                            {
+                                Console.WriteLine("CloudCoin exported as Jpeg to " + OutputFile);
+                            }
+                            exfilenames.Add(FS.ExportFolder + OutputFile);
+                        }
+
+                        FS.RemoveCoins(exportCoins, FS.BankFolder);
+                        FS.RemoveCoins(exportCoins, FS.FrackedFolder);
+                        break;
+
+                    case Resource.Id.rjson:
+                        foreach (var coin in exportCoins)
+                        {
+                            string OutputFile = FS.ExportFolder + coin.FileName + dialog.et.Text + ".stack";
+                            FS.WriteCoinToFile(coin, OutputFile);
+
+                            FS.RemoveCoins(exportCoins, FS.BankFolder);
+                            FS.RemoveCoins(exportCoins, FS.FrackedFolder);
+                            Console.WriteLine("CloudCoin exported as Stack to " + OutputFile);
+                            exfilenames.Add(OutputFile);
+                        }
+                        break;
+
+                    case Resource.Id.rcsv:
+                        filename = (FS.ExportFolder + System.IO.Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + dialog.et.Text + ".csv");
+                        if (File.Exists(filename))
+                        {
+                            // tack on a random number if a file already exists with the same tag
+                            Random rnd = new Random();
+                            int tagrand = rnd.Next(999);
+                            filename = (FS.ExportFolder + System.IO.Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + dialog.et.Text + tagrand + "");
+
+
+                        }//end if file exists
+
+                        var csv = new StringBuilder();
+                        var coins = exportCoins;
+
+                        var headerLine = string.Format("sn,denomination,nn,");
+                        string headeranstring = "";
+                        for (int i = 0; i < CloudCoinCore.Config.NodeCount; i++)
+                        {
+                            headeranstring += "an" + (i + 1) + ",";
+                        }
+
+                        // Write the Header Record
+                        csv.AppendLine(headerLine + headeranstring);
+
+                        // Write the Coin Serial Numbers
+                        foreach (var coin in coins)
+                        {
+                            string anstring = "";
+                            for (int i = 0; i < CloudCoinCore.Config.NodeCount; i++)
+                            {
+                                anstring += coin.an[i] + ",";
+                            }
+                            var newLine = string.Format("{0},{1},{2},{3}", coin.sn, coin.denomination, coin.nn, anstring);
+                            csv.AppendLine(newLine);
+
+                        }
+                        File.WriteAllText(filename, csv.ToString());
+                        Console.WriteLine("Coins exported as csv to " + filename);
+                        //FS.WriteCoinsToFile(exportCoins, filename, ".s");
+                        FS.RemoveCoins(exportCoins, FS.BankFolder);
+                        FS.RemoveCoins(exportCoins, FS.FrackedFolder);
+                        exfilenames.Add(filename);
+                        break;
+                }
+
+                dialog.Update(Resource.Layout.exportdialog2);
                 TextView infoText = dialog.FindViewById<TextView>(Resource.Id.infotext);
-                //infoText.Text = msg;
+                infoText.Text = Resources.GetString(Resource.String.exportok);
                 LinearLayout emailButton = dialog.FindViewById<LinearLayout>(Resource.Id.emailbutton);
                 emailButton.Click += delegate
                 {
-                    //DoSendEmail();
+                    // Send email
+                    var email = new Intent(Intent.ActionSendMultiple);
+                    email.SetType("text/plain");
+                    email.PutExtra(Intent.ExtraEmail, new string[] { "" });
+                    email.PutExtra(Intent.ExtraCc, new string[] { "" });
+                    email.PutExtra(Intent.ExtraSubject, "Send CloudCoins");
+
+                    var uris = new List<IParcelable>();
+                    exfilenames.ForEach(file => {
+                        var fileIn = new Java.IO.File(file);
+                        var uri = Android.Net.Uri.FromFile(fileIn);
+                        uris.Add(uri);
+                    });
+
+                    email.PutParcelableArrayListExtra(Intent.ExtraStream, uris);
+
+                    StartActivity(Intent.CreateChooser(email, "Send mail..."));
                 };
                 dialog.Show();
             };
@@ -925,6 +1198,21 @@ namespace CloudCoin
             throw new NotImplementedException();
         }
 
+        private void ReportProgress(ProgressReport progress)
+        {
+            importText.Text = progress.CurrentProgressMessage;
+            if (progress.Stage == ImportStage.Echo)
+            {
+                importBar.Progress++;
+            }
+            else
+            {
+                importBar.Progress++;
+                //importBar.Progress = (int)progress.CurrentProgressAmount;
+            }
+            importBar.Invalidate();
+        }
+
         public async Task ProcessCoins(bool ChangeANs = true)
         {
             var networks = (from x in bank.fileUtils.importCoins
@@ -933,15 +1221,16 @@ namespace CloudCoin
             foreach (var nn in networks)
             {
                 Console.WriteLine("Starting Coins detection for Network " + nn);
-                /*ActiveRAIDA = (from x in RAIDA.networks
+                RAIDA.ActiveRAIDA = (from x in MainActivity.networks
                                where x.NetworkNumber == nn
-                               select x).FirstOrDefault();*/
-                await ProcessNetworkCoins(nn, ChangeANs);
+                               select x).FirstOrDefault();
+                var progressIndicator = new Progress<ProgressReport>(ReportProgress);
+                await ProcessNetworkCoins(progressIndicator, nn, ChangeANs);
                 Console.WriteLine("Coins detection for Network " + nn + "Finished.");
             }
         }
 
-        public async Task ProcessNetworkCoins(int NetworkNumber, bool ChangeANS = true)
+        public async Task ProcessNetworkCoins(IProgress<ProgressReport> progress, int NetworkNumber,  bool ChangeANS = true)
         {
             IFileSystem FS = bank.fileUtils;
             FS.LoadFileSystem();
@@ -978,13 +1267,13 @@ namespace CloudCoin
                 {
                     Console.WriteLine(e.Message);
                 }
-                var tasks = raida.GetMultiDetectTasks(coins.ToArray(), Config.milliSecondsToTimeOut, ChangeANS);
+                var tasks = raida.GetMultiDetectTasks(progress, coins.ToArray(), Config.milliSecondsToTimeOut, ChangeANS);
                 try
                 {
                     string requestFileName = Utils.RandomString(16).ToLower() + DateTime.Now.ToString("yyyyMMddHHmmss") + ".stack";
                     // Write Request To file before detect
                     FS.WriteCoinsToFile(coins, FS.RequestsFolder + requestFileName);
-                    await Task.WhenAll(tasks.AsParallel().Select(async task => await task()));
+                    await Task.WhenAll(tasks.AsParallel().Select(async task => await task));
                     int j = 0;
                     foreach (var coin in coins)
                     {
@@ -1002,7 +1291,6 @@ namespace CloudCoin
 
 
                         Console.Out.WriteLine("No. " + CoinCount + ". Coin Deteced. S. No. - " + coin.sn + ". Pass Count - " + coin.PassCount + ". Fail Count  - " + coin.FailCount + ". Result - " + coin.DetectionResult + "." + coin.pown);
-                        Console.WriteLine("Coin Deteced. S. No. - " + coin.sn + ". Pass Count - " + coin.PassCount + ". Fail Count  - " + coin.FailCount + ". Result - " + coin.DetectionResult);
                         //coin.sortToFolder();
                         pge.MinorProgress = (CoinCount) * 100 / totalCoinCount;
                         Console.WriteLine("Minor Progress- " + pge.MinorProgress);
@@ -1036,7 +1324,7 @@ namespace CloudCoin
             // Apply Sort to Folder to all detected coins at once.
             Console.Out.WriteLine("Starting Sort.....");
             //detectedCoins.ForEach(x => x.doPostProcessing());
-            detectedCoins.ForEach(x => x.SortToFolder());
+            detectedCoins.ForEach(x => x.SortToFolder(FS));
             Console.Out.WriteLine("Ended Sort........");
 
             var passedCoins = (from x in detectedCoins
@@ -1064,6 +1352,11 @@ namespace CloudCoin
             Console.Out.WriteLine("Total Failed Coins - " + failedCoins.Count() + "");
             Console.Out.WriteLine("Total Lost Coins - " + lostCoins.Count() + "");
             Console.Out.WriteLine("Total Suspect Coins - " + suspectCoins.Count() + "");
+            dialog.banked = passedCoins.Count;
+            dialog.fracked = frackedCoins.Count;
+            dialog.failed = failedCoins.Count;
+            dialog.lost = lostCoins.Count;
+            dialog.suspect = suspectCoins.Count;
 
             // Move Coins to their respective folders after sort
             FS.MoveCoins(passedCoins, FS.DetectedFolder, FS.BankFolder);
@@ -1089,8 +1382,6 @@ namespace CloudCoin
 
             pge.MinorProgress = 100;
             Console.WriteLine("Minor Progress- " + pge.MinorProgress);
-
-
         }
 
         public virtual void OnProgressChanged(ProgressChangedEventArgs e)
