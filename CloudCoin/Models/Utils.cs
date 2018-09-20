@@ -39,7 +39,7 @@ namespace CloudCoinCore
             }
         }
 
-        public static String importJSON(String jsonfile)
+        public static String DepositJSON(String jsonfile)
         {
             String jsonData = "";
             String line;
@@ -71,7 +71,7 @@ namespace CloudCoinCore
                 Console.WriteLine(e.Message);
             }
             return jsonData;
-        }//end importJSON
+        }//end DepositJSON
 
         public static StringBuilder CoinsToCSV(IEnumerable<CloudCoin> coins)
         {

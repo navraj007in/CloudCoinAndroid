@@ -9,14 +9,14 @@ using Newtonsoft.Json;
 
 namespace CloudCoinCore
 {
-    public class Exporter
+    public class Withdrawer
     {
         /* INSTANCE VARIABLES */
         IFileSystem fileSystem;
         
 
         /* CONSTRUCTOR */
-        public Exporter(IFileSystem fileUtils)
+        public Withdrawer(IFileSystem fileUtils)
         {
             
             this.fileSystem = fileUtils;
@@ -52,7 +52,7 @@ namespace CloudCoinCore
 
             bankedFileNames = list.ToArray(); // Add the two arrays together
 
-            String path = this.fileSystem.ExportFolder;//the word path is shorter than other stuff
+            String path = this.fileSystem.WithdrawFolder;//the word path is shorter than other stuff
 
             // Look at all the money files and choose the ones that are needed.
             for (int i = 0; i < bankedFileNames.Length; i++)
@@ -109,12 +109,12 @@ namespace CloudCoinCore
                 catch (FileNotFoundException ex)
                 {
                     Console.Out.WriteLine(ex);
-                    //CoreLogger.Log(ex.ToString());
+                    CoreLogger.Log(ex.ToString());
                 }
                 catch (IOException ioex)
                 {
                     Console.Out.WriteLine(ioex);
-                    //CoreLogger.Log(ioex.ToString());
+                    CoreLogger.Log(ioex.ToString());
                 }//end catch 
             }// for each 1 note  
         }//end write all jpegs
@@ -135,7 +135,7 @@ namespace CloudCoinCore
 
             bankedFileNames = list.ToArray(); // Add the two arrays together
 
-            String path = this.fileSystem.ExportFolder;//the word path is shorter than other stuff
+            String path = this.fileSystem.WithdrawFolder;//the word path is shorter than other stuff
 
             // Look at all the money files and choose the ones that are needed.
             for (int i = 0; i < bankedFileNames.Length; i++)
@@ -192,12 +192,12 @@ namespace CloudCoinCore
                 catch (FileNotFoundException ex)
                 {
                     Console.Out.WriteLine(ex);
-                    //CoreLogger.Log(ex.ToString());
+                    CoreLogger.Log(ex.ToString());
                 }
                 catch (IOException ioex)
                 {
                     Console.Out.WriteLine(ioex);
-                    //CoreLogger.Log(ioex.ToString());
+                    CoreLogger.Log(ioex.ToString());
                 }//end catch 
             }// for each 1 note  
         }//end write all jpegs*/
@@ -218,7 +218,7 @@ namespace CloudCoinCore
 
             bankedFileNames = list.ToArray(); // Add the two arrays together
 
-            String path = this.fileSystem.ExportFolder;//the word path is shorter than other stuff
+            String path = this.fileSystem.WithdrawFolder;//the word path is shorter than other stuff
 
             // Look at all the money files and choose the ones that are needed.
             for (int i = 0; i < bankedFileNames.Length; i++)
@@ -275,12 +275,12 @@ namespace CloudCoinCore
                 catch (FileNotFoundException ex)
                 {
                     Console.Out.WriteLine(ex);
-                    //CoreLogger.Log(ex.ToString());
+                    CoreLogger.Log(ex.ToString());
                 }
                 catch (IOException ioex)
                 {
                     Console.Out.WriteLine(ioex);
-                    //CoreLogger.Log(ioex.ToString());
+                    CoreLogger.Log(ioex.ToString());
                 }//end catch 
             }// for each 1 note  
         }//end write all jpegs
@@ -288,7 +288,7 @@ namespace CloudCoinCore
         /* Write JSON to .stack File  */
         public bool writeJSONFile(int m1, int m5, int m25, int m100, int m250, String tag)
         {
-            bool jsonExported = true;
+            bool jsonWithdrawed = true;
             int totalSaved = m1 + (m5 * 5) + (m25 * 25) + (m100 * 100) + (m250 * 250);
             // Track the total coins
             int coinCount = m1 + m5 + m25 + m100 + m250;
@@ -512,20 +512,20 @@ namespace CloudCoinCore
             /*WRITE JSON TO FILE*/
             json = json + "\t] " + Environment.NewLine;
             json += "}";
-            String filename = (this.fileSystem.ExportFolder + Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + tag + ".stack");
+            String filename = (this.fileSystem.WithdrawFolder + Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + tag + ".stack");
             if (File.Exists(filename))
             {
                 // tack on a random number if a file already exists with the same tag
                 Random rnd = new Random();
                 int tagrand = rnd.Next(999);
-                filename = (this.fileSystem.ExportFolder + Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + tag + tagrand + ".stack");
+                filename = (this.fileSystem.WithdrawFolder + Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + tag + tagrand + ".stack");
             }//end if file exists
 
             File.WriteAllText(filename, json);
             Console.Out.WriteLine("Writing to : ");
-            //CoreLogger.Log("Writing to : " + filename);
+            CoreLogger.Log("Writing to : " + filename);
             Console.Out.WriteLine(filename);
-            /*DELETE FILES THAT HAVE BEEN EXPORTED*/
+            /*DELETE FILES THAT HAVE BEEN WithdrawED*/
             for (int cc = 0; cc < coinsToDelete.Length; cc++)
             {
                 // Console.Out.WriteLine("Deleting " + coinsToDelete[cc]);
@@ -533,12 +533,12 @@ namespace CloudCoinCore
             }//end for all coins to delete
 
             // end if write was good
-            return jsonExported;
+            return jsonWithdrawed;
         }//end write json to file
 
         public bool writeJSONFile(int m1, int m5, int m25, int m100, int m250, String tag, int mode = 0, string backupDir = "")
         {
-            bool jsonExported = true;
+            bool jsonWithdrawed = true;
             int totalSaved = m1 + (m5 * 5) + (m25 * 25) + (m100 * 100) + (m250 * 250);
             // Track the total coins
             int coinCount = m1 + m5 + m25 + m100 + m250;
@@ -754,14 +754,14 @@ namespace CloudCoinCore
                 {
                     break;
                 } // Break if all the coins have been called for. 
-                string status = String.Format("exported %d of %d coin.", i, bankedFileNames.Length);
+                string status = String.Format("Withdrawed %d of %d coin.", i, bankedFileNames.Length);
                 int percentCompleted = (i + 1) * 100 / bankedFileNames.Length;
             }// end for each coin needed
 
             /*WRITE JSON TO FILE*/
             json = json + "\t] " + Environment.NewLine;
             json += "}";
-            String filename = (this.fileSystem.ExportFolder + Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + tag + ".stack");
+            String filename = (this.fileSystem.WithdrawFolder + Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + tag + ".stack");
 
             if (mode == 1)
             {
@@ -772,14 +772,14 @@ namespace CloudCoinCore
                 // tack on a random number if a file already exists with the same tag
                 Random rnd = new Random();
                 int tagrand = rnd.Next(999);
-                filename = (this.fileSystem.ExportFolder + Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + tag + tagrand + ".stack");
+                filename = (this.fileSystem.WithdrawFolder + Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + tag + tagrand + ".stack");
             }//end if file exists
 
             File.WriteAllText(filename, json);
             Console.Out.WriteLine("Writing to : ");
-            //CoreLogger.Log("Writing to : " + filename);
+            CoreLogger.Log("Writing to : " + filename);
             Console.Out.WriteLine(filename);
-            /*DELETE FILES THAT HAVE BEEN EXPORTED*/
+            /*DELETE FILES THAT HAVE BEEN WithdrawED*/
             if (mode == 0)
                 for (int cc = 0; cc < coinsToDelete.Length; cc++)
                 {
@@ -788,14 +788,14 @@ namespace CloudCoinCore
                 }//end for all coins to delete
 
             // end if write was good
-            return jsonExported;
+            return jsonWithdrawed;
         }//end write json to file
 
 
         /* PRIVATE METHODS */
 /*        private void qrCodeWriteOne(String path, String tag, String bankFileName, String frackedFileName, String partialFileName)
         {
-            if (File.Exists(bankFileName))//If the file is a bank file, export a good bank coin
+            if (File.Exists(bankFileName))//If the file is a bank file, Withdraw a good bank coin
             {
                 CloudCoin jpgCoin = this.fileSystem.LoadCoin(bankFileName);
                 if (this.fileSystem.writeQrCode(jpgCoin, tag))//If the jpeg writes successfully 
@@ -806,7 +806,7 @@ namespace CloudCoinCore
                     File.Delete(bankFileName);//Delete the files if they have been written to
                 }//end if write was good. 
             }
-            else if (File.Exists(partialFileName))//If the file is a bank file, export a good bank coin
+            else if (File.Exists(partialFileName))//If the file is a bank file, Withdraw a good bank coin
             {
                 CloudCoin jpgCoin = this.fileSystem.LoadCoin(partialFileName);
                 if (this.fileSystem.writeQrCode(jpgCoin, tag))//If the jpeg writes successfully 
@@ -814,7 +814,7 @@ namespace CloudCoinCore
                     File.Delete(partialFileName);//Delete the files if they have been written to
                 }//end if write was good. 
             }
-            else//Export a fracked coin. 
+            else//Withdraw a fracked coin. 
             {
                 CloudCoin jpgCoin = fileSystem.LoadCoin(frackedFileName);
                 if (this.fileSystem.writeQrCode(jpgCoin, tag))
@@ -826,7 +826,7 @@ namespace CloudCoinCore
 
         private void barCode417WriteOne(String path, String tag, String bankFileName, String frackedFileName, String partialFileName)
         {
-            if (File.Exists(bankFileName))//If the file is a bank file, export a good bank coin
+            if (File.Exists(bankFileName))//If the file is a bank file, Withdraw a good bank coin
             {
                 CloudCoin jpgCoin = this.fileSystem.LoadCoin(bankFileName);
                 if (this.fileSystem.writeBarCode(jpgCoin, tag))//If the jpeg writes successfully 
@@ -837,7 +837,7 @@ namespace CloudCoinCore
                     File.Delete(bankFileName);//Delete the files if they have been written to
                 }//end if write was good. 
             }
-            else if (File.Exists(partialFileName))//If the file is a bank file, export a good bank coin
+            else if (File.Exists(partialFileName))//If the file is a bank file, Withdraw a good bank coin
             {
                 CloudCoin jpgCoin = this.fileSystem.LoadCoin(partialFileName);
                 if (this.fileSystem.writeBarCode(jpgCoin, tag))//If the jpeg writes successfully 
@@ -845,7 +845,7 @@ namespace CloudCoinCore
                     File.Delete(partialFileName);//Delete the files if they have been written to
                 }//end if write was good. 
             }
-            else//Export a fracked coin. 
+            else//Withdraw a fracked coin. 
             {
                 CloudCoin jpgCoin = fileSystem.LoadCoin(frackedFileName);
                 if (this.fileSystem.writeBarCode(jpgCoin, tag))
@@ -859,7 +859,7 @@ namespace CloudCoinCore
         /* PRIVATE METHODS */
         private void jpegWriteOne(String path, String tag, String bankFileName, String frackedFileName, String partialFileName)
         {
-            if (File.Exists(bankFileName))//If the file is a bank file, export a good bank coin
+            if (File.Exists(bankFileName))//If the file is a bank file, Withdraw a good bank coin
             {
                 CloudCoin jpgCoin = this.fileSystem.LoadCoin(bankFileName);
                 if (this.fileSystem.writeJpeg(jpgCoin, tag))//If the jpeg writes successfully 
@@ -867,7 +867,7 @@ namespace CloudCoinCore
                     File.Delete(bankFileName);//Delete the files if they have been written to
                 }//end if write was good. 
             }
-            else if (File.Exists(partialFileName))//If the file is a bank file, export a good bank coin
+            else if (File.Exists(partialFileName))//If the file is a bank file, Withdraw a good bank coin
             {
                 CloudCoin jpgCoin = this.fileSystem.LoadCoin(partialFileName);
                 if (this.fileSystem.writeJpeg(jpgCoin, tag))//If the jpeg writes successfully 
@@ -875,7 +875,7 @@ namespace CloudCoinCore
                     File.Delete(partialFileName);//Delete the files if they have been written to
                 }//end if write was good. 
             }
-            else//Export a fracked coin. 
+            else//Withdraw a fracked coin. 
             {
                 CloudCoin jpgCoin = fileSystem.LoadCoin(frackedFileName);
                 if (this.fileSystem.writeJpeg(jpgCoin, tag))
@@ -884,5 +884,5 @@ namespace CloudCoinCore
                 }//end if
             }//end else
         }//End write one jpeg 
-    }// end exporter class
+    }// end Withdrawer class
 }//end namespace

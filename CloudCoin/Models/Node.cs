@@ -165,7 +165,7 @@ namespace CloudCoinCore
                     echoResponse.fullResponse = ex.InnerException.Message;
                 Debug.WriteLine("Error---" + ex.Message);
             }
-            progress.Report(new ProgressReport { Stage = ImportStage.Echo, CurrentProgressMessage = "Echo From Node - " + NodeNumber });
+            progress.Report(new ProgressReport { Stage = DepositStage.Echo, CurrentProgressMessage = "Echo From Node - " + NodeNumber });
             DateTime after = DateTime.Now; TimeSpan ts = after.Subtract(before);
             echoResponse.milliseconds = Convert.ToInt32(ts.Milliseconds);
             EchoTime = Convert.ToInt32(ts.Milliseconds);
@@ -566,7 +566,7 @@ namespace CloudCoinCore
                             return MultiResponse;//END IF THE REQUEST GOT AN ERROR
 
                         }//end else 404 or 500
-                        progress.Report(new ProgressReport { Stage = ImportStage.Detect, CurrentProgressMessage = "RAIDA " + NodeNumber + " detected coins." });
+                        progress.Report(new ProgressReport { Stage = DepositStage.Detect, CurrentProgressMessage = "RAIDA " + NodeNumber + " detected coins." });
 
                     }//end using
 

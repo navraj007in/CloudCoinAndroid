@@ -38,7 +38,7 @@
 
   <style name="LayoutWrapper">
     <item name="android:layout_height">wrap_content</item>
-    <item name="android:layout_width">fill_parent</item>
+    <item name="android:layout_width">match_parent</item>
     <item name="android:layout_gravity">center</item>
     <item name="android:gravity">center</item>
     <item name="android:orientation">horizontal</item>
@@ -70,7 +70,7 @@
   </style>
   <style name="InvText0" parent="android:Theme">
     <item name="android:layout_height">wrap_content</item>
-    <item name="android:layout_width">fill_parent</item>
+    <item name="android:layout_width">match_parent</item>
     <item name="android:layout_gravity">center</item>
     <item name="android:gravity">center</item>
     <item name="android:orientation">vertical</item>
@@ -87,7 +87,7 @@
   </style>
   <style name="InvText6" parent="android:Theme">
     <item name="android:layout_height">wrap_content</item>
-    <item name="android:layout_width">fill_parent</item>
+    <item name="android:layout_width">match_parent</item>
     <item name="android:layout_gravity">center</item>
     <item name="android:gravity">center</item>
     <item name="android:orientation">vertical</item>
@@ -100,7 +100,7 @@
 
   <style name="InvText2" parent="android:Theme">
     <item name="android:layout_height">wrap_content</item>
-    <item name="android:layout_width">fill_parent</item>
+    <item name="android:layout_width">match_parent</item>
     <item name="android:layout_gravity">center</item>
     <item name="android:gravity">center</item>
     <item name="android:orientation">vertical</item>

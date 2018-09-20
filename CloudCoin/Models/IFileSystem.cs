@@ -14,10 +14,10 @@ namespace CloudCoinCore
     {
         public enum FileMoveOptions { Copy, Replace, Rename, Skip }
         public string RootPath { get; set; }
-        public string ImportFolder { get; set; }
-        public string ExportFolder { get; set; }
+        public string DepositFolder { get; set; }
+        public string WithdrawFolder { get; set; }
         public string BankFolder { get; set; }
-        public string ImportedFolder { get; set; }
+        public string DepositedFolder { get; set; }
         public string LostFolder { get; set; }
         public string TrashFolder { get; set; }
         public string SuspectFolder { get; set; }
@@ -67,7 +67,7 @@ namespace CloudCoinCore
                 {
                     try
                     {
-                        var coin = importJPEG(files[i]);
+                        var coin = DepositJPEG(files[i]);
                         folderCoins.Add(coin);
                     }
                     catch (Exception)
@@ -94,22 +94,22 @@ namespace CloudCoinCore
             return folderCoins;
         }
 
-        private CloudCoin importJPEG(String fileName)//Move one jpeg to suspect folder. 
+        private CloudCoin DepositJPEG(String fileName)//Move one jpeg to suspect folder. 
         {
             // bool isSuccessful = false;
-            // Console.Out.WriteLine("Trying to load: " + this.fileUtils.importFolder + fileName );
-            Debug.WriteLine("Trying to load: " + ImportFolder + fileName);
+            // Console.Out.WriteLine("Trying to load: " + this.fileUtils.DepositFolder + fileName );
+            Debug.WriteLine("Trying to load: " + DepositFolder + fileName);
             try
             {
-                //  Console.Out.WriteLine("Loading coin: " + fileUtils.importFolder + fileName);
-                //CloudCoin tempCoin = this.fileUtils.loadOneCloudCoinFromJPEGFile( fileUtils.importFolder + fileName );
+                //  Console.Out.WriteLine("Loading coin: " + fileUtils.DepositFolder + fileName);
+                //CloudCoin tempCoin = this.fileUtils.loadOneCloudCoinFromJPEGFile( fileUtils.DepositFolder + fileName );
 
-                /*Begin import from jpeg*/
+                /*Begin Deposit from jpeg*/
 
                 /* GET the first 455 bytes of he jpeg where the coin is located */
                 String wholeString = "";
                 byte[] jpegHeader = new byte[455];
-                // Console.Out.WriteLine("Load file path " + fileUtils.importFolder + fileName);
+                // Console.Out.WriteLine("Load file path " + fileUtils.DepositFolder + fileName);
                 FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
                 try
                 {
@@ -130,7 +130,7 @@ namespace CloudCoinCore
                 CloudCoin tempCoin = parseJpeg(wholeString);
                 // Console.Out.WriteLine("From FileUtils returnCC.fileName " + tempCoin.fileName);
 
-                /*end import from jpeg file */
+                /*end Deposit from jpeg file */
 
 
 
@@ -142,12 +142,12 @@ namespace CloudCoinCore
             catch (FileNotFoundException ex)
             {
                 Console.Out.WriteLine("File not found: " + fileName + ex);
-                //CoreLogger.Log("File not found: " + fileName + ex);
+                CoreLogger.Log("File not found: " + fileName + ex);
             }
             catch (IOException ioex)
             {
                 Console.Out.WriteLine("IO Exception:" + fileName + ioex);
-                //CoreLogger.Log("IO Exception:" + fileName + ioex);
+                CoreLogger.Log("IO Exception:" + fileName + ioex);
             }// end try catch
             return null;
         }
@@ -163,10 +163,43 @@ namespace CloudCoinCore
         }
         public IEnumerable<CloudCoin> LoadCoins(string fileName)
         {
-            var coins = Utils.LoadJson(fileName);
+            string ext = Path.GetExtension(fileName);
+            if (ext == ".stack" || ext == ".celebrium" || ext == ".celeb")
+            {
+                var coins = Utils.LoadJson(fileName);
+                if (coins != null && coins.Length > 0)
+                    return coins;
+            }
+            if (ext == ".jpeg" || ext == ".jpg")
+            {
+                try
+                {
+                    var coin = DepositJPEG(fileName);
+                    if (coin == null) return null;
+                    List<CloudCoin> coins = new List<CloudCoin>();
+                    coins.Add(coin);
+                    return coins;
+                }
+                catch (Exception e)
+                {
 
-            if (coins != null && coins.Length > 0)
-                return coins;
+                }
+
+            }
+            if (ext == ".csv")
+            {
+                var lines = File.ReadAllLines(fileName);
+                //var lines = File.ReadAllLines(fileName).Select(a => a.Split(','));
+                List<CloudCoin> CsvCoins = new List<CloudCoin>();
+
+
+                foreach (var line in lines)
+                {
+                    CsvCoins.Add(CloudCoin.FromCSV(line));
+                }
+                CsvCoins.RemoveAll(item => item == null);
+                return CsvCoins;
+            }
             return null;
         }
         public List<FileInfo> LoadFiles(string folder)
@@ -214,7 +247,7 @@ namespace CloudCoinCore
             CloudCoin returnCC = new CloudCoin();
 
             //Load file as JSON
-            String incomeJson = Utils.importJSON(loadFilePath);
+            String incomeJson = Utils.DepositJSON(loadFilePath);
             //STRIP UNESSARY test
             int secondCurlyBracket = ordinalIndexOf(incomeJson, "{", 2) - 1;
             int firstCloseCurlyBracket = ordinalIndexOf(incomeJson, "}", 0) - secondCurlyBracket;
@@ -308,7 +341,7 @@ namespace CloudCoinCore
         }
         // end get JSON
 
-        public abstract void MoveImportedFiles();
+        public abstract void MoveDepositedFiles();
 
         public int ordinalIndexOf(String str, String substr, int n)
         {
@@ -336,7 +369,7 @@ namespace CloudCoinCore
             //cloudCoinStr += "204f42455920474f4420262044454645415420545952414e545320";// Hex for " OBEY GOD & DEFEAT TYRANTS "
             //cloudCoinStr += "20466f756e6465727320372d352d3137";// Founders 7-5-17
             cloudCoinStr += "4c6976652046726565204f7220446965";// Live Free or Die
-            cloudCoinStr += "00000000000000000000000000";//Set to unknown so program does not export user data
+            cloudCoinStr += "00000000000000000000000000";//Set to unknown so program does not Withdraw user data
                                                          // for (int i =0; i < 25; i++) {
                                                          //     switch () { }//end switch pown char
                                                          // }//end for each pown
@@ -415,10 +448,10 @@ namespace CloudCoinCore
                 tag = rInt.ToString();
             }
 
-            string fileName = ExportFolder + cc.FileName + tag + ".jpg";
+            string fileName = WithdrawFolder + cc.FileName + tag + ".jpg";
             File.WriteAllBytes(fileName, b1.ToArray());
             Console.Out.WriteLine("Writing to " + fileName);
-            //CoreLogger.Log("Writing to " + fileName);
+            CoreLogger.Log("Writing to " + fileName);
             return fileSavedSuccessfully;
         }//end write JPEG
 
@@ -440,7 +473,7 @@ namespace CloudCoinCore
             //cloudCoinStr += "204f42455920474f4420262044454645415420545952414e545320";// Hex for " OBEY GOD & DEFEAT TYRANTS "
             //cloudCoinStr += "20466f756e6465727320372d352d3137";// Founders 7-5-17
             cloudCoinStr += "4c6976652046726565204f7220446965";// Live Free or Die
-            cloudCoinStr += "00000000000000000000000000";//Set to unknown so program does not export user data
+            cloudCoinStr += "00000000000000000000000000";//Set to unknown so program does not Withdraw user data
                                                          // for (int i =0; i < 25; i++) {
                                                          //     switch () { }//end switch pown char
                                                          // }//end for each pown
@@ -513,10 +546,10 @@ namespace CloudCoinCore
                 tag = rInt.ToString();
             }
 
-            string fileName = ExportFolder + cc.FileName  + ".jpg";
+            string fileName = WithdrawFolder + cc.FileName  + ".jpg";
             File.WriteAllBytes(fileName, b1.ToArray());
             Console.Out.WriteLine("Writing to " + fileName);
-            //CoreLogger.Log("Writing to " + fileName);
+            CoreLogger.Log("Writing to " + fileName);
             return fileSavedSuccessfully;
         }//end write JPEG
 
@@ -538,7 +571,7 @@ namespace CloudCoinCore
             //cloudCoinStr += "204f42455920474f4420262044454645415420545952414e545320";// Hex for " OBEY GOD & DEFEAT TYRANTS "
             //cloudCoinStr += "20466f756e6465727320372d352d3137";// Founders 7-5-17
             cloudCoinStr += "4c6976652046726565204f7220446965";// Live Free or Die
-            cloudCoinStr += "00000000000000000000000000";//Set to unknown so program does not export user data
+            cloudCoinStr += "00000000000000000000000000";//Set to unknown so program does not Withdraw user data
                                                          // for (int i =0; i < 25; i++) {
                                                          //     switch () { }//end switch pown char
                                                          // }//end for each pown
@@ -614,7 +647,7 @@ namespace CloudCoinCore
             string fileName = targetPath;
             File.WriteAllBytes(fileName, b1.ToArray());
             Console.Out.WriteLine("Writing to " + fileName);
-            //CoreLogger.Log("Writing to " + fileName);
+            CoreLogger.Log("Writing to " + fileName);
             return fileSavedSuccessfully;
         }//end write JPEG
 
@@ -636,7 +669,7 @@ namespace CloudCoinCore
             //cloudCoinStr += "204f42455920474f4420262044454645415420545952414e545320";// Hex for " OBEY GOD & DEFEAT TYRANTS "
             //cloudCoinStr += "20466f756e6465727320372d352d3137";// Founders 7-5-17
             cloudCoinStr += "4c6976652046726565204f7220446965";// Live Free or Die
-            cloudCoinStr += "00000000000000000000000000";//Set to unknown so program does not export user data
+            cloudCoinStr += "00000000000000000000000000";//Set to unknown so program does not Withdraw user data
                                                          // for (int i =0; i < 25; i++) {
                                                          //     switch () { }//end switch pown char
                                                          // }//end for each pown
@@ -712,7 +745,7 @@ namespace CloudCoinCore
             string fileName = targetPath;
             File.WriteAllBytes(fileName, b1.ToArray());
             Console.Out.WriteLine("Writing to " + fileName);
-            //CoreLogger.Log("Writing to " + fileName);
+            CoreLogger.Log("Writing to " + fileName);
             return fileSavedSuccessfully;
         }//end write JPEG
         public string bytesToHexString(byte[] data)
@@ -743,7 +776,7 @@ namespace CloudCoinCore
             return (char)((i - 10) + 0x41);
         }//end GetHexValue
 
-        /* Writes a JPEG To the Export Folder */
+        /* Writes a JPEG To the Withdraw Folder */
 
         /* OPEN FILE AND READ ALL CONTENTS AS BYTE ARRAY */
         public byte[] readAllBytes(string fileName)
@@ -781,7 +814,7 @@ namespace CloudCoinCore
                     alreadyExists = false;
                     return alreadyExists;
                 }
-                else if (folder.Contains("Imported"))
+                else if (folder.Contains("Deposited"))
                 {
                     File.Delete(folder + cc.FileName + ".stack");
                     File.WriteAllText(folder + cc.FileName + ".stack", wholeJson);
@@ -791,7 +824,7 @@ namespace CloudCoinCore
                 else
                 {
                     Console.WriteLine(cc.FileName + ".stack" + " already exists in the folder " + folder);
-                    //CoreLogger.Log(cu.fileName + ".stack" + " already exists in the folder " + folder);
+                    CoreLogger.Log(cc.FileName + ".stack" + " already exists in the folder " + folder);
                     return alreadyExists;
 
                 }//end else
@@ -886,8 +919,29 @@ namespace CloudCoinCore
 
             foreach (var coin in coins)
             {
-                File.Delete(folder + (coin.FileName) + ".stack");
+                string fname = folder + coin.FileName + ".stack";
+                if (File.Exists(fname))
+                {
+                    File.Delete(fname);
+                }
+            }
+        }
 
+        public string getCelebriumName(string CoinName)
+        {
+            return CoinName.Replace("CloudCoin", "Celebrium");
+        }
+
+        public void RemovePreDetectCoins(IEnumerable<CloudCoin> coins, string folder)
+        {
+
+            foreach (var coin in coins)
+            {
+                string fname = folder + getCelebriumName(coin.FileName) + ".stack";
+                if (File.Exists(fname))
+                {
+                    File.Delete(fname);
+                }
             }
         }
 

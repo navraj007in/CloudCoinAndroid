@@ -20,23 +20,23 @@ namespace CloudCoinCore
     }
     public class CoreLogger
     {
-        static string assemblyFile = (
-    new System.Uri(Directory.GetCurrentDirectory())).AbsolutePath;
+        //static string assemblyFile = (new System.Uri(Directory.GetCurrentDirectory())).AbsolutePath;
 
       
         //Fields 
-        static string basedir = assemblyFile + Path.DirectorySeparatorChar;
-        static string logFolder = basedir + "Logs" + Path.DirectorySeparatorChar;
+        //static string basedir = assemblyFile + Path.DirectorySeparatorChar;
+        static string logFolder; // = basedir + "Logs" + Path.DirectorySeparatorChar;
+        static string logFile;
         
         
         //static string coinutilsLogFile = logFolder + "coinutils.log";
         //static string detectionagentLogFile = logFolder + "detectionagent.log";
         //static string detectorLogFile = logFolder + "detector.log";
         //static string dumperLogFile = logFolder + "dumper.log";
-        //static string exporterLogFile = logFolder + "exporter.log";
+        //static string WithdrawerLogFile = logFolder + "Withdrawer.log";
         //static string fileutilsLogFile = logFolder + "fileutils.log";
         //static string frack_fixerLogFile = logFolder + "frack_fixer.log";
-        //static string importerLogFile = logFolder + "importer.log";
+        //static string DepositerLogFile = logFolder + "Depositer.log";
         //static string raidaLogFile = logFolder + "raida.log";
 
 
@@ -45,8 +45,12 @@ namespace CloudCoinCore
 
         //Constructors
         
+        public static void initCoreLogger(string logfolder)
+        {
+            logFolder = logfolder;
+            logFile = logfolder + "logs" + DateTime.Now.ToString("yyyyMMdd").ToLower() + ".log";
+        }
 
-        
 
         static void createDir()
         {
@@ -68,14 +72,11 @@ namespace CloudCoinCore
 
         public static async void Log(string message, [System.Runtime.CompilerServices.CallerFilePath] string classpath = "")
         {
-            string path = logFolder + "other.log";
             try
             {
                 createDir();
-                string classname = Path.GetFileNameWithoutExtension(classpath).ToLower();
-                path = logFolder + classname + ".log";
 
-                TextWriter tw = File.AppendText(path);
+                TextWriter tw = File.AppendText(logFile);
                 using (tw)
                 {
                     await tw.WriteLineAsync(DateTime.Now.ToString());

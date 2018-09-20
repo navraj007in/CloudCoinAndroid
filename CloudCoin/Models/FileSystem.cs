@@ -12,9 +12,9 @@ namespace CloudCoinCore
 {
     public class FileSystem : IFileSystem
     {
-        public IEnumerable<CloudCoin> importCoins;
-        public IEnumerable<CloudCoin> exportCoins;
-        public IEnumerable<CloudCoin> importedCoins;
+        public IEnumerable<CloudCoin> DepositCoins;
+        public IEnumerable<CloudCoin> WithdrawCoins;
+        public IEnumerable<CloudCoin> DepositedCoins;
         public IEnumerable<FileInfo> templateFiles;
         public IEnumerable<CloudCoin> languageCoins;
         public IEnumerable<CloudCoin> counterfeitCoins;
@@ -32,9 +32,9 @@ namespace CloudCoinCore
         public FileSystem(string RootPath)
         {
             this.RootPath = RootPath;
-            ImportFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_IMPORT + Path.DirectorySeparatorChar;
-            ExportFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_EXPORT + Path.DirectorySeparatorChar;
-            ImportedFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_IMPORTED + Path.DirectorySeparatorChar;
+            DepositFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_Deposit + Path.DirectorySeparatorChar;
+            WithdrawFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_Withdraw + Path.DirectorySeparatorChar;
+            DepositedFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_DepositED + Path.DirectorySeparatorChar;
             TemplateFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_TEMPLATES + Path.DirectorySeparatorChar;
             LanguageFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_LANGUAGE + Path.DirectorySeparatorChar;
             CounterfeitFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_COUNTERFEIT + Path.DirectorySeparatorChar;
@@ -82,10 +82,10 @@ namespace CloudCoinCore
             try
             {
                 Directory.CreateDirectory(RootPath);
-                Directory.CreateDirectory(ImportFolder);
-                Directory.CreateDirectory(ExportFolder);
+                Directory.CreateDirectory(DepositFolder);
+                Directory.CreateDirectory(WithdrawFolder);
                 Directory.CreateDirectory(BankFolder);
-                Directory.CreateDirectory(ImportedFolder);
+                Directory.CreateDirectory(DepositedFolder);
                 Directory.CreateDirectory(LostFolder);
                 Directory.CreateDirectory(TrashFolder);
                 Directory.CreateDirectory(SuspectFolder);
@@ -114,11 +114,11 @@ namespace CloudCoinCore
 
         public override void LoadFileSystem()
         {
-            importCoins = LoadFolderCoins(ImportFolder);
-            //exportCoins = LoadFolderCoins(ExportFolder);
+            DepositCoins = LoadFolderCoins(DepositFolder);
+            //WithdrawCoins = LoadFolderCoins(WithdrawFolder);
             bankCoins = LoadFolderCoins(BankFolder);
             lostCoins = LoadFolderCoins(LostFolder);
-            //importedCoins = LoadFolderCoins(ImportedFolder);
+            //DepositedCoins = LoadFolderCoins(DepositedFolder);
             //trashCoins = LoadFolderCoins(TrashFolder);
             suspectCoins = LoadFolderCoins(SuspectFolder);
             detectedCoins = LoadFolderCoins(DetectedFolder);
@@ -134,7 +134,7 @@ namespace CloudCoinCore
 
         public override void DetectPreProcessing()
         {
-            foreach (var coin in importCoins)
+            foreach (var coin in DepositCoins)
             {
                 string fileName = getCelebriumName(coin.FileName);
                 int coinExists = (from x in predetectCoins
@@ -176,7 +176,7 @@ namespace CloudCoinCore
             }
         }
 
-        public void WriteCoin(CloudCoin coin, string folder)
+        public new void WriteCoin(CloudCoin coin, string folder)
         {
             var folderCoins = LoadFolderCoins(folder);
             string fileName = getCelebriumName(coin.FileName);
@@ -199,7 +199,7 @@ namespace CloudCoinCore
             }
         }
 
-        public void WriteCoin(CloudCoin coin, string folder,string extension)
+        public new void WriteCoin(CloudCoin coin, string folder,string extension)
         {
             var folderCoins = LoadFolderCoins(folder);
             string fileName = getCelebriumName(coin.FileName);
@@ -221,10 +221,7 @@ namespace CloudCoinCore
                 serializer.Serialize(writer, stack);
             }
         }
-        public string getCelebriumName(string CoinName)
-        {
-            return CoinName.Replace("CloudCoin", "Celebrium");
-        }
+
         public void TransferCoins(IEnumerable<CloudCoin> coins, string sourceFolder, string targetFolder,string extension = ".stack")
         {
             var folderCoins = LoadFolderCoins(targetFolder);
@@ -254,7 +251,7 @@ namespace CloudCoinCore
             }
         }
 
-        public void MoveCoins(IEnumerable<CloudCoin> coins, string sourceFolder, string targetFolder, bool replaceCoins = false)
+        public new void MoveCoins(IEnumerable<CloudCoin> coins, string sourceFolder, string targetFolder, bool replaceCoins = false)
         {
             var folderCoins = LoadFolderCoins(targetFolder);
 
@@ -291,7 +288,7 @@ namespace CloudCoinCore
             }
         }
 
-        public void MoveCoins(IEnumerable<CloudCoin> coins, string sourceFolder, string targetFolder,string extension, bool replaceCoins = false)
+        public new void MoveCoins(IEnumerable<CloudCoin> coins, string sourceFolder, string targetFolder,string extension, bool replaceCoins = false)
         {
             var folderCoins = LoadFolderCoins(targetFolder);
 
@@ -328,7 +325,7 @@ namespace CloudCoinCore
             }
         }
 
-        public void RemoveCoins(IEnumerable<CloudCoin> coins, string folder)
+        public new void RemoveCoins(IEnumerable<CloudCoin> coins, string folder)
         {
 
             foreach (var coin in coins)
@@ -338,7 +335,7 @@ namespace CloudCoinCore
             }
         }
 
-        public void RemoveCoins(IEnumerable<CloudCoin> coins, string folder,string extension)
+        public new void RemoveCoins(IEnumerable<CloudCoin> coins, string folder,string extension)
         {
 
             foreach (var coin in coins)
@@ -348,7 +345,7 @@ namespace CloudCoinCore
             }
         }
 
-        public void WriteCoinsToFile(IEnumerable<CloudCoin> coins, string fileName,string extension=".stack")
+        public new void WriteCoinsToFile(IEnumerable<CloudCoin> coins, string fileName,string extension=".stack")
         {
             JsonSerializer serializer = new JsonSerializer();
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
@@ -376,7 +373,7 @@ namespace CloudCoinCore
             //cloudCoinStr += "204f42455920474f4420262044454645415420545952414e545320";// Hex for " OBEY GOD & DEFEAT TYRANTS "
             //cloudCoinStr += "20466f756e6465727320372d352d3137";// Founders 7-5-17
             cloudCoinStr += "4c6976652046726565204f7220446965";// Live Free or Die
-            cloudCoinStr += "00000000000000000000000000";//Set to unknown so program does not export user data
+            cloudCoinStr += "00000000000000000000000000";//Set to unknown so program does not Withdraw user data
                                                          // for (int i =0; i < 25; i++) {
                                                          //     switch () { }//end switch pown char
                                                          // }//end for each pown
@@ -455,10 +452,10 @@ namespace CloudCoinCore
                 tag = rInt.ToString();
             }
 
-            string fileName = ExportFolder + cloudCoin.FileName + tag + ".jpg";
+            string fileName = WithdrawFolder + cloudCoin.FileName + tag + ".jpg";
             File.WriteAllBytes(fileName, b1.ToArray());
             Console.Out.WriteLine("Writing to " + fileName);
-            //CoreLogger.Log("Writing to " + fileName);
+            CoreLogger.Log("Writing to " + fileName);
             return fileSavedSuccessfully;
         }
 
@@ -550,17 +547,17 @@ namespace CloudCoinCore
                       .ToArray());
             return list;
         }
-        public override void MoveImportedFiles()
+        public override void MoveDepositedFiles()
         {
             var files = Directory
-              .GetFiles(ImportFolder)
+              .GetFiles(DepositFolder)
               .Where(file => Config.allowedExtensions.Any(file.ToLower().EndsWith))
               .ToList();
 
             string[] fnames = new string[files.Count()];
             for (int i = 0; i < files.Count(); i++)
             {
-                MoveFile(files[i], ImportedFolder + Path.DirectorySeparatorChar + Path.GetFileName(files[i]), FileMoveOptions.Rename);
+                MoveFile(files[i], DepositedFolder + Path.DirectorySeparatorChar + Path.GetFileName(files[i]), FileMoveOptions.Rename);
             }
         }
 

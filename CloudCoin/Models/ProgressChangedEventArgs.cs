@@ -27,11 +27,11 @@ namespace CloudCoinCore
 
     }
 
-    public enum ImportStage { Echo, Detect };
+    public enum DepositStage { Echo, Detect, None };
 
     public class ProgressReport
     {
-        public ImportStage Stage;
+        public DepositStage Stage;
         //current progress
         public double CurrentProgressAmount { get; set; }
         //total progress

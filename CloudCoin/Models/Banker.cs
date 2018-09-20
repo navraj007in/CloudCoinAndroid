@@ -15,9 +15,9 @@ namespace CloudCoinCore
             this.fileUtils = (FileSystem)fileUtils;
         }
 
-        public int importedCoinCount
+        public int DepositedCoinCount
         {
-            get { return fileUtils.importCoins.Count(); }
+            get { return fileUtils.DepositCoins.Count(); }
         }
 
         public int[] countCoins(String directoryPath)

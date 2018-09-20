@@ -41,7 +41,7 @@ namespace CloudCoinApp
 
     class CoinDialog : Dialog
     {
-        public enum DialogType { Import, Bank, Export }
+        public enum DialogType { Deposit, Bank, Withdraw }
 
         public static int IDX_BANK = 0;
         public static int IDX_COUNTERFEIT = 1;
@@ -61,7 +61,7 @@ namespace CloudCoinApp
         public TextView[] tvs;
 
         public EditText et;
-        public TextView tvTotal, exportTv;
+        public TextView tvTotal, withdrawTv;
 
         //public Button button, emailButton;
 
@@ -92,7 +92,7 @@ namespace CloudCoinApp
 
         public void Update(int layout)
         {
-            //if (isImportDialog)  return;
+            //if (isDepositDialog)  return;
             layoutid = layout;
             Create();
             //RequestWindowFeature((int)WindowFeatures.NoTitle);
@@ -118,10 +118,10 @@ namespace CloudCoinApp
 
             switch (dialogtype)
             {
-                case DialogType.Import:
+                case DialogType.Deposit:
                     break;
 
-                case DialogType.Export:
+                case DialogType.Withdraw:
                     size = Banker.denominations.Length;
                     nps = new NumberPicker[size];
                     tvs = new TextView[size];
@@ -140,8 +140,8 @@ namespace CloudCoinApp
 
 
                     tvTotal = FindViewById<TextView>(Resource.Id.exptotal);
-                    exportTv = FindViewById<TextView>(Resource.Id.exporttv);
-                    et = FindViewById<EditText>(Resource.Id.exporttag);
+                    withdrawTv = FindViewById<TextView>(Resource.Id.withdrawtv);
+                    et = FindViewById<EditText>(Resource.Id.withdrawtag);
 
                     bankCoins = new int[size];
                     bankCoins[0] = owner.onesCount;
@@ -164,7 +164,7 @@ namespace CloudCoinApp
 
                         nps[i].MinValue = 0;
                         nps[i].MaxValue = lTotal;
-                        nps[i].Value = 0;
+                        nps[i].Value = lTotal;
                         nps[i].ValueChanged += delegate
                         {
                             updateTotal();
@@ -180,7 +180,7 @@ namespace CloudCoinApp
                     updateTotal();
                     tvTotal.Text = "" + overall;
 
-                    String msg = String.Format(owner.Resources.GetString(Resource.String.exportnotice), owner.bank.fileUtils.ExportFolder);
+                    String msg = String.Format(owner.Resources.GetString(Resource.String.withdrawnotice), owner.bank.fileUtils.WithdrawFolder);
                     TextView eNotice = FindViewById<TextView>(Resource.Id.en);
                     eNotice.Text = msg;
                     break;
@@ -194,7 +194,7 @@ namespace CloudCoinApp
 
             switch (dlgType)
             {
-                case DialogType.Export:
+                case DialogType.Withdraw:
                     for (int i = 0; i < size; i++)
                     {
                         int denomination = Banker.denominations[i];
@@ -227,19 +227,19 @@ namespace CloudCoinApp
 
         private void updateTotal()
         {
-            if (exportTv == null) return;
+            if (withdrawTv == null) return;
 
             int total = getTotal();
 
             string sb = "";
-            sb += owner.Resources.GetString(Resource.String.export);
+            sb += owner.Resources.GetString(Resource.String.withdraw);
             sb += " " + total;
-            exportTv.Text = sb;
+            withdrawTv.Text = sb;
         }
 
-        public void DoExport()
+        public void DoWithdraw()
         {
-            /*           String exportTag;
+            /*           String WithdrawTag;
                        int[] values;
                        int[] failed;
                        int totalFailed = 0;
@@ -252,8 +252,8 @@ namespace CloudCoinApp
                            return;
                        }
 
-                       et = dialog.FindViewById<EditText>(Resource.Id.exporttag);
-                       exportTag = et.Text;
+                       et = dialog.FindViewById<EditText>(Resource.Id.Withdrawtag);
+                       WithdrawTag = et.Text;
 
                        RadioGroup rg = (RadioGroup)dialog.findViewById(R.id.radioGroup);
                        int selectedId = rg.getCheckedRadioButtonId();
@@ -270,11 +270,11 @@ namespace CloudCoinApp
 
                        if (selectedId == R.id.rjpg)
                        {
-                           failed = bank.exportJpeg(values, exportTag);
+                           failed = bank.WithdrawJpeg(values, WithdrawTag);
                        }
                        else if (selectedId == R.id.rjson)
                        {
-                           failed = bank.exportJson(values, exportTag);
+                           failed = bank.WithdrawJson(values, WithdrawTag);
                        }
                        else
                        {
@@ -286,7 +286,7 @@ namespace CloudCoinApp
 
                        if (failed[0] == -1)
                        {
-                           msg = res.getString(R.string.globalexporterror);
+                           msg = res.getString(R.string.globalWithdrawerror);
                        }
                        else
                        {
@@ -296,11 +296,11 @@ namespace CloudCoinApp
                            }
                            if (totalFailed == 0)
                            {
-                               msg = String.format(res.getString(R.string.exportok), bank.getRelativeExportDirPath());
+                               msg = String.format(res.getString(R.string.Withdrawok), bank.getRelativeWithdrawDirPath());
                            }
                            else
                            {
-                               msg = String.format(res.getString(R.string.exportfailed), totalFailed);
+                               msg = String.format(res.getString(R.string.Withdrawfailed), totalFailed);
                            }
                        }*/
 
@@ -352,19 +352,19 @@ namespace CloudCoinApp
 
     }
 
-    [Activity(Label = "@string/app_name", MainLauncher = true)]
+    [Activity(Label = "@string/app_name", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : Activity
     {
-        public enum ImportState { ImportInit, ImportIng, ImportDone }
+        public enum DepositState { DepositInit, DepositIng, DepositDone }
 
-        private LinearLayout linearLayoutImport;
+        private LinearLayout linearLayoutDeposit;
         private LinearLayout linearLayoutBank;
-        private LinearLayout linearLayoutExport;
+        private LinearLayout linearLayoutWithdraw;
 
         public static string version = "";
         public static readonly int PickImageId = 1000;
         private CoinDialog dialog = null;
-        private ImportState importState;
+        private DepositState depositState;
         private List<String> files = new List<String>();
 
         public static List<RAIDA> networks = new List<RAIDA>(); // Raida network chain
@@ -377,10 +377,10 @@ namespace CloudCoinApp
         private bool asyncFinished = true;
         private int lastProgress;
         private TextView titleText;
-        private ProgressBar importBar;
-        private TextView importText;
-        private bool isImportSuspect = false;
-        private bool isImportDialog;
+        private ProgressBar DepositBar;
+        private TextView DepositText;
+        private bool isDepositSuspect = false;
+        private bool isDepositDialog;
 
         #region Total Variables
         public int onesCount = 0;
@@ -421,6 +421,7 @@ namespace CloudCoinApp
             Console.Out.WriteLine("----------------------------------\n");
 
             var progressIndicator = new Progress<ProgressReport>(ReportProgress);
+
             var echos = raida.GetEchoTasks(progressIndicator);
             await Task.WhenAll(echos.AsParallel().Select(async task => await task));
 
@@ -436,14 +437,15 @@ namespace CloudCoinApp
             Console.Out.WriteLine("-----------------------------------\n");
         }
 
-        public async Task ImportTask()
+        public async Task DepositTask()
         {
-            importState = ImportState.ImportIng;
-            isImportDialog = false;
+            depositState = DepositState.DepositIng;
+            isDepositDialog = false;
             lastProgress = 0;
-            ShowImportScreen();
+            ShowDepositScreen();
+            await Task.Delay(100);
 
-            if (isImportSuspect)
+            if (isDepositSuspect)
             {
                 int i = 0;
                 foreach (CloudCoin coin in bank.fileUtils.suspectCoins)
@@ -462,55 +464,56 @@ namespace CloudCoinApp
                 }
 
                 dialog.Dismiss();
-                isImportSuspect = false;
-                importState = ImportState.ImportDone;
+                isDepositSuspect = false;
+                depositState = DepositState.DepositDone;
             }
             else
             {
                 titleText.Text = "RAIDA Echo";
-                importBar.Max = raida.nodes.Length;
-                importText.Text = "";
+                DepositBar.Max = raida.nodes.Length;
+                DepositText.Text = "";
+
                 await EchoTask(); // get echos from raida
                 Toast.MakeText(this, "Raida ReadyCount = " + raida.ReadyCount.ToString(), ToastLength.Long).Show();
                 if (raida.ReadyCount == 0)
                 {
-                    dialog.Update(Resource.Layout.importdialog2);
+                    dialog.Update(Resource.Layout.depositdialog2);
                     dialog.Show();
                     return;
                 }
 
-                titleText.SetText(Resource.String.importcoins);
-                importText.Text = "";
-                importBar.Progress = 0;
-                importBar.Max = Config.NodeCount;
-                importBar.Invalidate();
-                isImportSuspect = false;
+                titleText.SetText(Resource.String.Depositcoins);
+                DepositText.Text = "";
+                DepositBar.Progress = 0;
+                DepositBar.Max = Config.NodeCount;
+                DepositBar.Invalidate();
+                isDepositSuspect = false;
                 await ProcessCoins(true);
 
-                importState = ImportState.ImportDone;
+                depositState = DepositState.DepositDone;
                 dialog.Dismiss();
-                isImportDialog = false;
+                isDepositDialog = false;
             }
 
-            ShowImportScreen();
+            ShowDepositScreen();
         }
 
         async Task Progress(int i)
         {
             await Task.Run(() =>
             {
-                importText.Text = String.Format(Resources.GetString(Resource.String.authstring),
-                    i, bank.fileUtils.importCoins.Count());
+                DepositText.Text = String.Format(Resources.GetString(Resource.String.authstring),
+                    i, bank.fileUtils.DepositCoins.Count());
 
-                importBar.Progress = i;
-                importBar.Invalidate();
+                DepositBar.Progress = i;
+                DepositBar.Invalidate();
             });
         }
 
         private void Init()
         {
-            linearLayoutImport = FindViewById<LinearLayout>(Resource.Id.limport);
-            linearLayoutImport.Click += delegate
+            linearLayoutDeposit = FindViewById<LinearLayout>(Resource.Id.ldeposit);
+            linearLayoutDeposit.Click += delegate
             {
                 if (!asyncFinished) return;
 
@@ -520,14 +523,14 @@ namespace CloudCoinApp
 
                 if (netInfo == null || !netInfo.IsConnectedOrConnecting)
                 {
-                    dialog.Update(Resource.Layout.importdialog2);
+                    dialog.Update(Resource.Layout.depositdialog2);
                     dialog.Show();
                     return;
                 }
 
 
                 files.Clear();
-                ShowImportScreen();
+                ShowDepositScreen();
 
             };
 
@@ -537,10 +540,10 @@ namespace CloudCoinApp
                 ShowBankScreen();
             };
 
-            linearLayoutExport = FindViewById<LinearLayout>(Resource.Id.lexport);
-            linearLayoutExport.Click += delegate
+            linearLayoutWithdraw = FindViewById<LinearLayout>(Resource.Id.lwithdraw);
+            linearLayoutWithdraw.Click += delegate
             {
-                ShowExportScreen();
+                ShowWithdrawScreen();
             };
 
             //mSettings = PreferenceManager.GetDefaultSharedPreferences(this);
@@ -556,16 +559,25 @@ namespace CloudCoinApp
             FindViewById<TextView>(Resource.Id.tversion).Text = version;
 
             asyncFinished = true;
-            importState = ImportState.ImportInit;
-            dialog = new CoinDialog(this, Resource.Layout.importdialog);
+            depositState = DepositState.DepositInit;
+            dialog = new CoinDialog(this, Resource.Layout.depositdialog);
             dialog.Create();
 
-            //string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            string path;
+            if (Android.OS.Environment.ExternalStorageState.Equals(Android.OS.Environment.MediaMounted))
+            {
+                path = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + System.IO.Path.DirectorySeparatorChar + "CloudCoin";
+            }
+            else
+            {
+                //string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            }
             Log.Info("Path", path);
             bank = new Banker(new FileSystem(path));
             bank.fileUtils.CreateDirectories();
             bank.fileUtils.LoadFileSystem();
+            CoreLogger.initCoreLogger(bank.fileUtils.LogsFolder);
 
             InitNetworks();
         }
@@ -584,6 +596,7 @@ namespace CloudCoinApp
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
+                    CoreLogger.Log(e.Message);
                     if (System.IO.File.Exists("directory.json"))
                     {
                         nodesJson = System.IO.File.ReadAllText(Environment.CurrentDirectory + @"\directory.json");
@@ -705,12 +718,12 @@ namespace CloudCoinApp
                 }
 
                 dialog.Dismiss();
-                isImportDialog = false;
-                ShowImportScreen();
+                isDepositDialog = false;
+                ShowDepositScreen();
                 return;
             }
 
-            //bank.moveExportedToSent();
+            //bank.moveWithdrawedToSent();
             dialog.Dismiss();
         }
 
@@ -718,12 +731,12 @@ namespace CloudCoinApp
         {
             String statusString;
 
-            if (isImportSuspect) return "";
+            if (isDepositSuspect) return "";
 
-            int totalIncomeLength = bank.fileUtils.importCoins.Count();
-            int importedIncomeLength = progressCoins + 1;
+            int totalIncomeLength = bank.fileUtils.DepositCoins.Count();
+            int DepositedIncomeLength = progressCoins + 1;
 
-            statusString = String.Format(Resources.GetString(Resource.String.authstring), importedIncomeLength, totalIncomeLength);
+            statusString = String.Format(Resources.GetString(Resource.String.authstring), DepositedIncomeLength, totalIncomeLength);
 
             return statusString;
         }
@@ -738,7 +751,7 @@ namespace CloudCoinApp
             StartActivityForResult(Intent.CreateChooser(intent, "Select Image"), PickImageId);
         }
 
-        public void ShowImportScreen()
+        public void ShowDepositScreen()
         {
             int totalIncomeLength;
             String result;
@@ -746,24 +759,25 @@ namespace CloudCoinApp
             TextView tv;
             FileSystem FS = bank.fileUtils;
 
-            switch (importState)
+            switch (depositState)
             {
-                case ImportState.ImportIng:
-                    dialog.Update(Resource.Layout.importraida);
+                case DepositState.DepositIng:
+                    dialog.Update(Resource.Layout.depositraida);
                     titleText = dialog.FindViewById<TextView>(Resource.Id.titletext);
-                    importText = dialog.FindViewById<TextView>(Resource.Id.infotext);
-                    importText.Text = getStatusString(lastProgress);
+                    DepositText = dialog.FindViewById<TextView>(Resource.Id.infotext);
+                    DepositText.Text = getStatusString(lastProgress);
 
                     TextView subTv = dialog.FindViewById<TextView>(Resource.Id.infotextsub);
 
-                    importBar = dialog.FindViewById<ProgressBar>(Resource.Id.firstBar);
-                    importBar.Max = 100;
+                    DepositBar = dialog.FindViewById<ProgressBar>(Resource.Id.firstBar);
+                    DepositBar.Max = 100;
                     dialog.Show();
+                    Toast.MakeText(this, "Depositing... Wait for a while.", ToastLength.Long).Show();
                     break;
 
-                case ImportState.ImportDone:
-                    importState = ImportState.ImportInit;
-                    dialog.Update(Resource.Layout.importdialog5);
+                case DepositState.DepositDone:
+                    depositState = DepositState.DepositInit;
+                    dialog.Update(Resource.Layout.depositdialog5);
                     LinearLayout emailButton = dialog.FindViewById<LinearLayout>(Resource.Id.emailbutton);
                     emailButton.Click += delegate
                     {
@@ -796,19 +810,19 @@ namespace CloudCoinApp
                     }
                     break;
 
-                case ImportState.ImportInit:
-                    if (FS.suspectCoins.Count() > 0)
+                case DepositState.DepositInit:
+                    /*if (FS.suspectCoins.Count() > 0)
                     {
-                        dialog.Update(Resource.Layout.importsuspect);
+                        dialog.Update(Resource.Layout.Depositsuspect);
                         LinearLayout goButton = dialog.FindViewById<LinearLayout>(Resource.Id.gobutton);
                         goButton.Click += async delegate
                         {
-                            isImportSuspect = true;
-                            await ImportTask();
+                            isDepositSuspect = true;
+                            await DepositTask();
                         };
                         dialog.Show();
                         return;
-                    }
+                    }*/
 
                     if (files != null && files.Count > 0)
                     {
@@ -817,17 +831,18 @@ namespace CloudCoinApp
                             IEnumerable<CloudCoin> coins = FS.LoadCoins(file);
                             if (coins != null)
                             {
-                                FS.WriteCoinsToFile(coins, FS.ImportFolder + System.IO.Path.GetFileName(file));
+                                FS.WriteCoinsToFile(coins, FS.DepositFolder + System.IO.Path.GetFileName(file));
                                 FS.LoadFileSystem();
                             }
+                            File.Delete(file);
                         }
                     }
                     else
                     {
-                        FS.importCoins = FS.LoadFolderCoins(FS.ImportFolder);
+                        FS.DepositCoins = FS.LoadFolderCoins(FS.DepositFolder);
                     }
 
-                    dialog.Update(Resource.Layout.importdialog);
+                    dialog.Update(Resource.Layout.depositdialog);
                     tv = dialog.FindViewById<TextView>(Resource.Id.infotext);
                     LinearLayout fileButton = dialog.FindViewById<LinearLayout>(Resource.Id.filebutton);
                     fileButton.Click += delegate
@@ -835,11 +850,10 @@ namespace CloudCoinApp
                         selectFile();
                     };
 
-                    totalIncomeLength = FS.importCoins.Count();
+                    totalIncomeLength = FS.DepositCoins.Count();
                     if (totalIncomeLength == 0)
                     {
-                        result = String.Format(Resources.GetString(Resource.String.erremptyimport),
-                            FS.ImportFolder);
+                        result = String.Format(Resources.GetString(Resource.String.erremptyDeposit), FS.DepositFolder);
                         tv.Text = result;
                         dialog.Show();
                         break;
@@ -848,26 +862,26 @@ namespace CloudCoinApp
                     {
                         if (files != null && files.Count > 0)
                         {
-                            result = String.Format(Resources.GetString(Resource.String.importfiles), totalIncomeLength);
+                            result = String.Format(Resources.GetString(Resource.String.depositfiles), totalIncomeLength);
                         }
                         else
                         {
-                            result = String.Format(Resources.GetString(Resource.String.importwarn),
-                                FS.ImportedFolder, totalIncomeLength);
+                            result = String.Format(Resources.GetString(Resource.String.depositwarn),
+                                FS.DepositedFolder, totalIncomeLength);
                         }
                         files.Clear();
 
-                        dialog.Update(Resource.Layout.importdialog3);
+                        dialog.Update(Resource.Layout.depositdialog3);
                         tv = dialog.FindViewById<TextView>(Resource.Id.infotext2);
                         fileButton = dialog.FindViewById<LinearLayout>(Resource.Id.filebutton);
                         fileButton.Click += delegate
                         {
                             selectFile();
                         };
-                        LinearLayout importButton = dialog.FindViewById<LinearLayout>(Resource.Id.importbutton);
-                        importButton.Click += async delegate
+                        LinearLayout DepositButton = dialog.FindViewById<LinearLayout>(Resource.Id.Depositbutton);
+                        DepositButton.Click += async delegate
                         {
-                            await ImportTask(); // import selected coins
+                            await DepositTask(); // Deposit selected coins
                         };
                         tv.Text = result;
                         dialog.Show();
@@ -1019,7 +1033,7 @@ namespace CloudCoinApp
 
         }
 
-        public void ShowExportScreen()
+        public void ShowWithdrawScreen()
         {
             List<string> exfilenames = new List<string>();
 
@@ -1033,11 +1047,11 @@ namespace CloudCoinApp
             FS.LoadFileSystem();
             CalculateTotals();
 
-            dialog.Update(Resource.Layout.exportdialog);
-            dialog.Init(CoinDialog.DialogType.Export);
+            dialog.Update(Resource.Layout.withdrawdialog);
+            dialog.Init(CoinDialog.DialogType.Withdraw);
 
-            LinearLayout exportButton = dialog.FindViewById<LinearLayout>(Resource.Id.exportbutton);
-            exportButton.Click += delegate
+            LinearLayout WithdrawButton = dialog.FindViewById<LinearLayout>(Resource.Id.withdrawbutton);
+            WithdrawButton.Click += delegate
             {
                 exp_1 = dialog.nps[0].Value;
                 exp_5 = dialog.nps[1].Value;
@@ -1051,85 +1065,87 @@ namespace CloudCoinApp
                 totalCoins.AddRange(bank.fileUtils.frackedCoins);
 
 
-                var onesToExport = (from x in totalCoins
+                var onesToWithdraw = (from x in totalCoins
                                     where x.denomination == 1
                                     select x).Take(exp_1);
-                var fivesToExport = (from x in totalCoins
+                var fivesToWithdraw = (from x in totalCoins
                                      where x.denomination == 5
                                      select x).Take(exp_5);
-                var qtrToExport = (from x in totalCoins
+                var qtrToWithdraw = (from x in totalCoins
                                    where x.denomination == 25
                                    select x).Take(exp_25);
-                var hundredsToExport = (from x in totalCoins
+                var hundredsToWithdraw = (from x in totalCoins
                                         where x.denomination == 100
                                         select x).Take(exp_100);
-                var twoFiftiesToExport = (from x in totalCoins
+                var twoFiftiesToWithdraw = (from x in totalCoins
                                           where x.denomination == 250
                                           select x).Take(exp_250);
-                List<CloudCoin> exportCoins = onesToExport.ToList();
-                exportCoins.AddRange(fivesToExport);
-                exportCoins.AddRange(qtrToExport);
-                exportCoins.AddRange(hundredsToExport);
-                exportCoins.AddRange(twoFiftiesToExport);
+                List<CloudCoin> WithdrawCoins = onesToWithdraw.ToList();
+                WithdrawCoins.AddRange(fivesToWithdraw);
+                WithdrawCoins.AddRange(qtrToWithdraw);
+                WithdrawCoins.AddRange(hundredsToWithdraw);
+                WithdrawCoins.AddRange(twoFiftiesToWithdraw);
 
-                RadioGroup radioGroup = FindViewById<RadioGroup>(Resource.Id.radioGroup);
-                RadioButton radioButton = FindViewById<RadioButton>(radioGroup.CheckedRadioButtonId);
+                RadioGroup radioGroup = dialog.FindViewById<RadioGroup>(Resource.Id.radioGroup);
+                RadioButton radioButton = dialog.FindViewById<RadioButton>(radioGroup.CheckedRadioButtonId);
                 exfilenames.Clear();
                 String filename;
                 switch (radioButton.Id)
                 {
                     case Resource.Id.rjpg:
-                        filename = (FS.ExportFolder + System.IO.Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + dialog.et.Text + "");
+                        filename = (FS.WithdrawFolder + System.IO.Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + dialog.et.Text + "");
                         if (File.Exists(filename))
                         {
                             // tack on a random number if a file already exists with the same tag
                             Random rnd = new Random();
                             int tagrand = rnd.Next(999);
-                            filename = (FS.ExportFolder + System.IO.Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + dialog.et.Text + tagrand + "");
+                            filename = (FS.WithdrawFolder + System.IO.Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + dialog.et.Text + tagrand + "");
                         }//end if file exists
 
-                        foreach (var coin in exportCoins)
+                        foreach (var coin in WithdrawCoins)
                         {
-                            string OutputFile = FS.ExportFolder + coin.FileName + dialog.et.Text + ".jpg";
+                            string OutputFile = FS.WithdrawFolder + coin.FileName + dialog.et.Text + ".jpg";
                             bool fileGenerated = FS.WriteCoinToJpeg(coin, FS.GetCoinTemplate(coin), OutputFile, "");
                             if (fileGenerated)
                             {
-                                Console.WriteLine("CloudCoin exported as Jpeg to " + OutputFile);
+                                Console.WriteLine("CloudCoin Withdrawed as Jpeg to " + OutputFile);
+                                CoreLogger.Log("CloudCoin Withdrawed as Jpeg to " + OutputFile);
                             }
-                            exfilenames.Add(FS.ExportFolder + OutputFile);
+                            exfilenames.Add(FS.WithdrawFolder + OutputFile);
                         }
 
-                        FS.RemoveCoins(exportCoins, FS.BankFolder);
-                        FS.RemoveCoins(exportCoins, FS.FrackedFolder);
+                        FS.RemoveCoins(WithdrawCoins, FS.BankFolder);
+                        FS.RemoveCoins(WithdrawCoins, FS.FrackedFolder);
                         break;
 
                     case Resource.Id.rjson:
-                        foreach (var coin in exportCoins)
+                        foreach (var coin in WithdrawCoins)
                         {
-                            string OutputFile = FS.ExportFolder + coin.FileName + dialog.et.Text + ".stack";
+                            string OutputFile = FS.WithdrawFolder + coin.FileName + dialog.et.Text + ".stack";
                             FS.WriteCoinToFile(coin, OutputFile);
 
-                            FS.RemoveCoins(exportCoins, FS.BankFolder);
-                            FS.RemoveCoins(exportCoins, FS.FrackedFolder);
-                            Console.WriteLine("CloudCoin exported as Stack to " + OutputFile);
+                            FS.RemoveCoins(WithdrawCoins, FS.BankFolder);
+                            FS.RemoveCoins(WithdrawCoins, FS.FrackedFolder);
+                            Console.WriteLine("CloudCoin Withdrawed as Stack to " + OutputFile);
+                            CoreLogger.Log("CloudCoin Withdrawed as Stack to " + OutputFile);
                             exfilenames.Add(OutputFile);
                         }
                         break;
 
                     case Resource.Id.rcsv:
-                        filename = (FS.ExportFolder + System.IO.Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + dialog.et.Text + ".csv");
+                        filename = (FS.WithdrawFolder + System.IO.Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + dialog.et.Text + ".csv");
                         if (File.Exists(filename))
                         {
                             // tack on a random number if a file already exists with the same tag
                             Random rnd = new Random();
                             int tagrand = rnd.Next(999);
-                            filename = (FS.ExportFolder + System.IO.Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + dialog.et.Text + tagrand + "");
+                            filename = (FS.WithdrawFolder + System.IO.Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + dialog.et.Text + tagrand + "");
 
 
                         }//end if file exists
 
                         var csv = new StringBuilder();
-                        var coins = exportCoins;
+                        var coins = WithdrawCoins;
 
                         var headerLine = string.Format("sn,denomination,nn,");
                         string headeranstring = "";
@@ -1154,17 +1170,18 @@ namespace CloudCoinApp
 
                         }
                         File.WriteAllText(filename, csv.ToString());
-                        Console.WriteLine("Coins exported as csv to " + filename);
-                        //FS.WriteCoinsToFile(exportCoins, filename, ".s");
-                        FS.RemoveCoins(exportCoins, FS.BankFolder);
-                        FS.RemoveCoins(exportCoins, FS.FrackedFolder);
+                        Console.WriteLine("Coins Withdrawed as csv to " + filename);
+                        CoreLogger.Log("Coins Withdrawed as csv to " + filename);
+                        //FS.WriteCoinsToFile(WithdrawCoins, filename, ".s");
+                        FS.RemoveCoins(WithdrawCoins, FS.BankFolder);
+                        FS.RemoveCoins(WithdrawCoins, FS.FrackedFolder);
                         exfilenames.Add(filename);
                         break;
                 }
 
-                dialog.Update(Resource.Layout.exportdialog2);
+                dialog.Update(Resource.Layout.withdrawdialog2);
                 TextView infoText = dialog.FindViewById<TextView>(Resource.Id.infotext);
-                infoText.Text = Resources.GetString(Resource.String.exportok);
+                infoText.Text = Resources.GetString(Resource.String.withdrawok);
                 LinearLayout emailButton = dialog.FindViewById<LinearLayout>(Resource.Id.emailbutton);
                 emailButton.Click += delegate
                 {
@@ -1200,33 +1217,35 @@ namespace CloudCoinApp
 
         private void ReportProgress(ProgressReport progress)
         {
-            importText.Text = progress.CurrentProgressMessage;
-            if (progress.Stage == ImportStage.Echo)
+            DepositText.Text = progress.CurrentProgressMessage;
+            if (progress.Stage == DepositStage.Echo)
             {
-                importBar.Progress++;
+                DepositBar.Progress++;
             }
             else
             {
-                importBar.Progress++;
-                //importBar.Progress = (int)progress.CurrentProgressAmount;
+                DepositBar.Progress++;
+                //DepositBar.Progress = (int)progress.CurrentProgressAmount;
             }
-            importBar.Invalidate();
+            DepositBar.Invalidate();
         }
 
         public async Task ProcessCoins(bool ChangeANs = true)
         {
-            var networks = (from x in bank.fileUtils.importCoins
+            var networks = (from x in bank.fileUtils.DepositCoins
                             select x.nn).Distinct().ToList();
 
             foreach (var nn in networks)
             {
                 Console.WriteLine("Starting Coins detection for Network " + nn);
+                CoreLogger.Log("Starting Coins detection for Network " + nn);
                 RAIDA.ActiveRAIDA = (from x in MainActivity.networks
                                where x.NetworkNumber == nn
                                select x).FirstOrDefault();
                 var progressIndicator = new Progress<ProgressReport>(ReportProgress);
                 await ProcessNetworkCoins(progressIndicator, nn, ChangeANs);
                 Console.WriteLine("Coins detection for Network " + nn + "Finished.");
+                CoreLogger.Log("Coins detection for Network " + nn + "Finished.");
             }
         }
 
@@ -1266,6 +1285,7 @@ namespace CloudCoinApp
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
+                    CoreLogger.Log(e.Message);
                 }
                 var tasks = raida.GetMultiDetectTasks(progress, coins.ToArray(), Config.milliSecondsToTimeOut, ChangeANS);
                 try
@@ -1302,7 +1322,7 @@ namespace CloudCoinApp
                     Console.WriteLine("Minor Progress- " + pge.MinorProgress);
                     OnProgressChanged(pge);
                     FS.WriteCoin(coins, FS.DetectedFolder, false);
-                    FS.RemoveCoins(coins, FS.PreDetectFolder);
+                    FS.RemovePreDetectCoins(coins, FS.PreDetectFolder);
 
                     Console.Out.WriteLine(pge.MinorProgress + " % of Coins on Network " + NetworkNumber + " processed.");
                     //FS.WriteCoin(coins, FS.DetectedFolder);
@@ -1311,8 +1331,8 @@ namespace CloudCoinApp
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                    CoreLogger.Log(ex.Message);
                 }
-
 
             }
             pge.MinorProgress = 100;
@@ -1345,13 +1365,18 @@ namespace CloudCoinApp
                                 where x.folder == FS.SuspectFolder
                                 select x).ToList();
 
-            Console.WriteLine("Total Passed Coins - " + (passedCoins.Count() + frackedCoins.Count()));
-            Console.WriteLine("Total Failed Coins - " + failedCoins.Count());
             Console.Out.WriteLine("Coin Detection finished.");
             Console.Out.WriteLine("Total Passed Coins - " + (passedCoins.Count() + frackedCoins.Count()) + "");
             Console.Out.WriteLine("Total Failed Coins - " + failedCoins.Count() + "");
             Console.Out.WriteLine("Total Lost Coins - " + lostCoins.Count() + "");
             Console.Out.WriteLine("Total Suspect Coins - " + suspectCoins.Count() + "");
+
+            CoreLogger.Log("Coin Detection finished.");
+            CoreLogger.Log("Total Passed Coins - " + (passedCoins.Count() + frackedCoins.Count()) + "");
+            CoreLogger.Log("Total Failed Coins - " + failedCoins.Count() + "");
+            CoreLogger.Log("Total Lost Coins - " + lostCoins.Count() + "");
+            CoreLogger.Log("Total Suspect Coins - " + suspectCoins.Count() + "");
+
             dialog.banked = passedCoins.Count;
             dialog.fracked = frackedCoins.Count;
             dialog.failed = failedCoins.Count;
@@ -1371,7 +1396,7 @@ namespace CloudCoinApp
             FS.RemoveCoins(lostCoins, FS.DetectedFolder);
             FS.RemoveCoins(suspectCoins, FS.DetectedFolder);
 
-            FS.MoveImportedFiles();
+            FS.MoveDepositedFiles();
 
             //after = DateTime.Now;
             //ts = after.Subtract(before);

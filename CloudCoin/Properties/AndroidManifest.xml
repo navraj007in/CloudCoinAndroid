@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="CloudCoinApp.CloudCoinApp" android:versionCode="1" android:versionName="1.0" android:installLocation="internalOnly">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="CloudCoinApp.CloudCoinApp" android:versionCode="1" android:versionName="1.0.3" android:installLocation="internalOnly">
 	<uses-sdk android:minSdkVersion="19" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
