@@ -35,6 +35,8 @@ using Android.Util;
 using Config = CloudCoinCore.Config;
 using System.Net;
 using System.IO;
+using System.Globalization;
+using Java.Text;
 
 namespace CloudCoinApp
 {
@@ -743,12 +745,10 @@ namespace CloudCoinApp
 
         public void selectFile()
         {
-            Intent intent = new Intent();
-            //intent.SetType("image/*");
+            Intent intent = new Intent(Intent.ActionGetContent);
             intent.SetType("*/*");
             intent.PutExtra(Intent.ExtraAllowMultiple, true);
-            intent.SetAction(Intent.ActionGetContent);
-            StartActivityForResult(Intent.CreateChooser(intent, "Select Image"), PickImageId);
+            StartActivityForResult(Intent.CreateChooser(intent, "Select Coins"), PickImageId);
         }
 
         public void ShowDepositScreen()
@@ -867,7 +867,7 @@ namespace CloudCoinApp
                         else
                         {
                             result = String.Format(Resources.GetString(Resource.String.depositwarn),
-                                FS.DepositedFolder, totalIncomeLength);
+                                FS.DepositFolder, totalIncomeLength);
                         }
                         files.Clear();
 
@@ -949,7 +949,7 @@ namespace CloudCoinApp
             dialog.Init(CoinDialog.DialogType.Bank);
 
             TextView tcv = dialog.FindViewById<TextView>(Resource.Id.totalcoinstxt);
-            tcv.Text = Resources.GetString(Resource.String.acc) + string.Format(" {0,8:N0}", totalAmount);
+            tcv.Text = Resources.GetString(Resource.String.acc) + Convert.ToDecimal(totalAmount).ToString(" #00,000,000") + "CC";
 
             TextView bs1 = dialog.FindViewById<TextView>(Resource.Id.bs1);
             bs1.Text = string.Format("{0,7}", onesCount);
@@ -1064,7 +1064,6 @@ namespace CloudCoinApp
                 List<CloudCoin> totalCoins = bank.fileUtils.bankCoins.ToList();
                 totalCoins.AddRange(bank.fileUtils.frackedCoins);
 
-
                 var onesToWithdraw = (from x in totalCoins
                                     where x.denomination == 1
                                     select x).Take(exp_1);
@@ -1097,7 +1096,7 @@ namespace CloudCoinApp
                         if (File.Exists(filename))
                         {
                             // tack on a random number if a file already exists with the same tag
-                            Random rnd = new Random();
+                            System.Random rnd = new System.Random();
                             int tagrand = rnd.Next(999);
                             filename = (FS.WithdrawFolder + System.IO.Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + dialog.et.Text + tagrand + "");
                         }//end if file exists
@@ -1137,7 +1136,7 @@ namespace CloudCoinApp
                         if (File.Exists(filename))
                         {
                             // tack on a random number if a file already exists with the same tag
-                            Random rnd = new Random();
+                            System.Random rnd = new System.Random();
                             int tagrand = rnd.Next(999);
                             filename = (FS.WithdrawFolder + System.IO.Path.DirectorySeparatorChar + totalSaved + ".CloudCoins." + dialog.et.Text + tagrand + "");
 

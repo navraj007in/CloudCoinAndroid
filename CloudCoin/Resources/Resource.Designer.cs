@@ -3529,15 +3529,6 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f09005a
 			public const int Depositcoins = 2131296346;
 			
-			// aapt resource value: 0x7f09003f
-			public const int Depositresults = 2131296319;
-			
-			// aapt resource value: 0x7f090040
-			public const int Depositresultsauth = 2131296320;
-			
-			// aapt resource value: 0x7f090041
-			public const int Depositresultstrash = 2131296321;
-			
 			// aapt resource value: 0x7f09005f
 			public const int Depositstr = 2131296351;
 			
@@ -3690,6 +3681,15 @@ namespace CloudCoinApp
 			
 			// aapt resource value: 0x7f09004c
 			public const int depositresult = 2131296332;
+			
+			// aapt resource value: 0x7f09003f
+			public const int depositresults = 2131296319;
+			
+			// aapt resource value: 0x7f090040
+			public const int depositresultsauth = 2131296320;
+			
+			// aapt resource value: 0x7f090041
+			public const int depositresultstrash = 2131296321;
 			
 			// aapt resource value: 0x7f09002f
 			public const int deposittag = 2131296303;

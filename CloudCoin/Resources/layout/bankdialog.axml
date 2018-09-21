@@ -39,10 +39,10 @@
                 style="@style/InvExt">
                 <TextView
                     style="@style/InvText6"
-                    android:text="Perfect:" />
+                    android:text="Perfect Coins:" />
                 <TextView
                     style="@style/InvText6"
-                    android:text="Fracked:" />
+                    android:text="Fracked Coins:" />
                 <TextView
                     android:text=""
                     style="@style/InvText6" />

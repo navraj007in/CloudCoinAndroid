@@ -371,7 +371,10 @@
                     <TextView
                         style="@style/InvText3"
                         android:id="@+id/en"
-                        android:textSize="9dp" />
+                        android:textSize="12dp"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="12dp"
+                        android:autoSizeMaxTextSize="18dp" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

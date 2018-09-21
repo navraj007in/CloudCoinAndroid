@@ -149,7 +149,7 @@ namespace CloudCoinCore
                 serializer.Converters.Add(new JavaScriptDateTimeConverter());
                 serializer.NullValueHandling = NullValueHandling.Ignore;
                 Stack stack = new Stack(coin);
-                using (StreamWriter sw = new StreamWriter(PreDetectFolder + fileName + ".stack"))
+                using (StreamWriter sw = new StreamWriter(PreDetectFolder + fileName + "stack"))
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
                     serializer.Serialize(writer, stack);
@@ -351,7 +351,8 @@ namespace CloudCoinCore
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
             serializer.NullValueHandling = NullValueHandling.Ignore;
             Stack stack = new Stack(coins.ToArray());
-            using (StreamWriter sw = new StreamWriter(fileName + extension))
+            //using (StreamWriter sw = new StreamWriter(fileName + extension))
+            using (StreamWriter sw = new StreamWriter(fileName))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, stack);
