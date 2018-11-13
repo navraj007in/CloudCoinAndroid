@@ -937,7 +937,7 @@ namespace CloudCoinCore
 
             foreach (var coin in coins)
             {
-                string fname = folder + getCelebriumName(coin.FileName) + ".stack";
+                string fname = folder + getCelebriumName(coin.FileName) + "stack";
                 if (File.Exists(fname))
                 {
                     File.Delete(fname);
@@ -1076,7 +1076,7 @@ namespace CloudCoinCore
                 serializer.Converters.Add(new JavaScriptDateTimeConverter());
                 serializer.NullValueHandling = NullValueHandling.Ignore;
                 Stack stack = new Stack(coins.ToArray());
-                using (StreamWriter sw = new StreamWriter(folder + fileName + ".stack"))
+                using (StreamWriter sw = new StreamWriter(folder + fileName))
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
                     serializer.Serialize(writer, stack);
@@ -1132,7 +1132,7 @@ namespace CloudCoinCore
             }
         }
 
-        public void WriteCoinsToFile(IEnumerable<CloudCoin> coins, string fileName, string extension = ".stack")
+        public void WriteCoinsToFile(IEnumerable<CloudCoin> coins, string fileName, string extension = "")
         {
             JsonSerializer serializer = new JsonSerializer();
             serializer.Converters.Add(new JavaScriptDateTimeConverter());

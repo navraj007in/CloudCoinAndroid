@@ -2420,11 +2420,11 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f080033
 			public const int CTRL = 2131230771;
 			
-			// aapt resource value: 0x7f0800c5
-			public const int Depositbutton = 2131230917;
-			
 			// aapt resource value: 0x7f0800c6
-			public const int Deposittv = 2131230918;
+			public const int Depositbutton = 2131230918;
+			
+			// aapt resource value: 0x7f0800c7
+			public const int Deposittv = 2131230919;
 			
 			// aapt resource value: 0x7f080034
 			public const int FUNCTION = 2131230772;
@@ -2438,11 +2438,11 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f080037
 			public const int SYM = 2131230775;
 			
-			// aapt resource value: 0x7f080106
-			public const int Withdrawtv = 2131230982;
+			// aapt resource value: 0x7f08010c
+			public const int Withdrawtv = 2131230988;
 			
-			// aapt resource value: 0x7f0800e5
-			public const int action0 = 2131230949;
+			// aapt resource value: 0x7f0800eb
+			public const int action0 = 2131230955;
 			
 			// aapt resource value: 0x7f08007c
 			public const int action_bar = 2131230844;
@@ -2465,17 +2465,17 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f08005a
 			public const int action_bar_title = 2131230810;
 			
-			// aapt resource value: 0x7f0800e2
-			public const int action_container = 2131230946;
+			// aapt resource value: 0x7f0800e8
+			public const int action_container = 2131230952;
 			
 			// aapt resource value: 0x7f08007d
 			public const int action_context_bar = 2131230845;
 			
-			// aapt resource value: 0x7f0800e9
-			public const int action_divider = 2131230953;
+			// aapt resource value: 0x7f0800ef
+			public const int action_divider = 2131230959;
 			
-			// aapt resource value: 0x7f0800e3
-			public const int action_image = 2131230947;
+			// aapt resource value: 0x7f0800e9
+			public const int action_image = 2131230953;
 			
 			// aapt resource value: 0x7f080003
 			public const int action_menu_divider = 2131230723;
@@ -2492,11 +2492,11 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f08005c
 			public const int action_mode_close_button = 2131230812;
 			
-			// aapt resource value: 0x7f0800e4
-			public const int action_text = 2131230948;
+			// aapt resource value: 0x7f0800ea
+			public const int action_text = 2131230954;
 			
-			// aapt resource value: 0x7f0800f2
-			public const int actions = 2131230962;
+			// aapt resource value: 0x7f0800f8
+			public const int actions = 2131230968;
 			
 			// aapt resource value: 0x7f08005d
 			public const int activity_chooser_view_content = 2131230813;
@@ -2531,8 +2531,8 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f08008b
 			public const int backgroundid = 2131230859;
 			
-			// aapt resource value: 0x7f0800c8
-			public const int banked = 2131230920;
+			// aapt resource value: 0x7f0800c9
+			public const int banked = 2131230921;
 			
 			// aapt resource value: 0x7f08002f
 			public const int beginning = 2131230767;
@@ -2558,11 +2558,11 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f0800bc
 			public const int blayoutmainall = 2131230908;
 			
-			// aapt resource value: 0x7f0800fa
-			public const int blayoutmainext = 2131230970;
+			// aapt resource value: 0x7f080100
+			public const int blayoutmainext = 2131230976;
 			
-			// aapt resource value: 0x7f0800f9
-			public const int blayoutmaininner = 2131230969;
+			// aapt resource value: 0x7f0800ff
+			public const int blayoutmaininner = 2131230975;
 			
 			// aapt resource value: 0x7f08008c
 			public const int blayouttitle = 2131230860;
@@ -2609,6 +2609,9 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f0800ae
 			public const int bsf5 = 2131230894;
 			
+			// aapt resource value: 0x7f0800be
+			public const int bsfall = 2131230910;
+			
 			// aapt resource value: 0x7f0800ab
 			public const int bst1 = 2131230891;
 			
@@ -2624,14 +2627,14 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f0800af
 			public const int bst5 = 2131230895;
 			
-			// aapt resource value: 0x7f0800be
-			public const int bstall = 2131230910;
+			// aapt resource value: 0x7f0800bf
+			public const int bstall = 2131230911;
 			
 			// aapt resource value: 0x7f080063
 			public const int buttonPanel = 2131230819;
 			
-			// aapt resource value: 0x7f0800c3
-			public const int buttonwrapper = 2131230915;
+			// aapt resource value: 0x7f0800c4
+			public const int buttonwrapper = 2131230916;
 			
 			// aapt resource value: 0x7f080091
 			public const int bx1 = 2131230865;
@@ -2642,8 +2645,8 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f08009e
 			public const int bx3 = 2131230878;
 			
-			// aapt resource value: 0x7f0800e6
-			public const int cancel_action = 2131230950;
+			// aapt resource value: 0x7f0800ec
+			public const int cancel_action = 2131230956;
 			
 			// aapt resource value: 0x7f080045
 			public const int center = 2131230789;
@@ -2657,8 +2660,8 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f080073
 			public const int checkbox = 2131230835;
 			
-			// aapt resource value: 0x7f0800ee
-			public const int chronometer = 2131230958;
+			// aapt resource value: 0x7f0800f4
+			public const int chronometer = 2131230964;
 			
 			// aapt resource value: 0x7f08004e
 			public const int clip_horizontal = 2131230798;
@@ -2666,23 +2669,26 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f08004f
 			public const int clip_vertical = 2131230799;
 			
-			// aapt resource value: 0x7f0800bf
-			public const int closebutton = 2131230911;
+			// aapt resource value: 0x7f0800c0
+			public const int closebutton = 2131230912;
 			
-			// aapt resource value: 0x7f0800cd
-			public const int closebuttontext = 2131230925;
+			// aapt resource value: 0x7f0800ce
+			public const int closebuttontext = 2131230926;
 			
 			// aapt resource value: 0x7f080039
 			public const int collapseActionView = 2131230777;
 			
-			// aapt resource value: 0x7f0800d6
-			public const int container = 2131230934;
+			// aapt resource value: 0x7f0800d7
+			public const int container = 2131230935;
 			
 			// aapt resource value: 0x7f080066
 			public const int contentPanel = 2131230822;
 			
-			// aapt resource value: 0x7f0800d7
-			public const int coordinator = 2131230935;
+			// aapt resource value: 0x7f0800d8
+			public const int coordinator = 2131230936;
+			
+			// aapt resource value: 0x7f0800e5
+			public const int currentdir = 2131230949;
 			
 			// aapt resource value: 0x7f08006d
 			public const int custom = 2131230829;
@@ -2696,20 +2702,20 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f080060
 			public const int default_activity_button = 2131230816;
 			
-			// aapt resource value: 0x7f0800d9
-			public const int design_bottom_sheet = 2131230937;
+			// aapt resource value: 0x7f0800da
+			public const int design_bottom_sheet = 2131230938;
+			
+			// aapt resource value: 0x7f0800e1
+			public const int design_menu_item_action_area = 2131230945;
 			
 			// aapt resource value: 0x7f0800e0
-			public const int design_menu_item_action_area = 2131230944;
+			public const int design_menu_item_action_area_stub = 2131230944;
 			
 			// aapt resource value: 0x7f0800df
-			public const int design_menu_item_action_area_stub = 2131230943;
+			public const int design_menu_item_text = 2131230943;
 			
 			// aapt resource value: 0x7f0800de
-			public const int design_menu_item_text = 2131230942;
-			
-			// aapt resource value: 0x7f0800dd
-			public const int design_navigation_view = 2131230941;
+			public const int design_navigation_view = 2131230942;
 			
 			// aapt resource value: 0x7f080020
 			public const int disableHome = 2131230752;
@@ -2717,20 +2723,20 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f08007e
 			public const int edit_query = 2131230846;
 			
+			// aapt resource value: 0x7f0800d0
+			public const int email = 2131230928;
+			
 			// aapt resource value: 0x7f0800cf
-			public const int email = 2131230927;
+			public const int emailbutton = 2131230927;
 			
-			// aapt resource value: 0x7f0800ce
-			public const int emailbutton = 2131230926;
-			
-			// aapt resource value: 0x7f080105
-			public const int en = 2131230981;
+			// aapt resource value: 0x7f08010b
+			public const int en = 2131230987;
 			
 			// aapt resource value: 0x7f080030
 			public const int end = 2131230768;
 			
-			// aapt resource value: 0x7f0800f4
-			public const int end_padder = 2131230964;
+			// aapt resource value: 0x7f0800fa
+			public const int end_padder = 2131230970;
 			
 			// aapt resource value: 0x7f08003f
 			public const int enterAlways = 2131230783;
@@ -2747,14 +2753,20 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f080072
 			public const int expanded_menu = 2131230834;
 			
-			// aapt resource value: 0x7f0800f6
-			public const int exptotal = 2131230966;
+			// aapt resource value: 0x7f0800fc
+			public const int exptotal = 2131230972;
 			
-			// aapt resource value: 0x7f0800ca
-			public const int failed = 2131230922;
+			// aapt resource value: 0x7f0800cb
+			public const int failed = 2131230923;
 			
-			// aapt resource value: 0x7f0800c2
-			public const int filebutton = 2131230914;
+			// aapt resource value: 0x7f0800e7
+			public const int fileListView = 2131230951;
+			
+			// aapt resource value: 0x7f0800c3
+			public const int filebutton = 2131230915;
+			
+			// aapt resource value: 0x7f0800e6
+			public const int filespicked = 2131230950;
 			
 			// aapt resource value: 0x7f080050
 			public const int fill = 2131230800;
@@ -2765,8 +2777,8 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f080048
 			public const int fill_vertical = 2131230792;
 			
-			// aapt resource value: 0x7f0800d2
-			public const int firstBar = 2131230930;
+			// aapt resource value: 0x7f0800d3
+			public const int firstBar = 2131230931;
 			
 			// aapt resource value: 0x7f080054
 			public const int @fixed = 2131230804;
@@ -2774,14 +2786,14 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f080058
 			public const int forever = 2131230808;
 			
-			// aapt resource value: 0x7f0800c9
-			public const int fracked = 2131230921;
+			// aapt resource value: 0x7f0800ca
+			public const int fracked = 2131230922;
 			
 			// aapt resource value: 0x7f08000a
 			public const int ghost_view = 2131230730;
 			
-			// aapt resource value: 0x7f0800d3
-			public const int gobutton = 2131230931;
+			// aapt resource value: 0x7f0800d4
+			public const int gobutton = 2131230932;
 			
 			// aapt resource value: 0x7f0800a6
 			public const int holder = 2131230886;
@@ -2813,8 +2825,8 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f080062
 			public const int icon = 2131230818;
 			
-			// aapt resource value: 0x7f0800f3
-			public const int icon_group = 2131230963;
+			// aapt resource value: 0x7f0800f9
+			public const int icon_group = 2131230969;
 			
 			// aapt resource value: 0x7f08003a
 			public const int ifRoom = 2131230778;
@@ -2822,17 +2834,17 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f08005f
 			public const int image = 2131230815;
 			
-			// aapt resource value: 0x7f0800ef
-			public const int info = 2131230959;
+			// aapt resource value: 0x7f0800f5
+			public const int info = 2131230965;
 			
-			// aapt resource value: 0x7f0800c1
-			public const int infotext = 2131230913;
+			// aapt resource value: 0x7f0800c2
+			public const int infotext = 2131230914;
 			
-			// aapt resource value: 0x7f0800c4
-			public const int infotext2 = 2131230916;
+			// aapt resource value: 0x7f0800c5
+			public const int infotext2 = 2131230917;
 			
-			// aapt resource value: 0x7f0800d1
-			public const int infotextsub = 2131230929;
+			// aapt resource value: 0x7f0800d2
+			public const int infotextsub = 2131230930;
 			
 			// aapt resource value: 0x7f080059
 			public const int italic = 2131230809;
@@ -2843,11 +2855,11 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f0800a0
 			public const int iwithdraw = 2131230880;
 			
-			// aapt resource value: 0x7f0800d5
-			public const int largeLabel = 2131230933;
+			// aapt resource value: 0x7f0800d6
+			public const int largeLabel = 2131230934;
 			
-			// aapt resource value: 0x7f0800c7
-			public const int layermain = 2131230919;
+			// aapt resource value: 0x7f0800c8
+			public const int layermain = 2131230920;
 			
 			// aapt resource value: 0x7f080099
 			public const int lbank = 2131230873;
@@ -2873,20 +2885,20 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f08008d
 			public const int logoid = 2131230861;
 			
-			// aapt resource value: 0x7f0800cb
-			public const int lost = 2131230923;
+			// aapt resource value: 0x7f0800cc
+			public const int lost = 2131230924;
 			
 			// aapt resource value: 0x7f08009f
 			public const int lwithdraw = 2131230879;
 			
-			// aapt resource value: 0x7f080108
-			public const int masked = 2131230984;
+			// aapt resource value: 0x7f08010e
+			public const int masked = 2131230990;
 			
-			// aapt resource value: 0x7f0800e8
-			public const int media_actions = 2131230952;
+			// aapt resource value: 0x7f0800ee
+			public const int media_actions = 2131230958;
 			
-			// aapt resource value: 0x7f0800f5
-			public const int message = 2131230965;
+			// aapt resource value: 0x7f0800fb
+			public const int message = 2131230971;
 			
 			// aapt resource value: 0x7f080031
 			public const int middle = 2131230769;
@@ -2897,8 +2909,8 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f080028
 			public const int multiply = 2131230760;
 			
-			// aapt resource value: 0x7f0800dc
-			public const int navigation_header_container = 2131230940;
+			// aapt resource value: 0x7f0800dd
+			public const int navigation_header_container = 2131230941;
 			
 			// aapt resource value: 0x7f08003b
 			public const int never = 2131230779;
@@ -2909,29 +2921,29 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f08001e
 			public const int normal = 2131230750;
 			
+			// aapt resource value: 0x7f0800f7
+			public const int notification_background = 2131230967;
+			
 			// aapt resource value: 0x7f0800f1
-			public const int notification_background = 2131230961;
+			public const int notification_main_column = 2131230961;
 			
-			// aapt resource value: 0x7f0800eb
-			public const int notification_main_column = 2131230955;
+			// aapt resource value: 0x7f0800f0
+			public const int notification_main_column_container = 2131230960;
 			
-			// aapt resource value: 0x7f0800ea
-			public const int notification_main_column_container = 2131230954;
+			// aapt resource value: 0x7f080105
+			public const int np1 = 2131230981;
 			
-			// aapt resource value: 0x7f0800ff
-			public const int np1 = 2131230975;
+			// aapt resource value: 0x7f080108
+			public const int np100 = 2131230984;
 			
-			// aapt resource value: 0x7f080102
-			public const int np100 = 2131230978;
+			// aapt resource value: 0x7f080107
+			public const int np25 = 2131230983;
 			
-			// aapt resource value: 0x7f080101
-			public const int np25 = 2131230977;
+			// aapt resource value: 0x7f080109
+			public const int np250 = 2131230985;
 			
-			// aapt resource value: 0x7f080103
-			public const int np250 = 2131230979;
-			
-			// aapt resource value: 0x7f080100
-			public const int np5 = 2131230976;
+			// aapt resource value: 0x7f080106
+			public const int np5 = 2131230982;
 			
 			// aapt resource value: 0x7f08004c
 			public const int parallax = 2131230796;
@@ -2954,26 +2966,26 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f080075
 			public const int radio = 2131230837;
 			
-			// aapt resource value: 0x7f0800fb
-			public const int radioGroup = 2131230971;
+			// aapt resource value: 0x7f080101
+			public const int radioGroup = 2131230977;
 			
-			// aapt resource value: 0x7f0800fe
-			public const int rcsv = 2131230974;
+			// aapt resource value: 0x7f080104
+			public const int rcsv = 2131230980;
 			
 			// aapt resource value: 0x7f08004a
 			public const int right = 2131230794;
 			
-			// aapt resource value: 0x7f0800f0
-			public const int right_icon = 2131230960;
+			// aapt resource value: 0x7f0800f6
+			public const int right_icon = 2131230966;
 			
-			// aapt resource value: 0x7f0800ec
-			public const int right_side = 2131230956;
+			// aapt resource value: 0x7f0800f2
+			public const int right_side = 2131230962;
 			
-			// aapt resource value: 0x7f0800fc
-			public const int rjpg = 2131230972;
+			// aapt resource value: 0x7f080102
+			public const int rjpg = 2131230978;
 			
-			// aapt resource value: 0x7f0800fd
-			public const int rjson = 2131230973;
+			// aapt resource value: 0x7f080103
+			public const int rjson = 2131230979;
 			
 			// aapt resource value: 0x7f08000c
 			public const int save_image_matrix = 2131230732;
@@ -3032,6 +3044,9 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f080089
 			public const int search_voice_btn = 2131230857;
 			
+			// aapt resource value: 0x7f0800e4
+			public const int selectCurrentDirectoryButton = 2131230948;
+			
 			// aapt resource value: 0x7f08008a
 			public const int select_dialog_listview = 2131230858;
 			
@@ -3047,14 +3062,14 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f080025
 			public const int showTitle = 2131230757;
 			
-			// aapt resource value: 0x7f0800d4
-			public const int smallLabel = 2131230932;
+			// aapt resource value: 0x7f0800d5
+			public const int smallLabel = 2131230933;
+			
+			// aapt resource value: 0x7f0800dc
+			public const int snackbar_action = 2131230940;
 			
 			// aapt resource value: 0x7f0800db
-			public const int snackbar_action = 2131230939;
-			
-			// aapt resource value: 0x7f0800da
-			public const int snackbar_text = 2131230938;
+			public const int snackbar_text = 2131230939;
 			
 			// aapt resource value: 0x7f080043
 			public const int snap = 2131230787;
@@ -3077,8 +3092,8 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f08004b
 			public const int start = 2131230795;
 			
-			// aapt resource value: 0x7f0800e7
-			public const int status_bar_latest_event_content = 2131230951;
+			// aapt resource value: 0x7f0800ed
+			public const int status_bar_latest_event_content = 2131230957;
 			
 			// aapt resource value: 0x7f080076
 			public const int submenuarrow = 2131230838;
@@ -3086,8 +3101,8 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f080087
 			public const int submit_area = 2131230855;
 			
-			// aapt resource value: 0x7f0800cc
-			public const int suspect = 2131230924;
+			// aapt resource value: 0x7f0800cd
+			public const int suspect = 2131230925;
 			
 			// aapt resource value: 0x7f08001f
 			public const int tabMode = 2131230751;
@@ -3113,8 +3128,8 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f080069
 			public const int textSpacerNoTitle = 2131230825;
 			
-			// aapt resource value: 0x7f0800e1
-			public const int text_input_password_toggle = 2131230945;
+			// aapt resource value: 0x7f0800e2
+			public const int text_input_password_toggle = 2131230946;
 			
 			// aapt resource value: 0x7f080014
 			public const int textinput_counter = 2131230740;
@@ -3122,8 +3137,8 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f080015
 			public const int textinput_error = 2131230741;
 			
-			// aapt resource value: 0x7f0800ed
-			public const int time = 2131230957;
+			// aapt resource value: 0x7f0800f3
+			public const int time = 2131230963;
 			
 			// aapt resource value: 0x7f08001c
 			public const int title = 2131230748;
@@ -3134,8 +3149,8 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f08006f
 			public const int title_template = 2131230831;
 			
-			// aapt resource value: 0x7f0800d0
-			public const int titletext = 2131230928;
+			// aapt resource value: 0x7f0800d1
+			public const int titletext = 2131230929;
 			
 			// aapt resource value: 0x7f08003e
 			public const int top = 2131230782;
@@ -3143,14 +3158,14 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f08006e
 			public const int topPanel = 2131230830;
 			
-			// aapt resource value: 0x7f0800c0
-			public const int toplayer = 2131230912;
+			// aapt resource value: 0x7f0800c1
+			public const int toplayer = 2131230913;
 			
 			// aapt resource value: 0x7f0800a5
 			public const int totalcoinstxt = 2131230885;
 			
-			// aapt resource value: 0x7f0800d8
-			public const int touch_outside = 2131230936;
+			// aapt resource value: 0x7f0800d9
+			public const int touch_outside = 2131230937;
 			
 			// aapt resource value: 0x7f08000f
 			public const int transition_current_scene = 2131230735;
@@ -3182,26 +3197,29 @@ namespace CloudCoinApp
 			// aapt resource value: 0x7f080009
 			public const int up = 2131230729;
 			
+			// aapt resource value: 0x7f0800e3
+			public const int upDirectoryButton = 2131230947;
+			
 			// aapt resource value: 0x7f080026
 			public const int useLogo = 2131230758;
 			
 			// aapt resource value: 0x7f080016
 			public const int view_offset_helper = 2131230742;
 			
-			// aapt resource value: 0x7f080107
-			public const int visible = 2131230983;
+			// aapt resource value: 0x7f08010d
+			public const int visible = 2131230989;
 			
 			// aapt resource value: 0x7f08003c
 			public const int withText = 2131230780;
 			
-			// aapt resource value: 0x7f0800f7
-			public const int withdrawbutton = 2131230967;
+			// aapt resource value: 0x7f0800fd
+			public const int withdrawbutton = 2131230973;
 			
-			// aapt resource value: 0x7f080104
-			public const int withdrawtag = 2131230980;
+			// aapt resource value: 0x7f08010a
+			public const int withdrawtag = 2131230986;
 			
-			// aapt resource value: 0x7f0800f8
-			public const int withdrawtv = 2131230968;
+			// aapt resource value: 0x7f0800fe
+			public const int withdrawtv = 2131230974;
 			
 			// aapt resource value: 0x7f08002e
 			public const int wrap_content = 2131230766;
@@ -3215,22 +3233,6 @@ namespace CloudCoinApp
 			}
 			
 			private Id()
-			{
-			}
-		}
-		
-		public partial class Idf
-		{
-			
-			// aapt resource value: 0x7f0e0000
-			public const int bsall = 2131623936;
-			
-			static Idf()
-			{
-				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
-			}
-			
-			private Idf()
 			{
 			}
 		}
@@ -3426,70 +3428,73 @@ namespace CloudCoinApp
 			public const int design_text_input_password_icon = 2130968623;
 			
 			// aapt resource value: 0x7f040030
-			public const int notification_action = 2130968624;
+			public const int dirpicker = 2130968624;
 			
 			// aapt resource value: 0x7f040031
-			public const int notification_action_tombstone = 2130968625;
+			public const int notification_action = 2130968625;
 			
 			// aapt resource value: 0x7f040032
-			public const int notification_media_action = 2130968626;
+			public const int notification_action_tombstone = 2130968626;
 			
 			// aapt resource value: 0x7f040033
-			public const int notification_media_cancel_action = 2130968627;
+			public const int notification_media_action = 2130968627;
 			
 			// aapt resource value: 0x7f040034
-			public const int notification_template_big_media = 2130968628;
+			public const int notification_media_cancel_action = 2130968628;
 			
 			// aapt resource value: 0x7f040035
-			public const int notification_template_big_media_custom = 2130968629;
+			public const int notification_template_big_media = 2130968629;
 			
 			// aapt resource value: 0x7f040036
-			public const int notification_template_big_media_narrow = 2130968630;
+			public const int notification_template_big_media_custom = 2130968630;
 			
 			// aapt resource value: 0x7f040037
-			public const int notification_template_big_media_narrow_custom = 2130968631;
+			public const int notification_template_big_media_narrow = 2130968631;
 			
 			// aapt resource value: 0x7f040038
-			public const int notification_template_custom_big = 2130968632;
+			public const int notification_template_big_media_narrow_custom = 2130968632;
 			
 			// aapt resource value: 0x7f040039
-			public const int notification_template_icon_group = 2130968633;
+			public const int notification_template_custom_big = 2130968633;
 			
 			// aapt resource value: 0x7f04003a
-			public const int notification_template_lines_media = 2130968634;
+			public const int notification_template_icon_group = 2130968634;
 			
 			// aapt resource value: 0x7f04003b
-			public const int notification_template_media = 2130968635;
+			public const int notification_template_lines_media = 2130968635;
 			
 			// aapt resource value: 0x7f04003c
-			public const int notification_template_media_custom = 2130968636;
+			public const int notification_template_media = 2130968636;
 			
 			// aapt resource value: 0x7f04003d
-			public const int notification_template_part_chronometer = 2130968637;
+			public const int notification_template_media_custom = 2130968637;
 			
 			// aapt resource value: 0x7f04003e
-			public const int notification_template_part_time = 2130968638;
+			public const int notification_template_part_chronometer = 2130968638;
 			
 			// aapt resource value: 0x7f04003f
-			public const int select_dialog_item_material = 2130968639;
+			public const int notification_template_part_time = 2130968639;
 			
 			// aapt resource value: 0x7f040040
-			public const int select_dialog_multichoice_material = 2130968640;
+			public const int select_dialog_item_material = 2130968640;
 			
 			// aapt resource value: 0x7f040041
-			public const int select_dialog_singlechoice_material = 2130968641;
+			public const int select_dialog_multichoice_material = 2130968641;
 			
 			// aapt resource value: 0x7f040042
-			public const int support_simple_spinner_dropdown_item = 2130968642;
+			public const int select_dialog_singlechoice_material = 2130968642;
 			
 			// aapt resource value: 0x7f040043
-			public const int tooltip = 2130968643;
+			public const int support_simple_spinner_dropdown_item = 2130968643;
 			
 			// aapt resource value: 0x7f040044
-			public const int withdrawdialog = 2130968644;
+			public const int tooltip = 2130968644;
 			
 			// aapt resource value: 0x7f040045
-			public const int withdrawdialog2 = 2130968645;
+			public const int withdrawdialog = 2130968645;
+			
+			// aapt resource value: 0x7f040046
+			public const int withdrawdialog2 = 2130968646;
 			
 			static Layout()
 			{

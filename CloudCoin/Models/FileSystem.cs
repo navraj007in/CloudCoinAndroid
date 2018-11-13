@@ -32,9 +32,9 @@ namespace CloudCoinCore
         public FileSystem(string RootPath)
         {
             this.RootPath = RootPath;
-            DepositFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_Deposit + Path.DirectorySeparatorChar;
-            WithdrawFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_Withdraw + Path.DirectorySeparatorChar;
-            DepositedFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_DepositED + Path.DirectorySeparatorChar;
+            DepositFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_IMPORT + Path.DirectorySeparatorChar;
+            WithdrawFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_EXPORT + Path.DirectorySeparatorChar;
+            DepositedFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_IMPORTED + Path.DirectorySeparatorChar;
             TemplateFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_TEMPLATES + Path.DirectorySeparatorChar;
             LanguageFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_LANGUAGE + Path.DirectorySeparatorChar;
             CounterfeitFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_COUNTERFEIT + Path.DirectorySeparatorChar;

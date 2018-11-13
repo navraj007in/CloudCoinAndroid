@@ -79,17 +79,13 @@ namespace CloudCoinCore
                 TextWriter tw = File.AppendText(logFile);
                 using (tw)
                 {
-                    await tw.WriteLineAsync(DateTime.Now.ToString());
-                    await tw.WriteLineAsync(message);
-
+                    await tw.WriteLineAsync(DateTime.Now.ToString() + "[INFO]\t" + message);
                 }
             }
             catch(Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-            
-            
         }
 
         

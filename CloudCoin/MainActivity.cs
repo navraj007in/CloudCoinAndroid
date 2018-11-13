@@ -10,7 +10,6 @@ using Newtonsoft.Json;
 using Android.App;
 using Android.Widget;
 using Android.OS;
-//using Android.Support.V7.App;
 using Android.Views;
 using Android.Content;
 using Android.Preferences;
@@ -24,8 +23,6 @@ using Environment = System.Environment;
 using Uri = Android.Net.Uri;
 using Android.Database;
 using Android.Provider;
-//using Android.Support.V4.App;
-//using Android.Support.V4.Content;
 using Android;
 
 using CloudCoinCore;
@@ -37,6 +34,7 @@ using System.Net;
 using System.IO;
 using System.Globalization;
 using Java.Text;
+using Android.Content.Res;
 
 namespace CloudCoinApp
 {
@@ -307,8 +305,7 @@ namespace CloudCoinApp
                        }*/
 
         }
-
-
+        
         public void onValueChange(NumberPicker picker, int oldVal, int newVal)
         {
             updateTotal();
@@ -365,9 +362,11 @@ namespace CloudCoinApp
 
         public static string version = "";
         public static readonly int PickImageId = 1000;
+        public static readonly int RequestImportDir = 1001;
         private CoinDialog dialog = null;
         private DepositState depositState;
         private List<String> files = new List<String>();
+        private List<string> exfilenames = new List<string>();
 
         public static List<RAIDA> networks = new List<RAIDA>(); // Raida network chain
 
@@ -578,10 +577,24 @@ namespace CloudCoinApp
             Log.Info("Path", path);
             bank = new Banker(new FileSystem(path));
             bank.fileUtils.CreateDirectories();
+            CopyTemplateFiles();
             bank.fileUtils.LoadFileSystem();
             CoreLogger.initCoreLogger(bank.fileUtils.LogsFolder);
 
             InitNetworks();
+        }
+
+        private void CopyTemplateFiles()
+        {
+            String[] files = Assets.List("template");
+            foreach (String filename in files)
+            {
+                using (var source = Application.Context.Assets.Open(filename))
+                using (var dest = Application.Context.OpenFileOutput(bank.fileUtils.TemplateFolder + filename, FileCreationMode.WorldReadable | FileCreationMode.WorldWriteable))
+                {
+                    source.CopyTo(dest);
+                }
+            }
         }
 
         public void InitNetworks()
@@ -724,8 +737,34 @@ namespace CloudCoinApp
                 ShowDepositScreen();
                 return;
             }
+            else if (requestCode == RequestImportDir)
+            {
+                if ((resultCode == Result.Ok) && (data != null))
+                {
+                    this.files.Clear();
+                    this.files.AddRange(data.GetStringArrayListExtra(DirPickerActivity.returnParameter));
+                }
+                else
+                {
+                    //			showError("Internal error");
+                }
 
+                dialog.Dismiss();
+                isDepositDialog = false;
+                ShowDepositScreen();
+                return;
+            }
+
+            // Remove emailed withdrawn coins 
             //bank.moveWithdrawedToSent();
+            foreach (string fname in exfilenames)
+            {
+                if (File.Exists(fname))
+                {
+                    File.Delete(fname);
+                }
+            }
+
             dialog.Dismiss();
         }
 
@@ -745,10 +784,13 @@ namespace CloudCoinApp
 
         public void selectFile()
         {
-            Intent intent = new Intent(Intent.ActionGetContent);
-            intent.SetType("*/*");
-            intent.PutExtra(Intent.ExtraAllowMultiple, true);
-            StartActivityForResult(Intent.CreateChooser(intent, "Select Coins"), PickImageId);
+            Intent i = new Intent((Context)this, typeof(DirPickerActivity));
+            StartActivityForResult(i, RequestImportDir);
+
+        //Intent intent = new Intent(Intent.ActionGetContent);
+        //intent.SetType("*/*");
+        //intent.PutExtra(Intent.ExtraAllowMultiple, true);
+        //StartActivityForResult(Intent.CreateChooser(intent, "Select Coins"), PickImageId);
         }
 
         public void ShowDepositScreen()
@@ -1035,7 +1077,7 @@ namespace CloudCoinApp
 
         public void ShowWithdrawScreen()
         {
-            List<string> exfilenames = new List<string>();
+            exfilenames.Clear();
 
             int exp_1 = 0;
             int exp_5 = 0;
@@ -1110,7 +1152,7 @@ namespace CloudCoinApp
                                 Console.WriteLine("CloudCoin Withdrawed as Jpeg to " + OutputFile);
                                 CoreLogger.Log("CloudCoin Withdrawed as Jpeg to " + OutputFile);
                             }
-                            exfilenames.Add(FS.WithdrawFolder + OutputFile);
+                            exfilenames.Add(OutputFile);
                         }
 
                         FS.RemoveCoins(WithdrawCoins, FS.BankFolder);

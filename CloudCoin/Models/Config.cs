@@ -4,11 +4,11 @@ namespace CloudCoinCore
 {
     public class Config
     {
-        public static string TAG_Deposit = "Deposit";
-        public static string TAG_Withdraw = "Withdraw";
+        public static string TAG_IMPORT = "Import";
+        public static string TAG_EXPORT = "Export";
         public static string TAG_BANK = "Bank";
         public static string TAG_LOST = "Lost";
-        public static string TAG_DepositED = "Deposited";
+        public static string TAG_IMPORTED = "Imported";
         public static string TAG_FRACKED = "Fracked";
         public static string TAG_TEMPLATES = "Templates";
         public static string TAG_COUNTERFEIT = "Counterfeit";

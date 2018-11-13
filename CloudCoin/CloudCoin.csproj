@@ -23,7 +23,7 @@
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidKeyStore>true</AndroidKeyStore>
-    <AndroidSigningKeyStore>E:\Work\CloudCoin\cloudcoin.keystore</AndroidSigningKeyStore>
+    <AndroidSigningKeyStore>E:\Work\CloudCoin\Work\CloudCoin\CloudCoin.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>123456</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>CloudCoin</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>123456</AndroidSigningKeyPass>
@@ -76,8 +76,10 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DirPickerActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Models\Banker.cs" />
     <Compile Include="Models\CloudCoin.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="Models\Exporter.cs" />
     <Compile Include="Models\FileSystem.cs" />
     <Compile Include="Models\FixitHelper.cs" />
+    <Compile Include="Models\Helpers.cs" />
     <Compile Include="Models\IFileSystem.cs" />
     <Compile Include="Models\Logger.cs" />
     <Compile Include="Models\MultiDetectRequest.cs" />
@@ -103,6 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="directory.json" />
+    <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
@@ -133,9 +137,9 @@
       <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp">
-      <Version>1.60.2</Version>
+      <Version>1.60.3</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Android.Support.Design" Version="27.0.2" />
+    <PackageReference Include="Xamarin.Android.Support.Design" Version="27.0.2.1" />
     <PackageReference Include="ZXing.Net">
       <Version>0.16.4</Version>
     </PackageReference>
@@ -273,21 +277,26 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-mdpi\depositbutton.png" />
     <AndroidResource Include="Resources\drawable-mdpi\depositicon.png" />
-    <None Include="Templates\jpeg1.jpg">
+    <None Include="Assets\template\jpeg1.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\jpeg100.jpg">
+    <None Include="Assets\template\jpeg100.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\jpeg25.jpg">
+    <None Include="Assets\template\jpeg25.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\jpeg250.jpg">
+    <None Include="Assets\template\jpeg250.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\jpeg5.jpg">
+    <None Include="Assets\template\jpeg5.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\dirpicker.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
